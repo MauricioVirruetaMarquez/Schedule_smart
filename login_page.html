@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Schedule Smart - Inicio de Sesión</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(to bottom, #2f2f2f, #5c5c5c, #9b9b9b);
+      color: #fff;
+    }
+
+    .container {
+      display: flex;
+      align-items: center;
+      gap: 80px;
+    }
+
+    .logo-section {
+      text-align: center;
+    }
+
+    .logo-circle {
+      width: 180px;
+      height: 180px;
+      background-color: #000;
+      border-radius: 50%;
+      margin: 0 auto 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 72px;
+    }
+
+    .logo-text {
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      line-height: 1.2;
+      color: #fff;
+    }
+
+    .form-section {
+      background-color: #fff;
+      color: #000;
+      padding: 40px;
+      border-radius: 10px;
+      width: 320px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .form-section h2 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+    }
+
+    .form-section input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #000;
+      border-radius: 3px;
+      margin-bottom: 15px;
+      font-size: 14px;
+    }
+
+    .form-section button {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 3px;
+      background: linear-gradient(to right, #3e3e3e, #7a7a7a);
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .form-section button:hover {
+      opacity: 0.9;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      text-align: center;
+      margin: 15px 0;
+      color: #777;
+      font-size: 13px;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: #ccc;
+      margin: 0 10px;
+    }
+
+    .social-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .social-buttons button {
+      flex: 1;
+      background: transparent;
+      border: 1px solid #000;
+      color: #000;
+      cursor: pointer;
+      padding: 10px;
+      font-weight: 600;
+    }
+
+    .social-buttons button:hover {
+      background: #f0f0f0;
+    }
+
+    .terms {
+      font-size: 12px;
+      color: #555;
+      margin-top: 15px;
+      text-align: center;
+    }
+
+    .terms a {
+      color: #3e3e3e;
+      text-decoration: none;
+    }
+
+    .switch-link {
+      text-align: center;
+      font-size: 13px;
+      margin-top: 10px;
+    }
+
+    .switch-link a {
+      color: #5e17eb;
+      text-decoration: none;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .error-message {
+      background: #fee;
+      color: #c33;
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 15px;
+      font-size: 13px;
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+        gap: 40px;
+        padding: 20px;
+      }
+
+      .logo-circle {
+        width: 120px;
+        height: 120px;
+        font-size: 48px;
+      }
+
+      .logo-text {
+        font-size: 24px;
+      }
+
+      .form-section {
+        width: 100%;
+        max-width: 320px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo-section">
+      <div class="logo-circle">📅</div>
+      <div class="logo-text">SCHEDULE<br>SMART</div>
+    </div>
+
+    <div class="form-section">
+      <!-- Formulario de Registro -->
+      <div id="signupSection">
+        <h2>Crear Cuenta</h2>
+        <div id="signupError" class="error-message hidden"></div>
+        <form id="signupForm">
+          <input type="text" id="signupName" placeholder="Nombre Completo" required />
+          <input type="email" id="signupEmail" placeholder="Correo Electrónico" required />
+          <input type="password" id="signupPassword" placeholder="Contraseña (mín. 6 caracteres)" required minlength="6" />
+          <button type="submit">REGISTRARSE</button>
+        </form>
+
+        <div class="divider">o con</div>
+
+        <div class="social-buttons">
+          <button type="button" onclick="socialLogin('Google')">GOOGLE</button>
+          <button type="button" onclick="socialLogin('Facebook')">FACEBOOK</button>
+        </div>
+
+        <p class="terms">
+          Al registrarte, aceptas los Términos, Condiciones y Políticas de Schedule Smart y la Política de Privacidad.
+        </p>
+
+        <p class="switch-link">
+          ¿Ya tienes una cuenta? <a onclick="showLogin()">Inicia Sesión</a>
+        </p>
+      </div>
+
+      <!-- Formulario de Inicio de Sesión -->
+      <div id="loginSection" class="hidden">
+        <h2>Iniciar Sesión</h2>
+        <div id="loginError" class="error-message hidden"></div>
+        <form id="loginForm">
+          <input type="email" id="loginEmail" placeholder="Correo Electrónico" required />
+          <input type="password" id="loginPassword" placeholder="Contraseña" required />
+          <button type="submit">ENTRAR</button>
+        </form>
+
+        <div class="divider">o con</div>
+
+        <div class="social-buttons">
+          <button type="button" onclick="socialLogin('Google')">GOOGLE</button>
+          <button type="button" onclick="socialLogin('Facebook')">FACEBOOK</button>
+        </div>
+
+        <p class="switch-link">
+          ¿No tienes una cuenta? <a onclick="showSignup()">Regístrate</a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Verificar si ya hay sesión activa
+    if (sessionStorage.getItem('userLoggedIn')) {
+      window.location.href = 'index.html';
+    }
+
+    // Cambiar entre formularios
+    function showLogin() {
+      document.getElementById('signupSection').classList.add('hidden');
+      document.getElementById('loginSection').classList.remove('hidden');
+      clearErrors();
+    }
+
+    function showSignup() {
+      document.getElementById('loginSection').classList.add('hidden');
+      document.getElementById('signupSection').classList.remove('hidden');
+      clearErrors();
+    }
+
+    function clearErrors() {
+      document.getElementById('signupError').classList.add('hidden');
+      document.getElementById('loginError').classList.add('hidden');
+    }
+
+    function showError(elementId, message) {
+      const errorEl = document.getElementById(elementId);
+      errorEl.textContent = message;
+      errorEl.classList.remove('hidden');
+    }
+
+    // Registro
+    document.getElementById("signupForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      clearErrors();
+
+      const name = document.getElementById("signupName").value.trim();
+      const email = document.getElementById("signupEmail").value.trim();
+      const password = document.getElementById("signupPassword").value;
+
+      if (!name || !email || !password) {
+        showError('signupError', 'Por favor completa todos los campos');
+        return;
+      }
+
+      if (password.length < 6) {
+        showError('signupError', 'La contraseña debe tener al menos 6 caracteres');
+        return;
+      }
+
+      // Verificar si el usuario ya existe
+      const users = JSON.parse(localStorage.getItem('scheduleSmartUsers')) || {};
+      if (users[email]) {
+        showError('signupError', 'Este correo ya está registrado. Inicia sesión.');
+        return;
+      }
+
+      // Guardar usuario
+      users[email] = { name, password };
+      localStorage.setItem('scheduleSmartUsers', JSON.stringify(users));
+
+      // Crear sesión
+      sessionStorage.setItem('userLoggedIn', 'true');
+      sessionStorage.setItem('userName', name);
+      sessionStorage.setItem('userEmail', email);
+
+      // Redirigir
+      window.location.href = 'index.html';
+    });
+
+    // Login
+    document.getElementById("loginForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      clearErrors();
+
+      const email = document.getElementById("loginEmail").value.trim();
+      const password = document.getElementById("loginPassword").value;
+
+      if (!email || !password) {
+        showError('loginError', 'Por favor completa todos los campos');
+        return;
+      }
+
+      // Verificar credenciales
+      const users = JSON.parse(localStorage.getItem('scheduleSmartUsers')) || {};
+      const user = users[email];
+
+      if (!user) {
+        showError('loginError', 'Usuario no encontrado. Regístrate primero.');
+        return;
+      }
+
+      if (user.password !== password) {
+        showError('loginError', 'Contraseña incorrecta');
+        return;
+      }
+
+      // Crear sesión
+      sessionStorage.setItem('userLoggedIn', 'true');
+      sessionStorage.setItem('userName', user.name);
+      sessionStorage.setItem('userEmail', email);
+
+      // Redirigir
+      window.location.href = 'index.html';
+    });
+
+    // Login social (simulado)
+    function socialLogin(platform) {
+      const name = prompt(`Ingresa tu nombre para continuar con ${platform}:`);
+      if (name && name.trim()) {
+        sessionStorage.setItem('userLoggedIn', 'true');
+        sessionStorage.setItem('userName', name.trim());
+        sessionStorage.setItem('userEmail', `${name.toLowerCase().replace(/\s+/g, '')}@${platform.toLowerCase()}.com`);
+        window.location.href = 'index.html';
+      }
+    }
+  </script>
+</body>
+</html>

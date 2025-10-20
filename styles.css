@@ -1,0 +1,248 @@
+/* ===== Reset pequeño / base ===== */
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+  background: #f5f6fb;
+  color: #222;
+}
+
+/* ===== Layout ===== */
+.container {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  grid-template-rows: 64px 1fr;
+  grid-template-areas:
+    "header header"
+    "sidebar main";
+  height: 100vh;
+  gap: 0;
+}
+.app-header {
+  grid-area: header;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  background: #ffffff;
+  border-bottom: 1px solid #eaeaea;
+}
+.app-header h1 {
+  font-size: 18px;
+  letter-spacing: 1.5px;
+  margin: 0;
+}
+.header-right { display: flex; align-items: center; gap: 12px; }
+.year { font-weight: 600; color: #655edb; }
+
+.sidebar {
+  grid-area: sidebar;
+  background: #f0f1ff;
+  border-right: 1px solid #e5e7ff;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.menu-btn {
+  border: none;
+  background: #fff;
+  padding: 12px 14px;
+  border-radius: 10px;
+  text-align: left;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .2s ease;
+}
+.menu-btn:hover { transform: translateX(6px); }
+.sidebar .menu-btn.active {
+  background: #333;
+  color: #fff;
+  transform: translateX(10px);
+  box-shadow: 2px 2px 10px rgba(0,0,0,.2);
+}
+
+.main { grid-area: main; padding: 16px; overflow: auto; }
+
+/* ===== Botones genéricos ===== */
+.btn {
+  background: #333; color: #fff;
+  border: none; border-radius: 10px;
+  padding: 10px 14px; cursor: pointer;
+}
+.btn:hover { opacity: .9; }
+.btn-calendario { font-weight: 700; letter-spacing: .5px; }
+
+/* ===== Secciones ===== */
+.content-section { display: none; height: 100%; padding: 12px; }
+.content-section.active { display: block; }
+
+.section-header { text-align: center; margin-bottom: 24px; }
+.section-header h2 {
+  color: #333; font-size: 28px; margin: 0;
+  border-bottom: 3px solid #655edb;
+  display: inline-block; padding-bottom: 10px;
+}
+
+/* ===== Grilla de mini-calendarios (12) ===== */
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+.calendar-box {
+  background: #fff;
+  border-radius: 14px;
+  padding: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,.06);
+  position: relative;
+}
+.mini-calendar h3 { margin: 6px 4px 8px; font-size: 16px; }
+.calendar-header {
+  display: grid; grid-template-columns: repeat(7, 1fr);
+  gap: 6px; margin-bottom: 6px; font-weight: 700; font-size: 12px; color: #666;
+}
+.calendar-days {
+  display: grid; grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+}
+.day-cell {
+  background: #f8f9ff;
+  border: 1px solid #eceefe;
+  border-radius: 8px;
+  padding: 6px 0;
+  text-align: center;
+  font-weight: 600;
+}
+.day-cell.today { outline: 2px solid #2196f3; background: #e3f2fd; }
+.day-cell.other-month { color: #9aa0b4; background: #f6f7ff; }
+.arrow-btn {
+  position: absolute; right: 10px; top: 10px;
+  border: none; background: #655edb; color: #fff;
+  border-radius: 8px; padding: 6px 10px; cursor: pointer; font-weight: 700;
+}
+
+/* ===== Modal ===== */
+.modal {
+  display: none; /* ✅ Oculto por defecto */
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.35);
+  z-index: 50;
+}
+.modal-content {
+  width: min(1100px, 92vw);
+  max-height: 90vh;
+  overflow: auto;
+  margin: 5vh auto;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.2);
+  padding: 16px 16px 24px;
+}
+.modal-header {
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid #eee; padding-bottom: 10px;
+}
+.close-btn {
+  border: none; background: transparent; font-size: 28px; cursor: pointer;
+}
+.month-nav {
+  display: flex; gap: 8px; align-items: center; margin: 12px 0 16px;
+}
+.nav-btn {
+  border: 1px solid #ddd; background: #fff; padding: 8px 12px; border-radius: 8px; cursor: pointer;
+}
+
+/* Calendario grande */
+.large-calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+}
+.large-day-header {
+  font-weight: 800; text-align: center; color: #666; padding: 6px 0;
+}
+.large-day-cell {
+  background: #fafbff;
+  border: 1px solid #eceefe;
+  border-radius: 10px;
+  min-height: 110px;
+  padding: 6px;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.large-day-cell.today { outline: 2px solid #2196f3; background: #e9f4ff; }
+.large-day-cell.other-month { color: #9aa0b4; background: #f6f7ff; }
+.day-number { font-weight: 800; font-size: 14px; }
+.event-list { display: flex; flex-direction: column; gap: 4px; }
+.event-item {
+  font-size: 12px; padding: 6px 8px; border-radius: 8px; background: #fff; border: 1px solid #eee;
+}
+
+/* Formulario de evento */
+.add-event-section { margin-top: 16px; }
+.event-form {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(140px, 1fr)) auto;
+  gap: 12px; align-items: end;
+}
+.form-group { display: flex; flex-direction: column; gap: 6px; }
+.form-group label { font-weight: 700; font-size: 12px; color: #555; }
+.add-btn {
+  padding: 10px 16px; border: none; border-radius: 10px; background: #655edb; color: #fff; cursor: pointer; font-weight: 700;
+}
+
+/* ===== ToDo (del archivo original, mejor integrado) ===== */
+.task-form {
+  display: flex; justify-content: center; margin-bottom: 30px;
+  max-width: 600px; margin-left: auto; margin-right: auto; gap: 10px;
+}
+.task-form input[type="text"]{
+  padding: 15px; font-size: 16px; border: 2px solid #ddd; border-radius: 8px; outline: none; flex: 1;
+}
+.task-form input[type="text"]:focus { border-color: #655edb; }
+.task-form button { padding: 15px 25px; font-size: 16px; border: none; border-radius: 8px; background: #333; color: #fff; cursor: pointer; }
+.task-list {
+  list-style: none; padding: 0; max-width: 800px; margin: 0 auto;
+}
+.task-list li {
+  display: flex; justify-content: space-between; align-items: center;
+  background: #fff; padding: 20px; margin-bottom: 15px; border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0,0,0,.1); border-left: 5px solid #655edb;
+}
+.task-list li span { flex: 1; font-size: 18px; color: #333; }
+.task-list li.done span { text-decoration: line-through; color: #888; }
+.task-list button { padding: 10px 15px; margin-left: 10px; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 700; }
+.task-list .check-btn { background: #4CAF50; color: #fff; min-width: 50px; }
+.task-list .delete-btn { background: #f44336; color: #fff; min-width: 50px; }
+
+/* ===== Hábitos (del original) ===== */
+.habits-container { max-width: 900px; margin: 0 auto; }
+.habit-item {
+  display: flex; justify-content: space-between; align-items: center;
+  background: white; padding: 25px; margin-bottom: 20px; border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0,0,0,.1); border-left: 5px solid #655edb;
+}
+.habit-info { flex: 1; }
+.habit-name { font-weight: bold; font-size: 20px; margin-bottom: 10px; color: #333; }
+.habit-counter { color: #655edb; font-size: 16px; font-weight: 600; margin-bottom: 15px; }
+.calendar { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; }
+.day {
+  width: 35px; height: 35px; border-radius: 50%; background: #f8f9fa;
+  display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: bold; border: 2px solid #e9ecef;
+}
+.day.checked { background: #4CAF50; color: #fff; border-color: #4CAF50; }
+.day.today { border-color: #2196f3; background: #e3f2fd; }
+.day.today.checked { background: #4CAF50; border-color: #4CAF50; color: #fff; }
+.habit-actions { display: flex; gap: 15px; align-items: center; }
+.habit-check {
+  background: #4CAF50; color: #fff; border: none; border-radius: 50%;
+  width: 50px; height: 50px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 700;
+}
+.habit-delete { background: #f44336; color: #fff; border: none; border-radius: 8px; padding: 12px 20px; cursor: pointer; font-size: 14px; font-weight: bold; }
+
+/* ===== Responsive ===== */
+@media (max-width: 900px) {
+  .container { grid-template-columns: 1fr; grid-template-rows: 64px auto auto; grid-template-areas: "header" "sidebar" "main"; }
+  .sidebar { flex-direction: row; gap: 10px; position: sticky; top: 0; z-index: 5; }
+}
