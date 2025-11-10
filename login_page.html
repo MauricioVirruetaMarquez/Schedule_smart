@@ -608,10 +608,6 @@
     </div>
 
     <script>
-        // Verificar si ya hay sesión activa
-        if (sessionStorage.getItem('userLoggedIn')) {
-            window.location.href = 'index.html';
-        }
 
         // Cambiar entre formularios con animación
         function showLogin() {
@@ -652,125 +648,6 @@
             errorEl.textContent = message;
             errorEl.classList.remove('hidden');
         }
-
-        // Registro
-        document.getElementById("signupForm").addEventListener("submit", function (e) {
-            e.preventDefault();
-            clearErrors();
-
-            const btn = e.target.querySelector('button[type="submit"]');
-            const originalText = btn.textContent;
-            btn.innerHTML = 'Registrando... <span class="loading"></span>';
-            btn.disabled = true;
-
-            const name = document.getElementById("signupName").value.trim();
-            const email = document.getElementById("signupEmail").value.trim();
-            const password = document.getElementById("signupPassword").value;
-
-            setTimeout(() => {
-                if (!name || !email || !password) {
-                    showError('signupError', 'Por favor completa todos los campos');
-                    btn.textContent = originalText;
-                    btn.disabled = false;
-                    return;
-                }
-
-                if (password.length < 6) {
-                    showError('signupError', 'La contraseña debe tener al menos 6 caracteres');
-                    btn.textContent = originalText;
-                    btn.disabled = false;
-                    return;
-                }
-
-                // Verificar si el usuario ya existe
-                const users = JSON.parse(localStorage.getItem('scheduleSmartUsers')) || {};
-                if (users[email]) {
-                    showError('signupError', 'Este correo ya está registrado. Inicia sesión.');
-                    btn.textContent = originalText;
-                    btn.disabled = false;
-                    return;
-                }
-
-                // Guardar usuario
-                users[email] = { name, password };
-                localStorage.setItem('scheduleSmartUsers', JSON.stringify(users));
-
-                // Crear sesión
-                sessionStorage.setItem('userLoggedIn', 'true');
-                sessionStorage.setItem('userName', name);
-                sessionStorage.setItem('userEmail', email);
-
-                // Redirigir con animación
-                btn.textContent = '¡Éxito! ✓';
-                setTimeout(() => {
-                    window.location.href = 'index.html';
-                }, 500);
-            }, 800);
-        });
-
-        // Login
-        document.getElementById("loginForm").addEventListener("submit", function (e) {
-            e.preventDefault();
-            clearErrors();
-
-            const btn = e.target.querySelector('button[type="submit"]');
-            const originalText = btn.textContent;
-            btn.innerHTML = 'Iniciando... <span class="loading"></span>';
-            btn.disabled = true;
-
-            const email = document.getElementById("loginEmail").value.trim();
-            const password = document.getElementById("loginPassword").value;
-
-            setTimeout(() => {
-                if (!email || !password) {
-                    showError('loginError', 'Por favor completa todos los campos');
-                    btn.textContent = originalText;
-                    btn.disabled = false;
-                    return;
-                }
-
-                // Verificar credenciales
-                const users = JSON.parse(localStorage.getItem('scheduleSmartUsers')) || {};
-                const user = users[email];
-
-                if (!user) {
-                    showError('loginError', 'Usuario no encontrado. Regístrate primero.');
-                    btn.textContent = originalText;
-                    btn.disabled = false;
-                    return;
-                }
-
-                if (user.password !== password) {
-                    showError('loginError', 'Contraseña incorrecta');
-                    btn.textContent = originalText;
-                    btn.disabled = false;
-                    return;
-                }
-
-                // Crear sesión
-                sessionStorage.setItem('userLoggedIn', 'true');
-                sessionStorage.setItem('userName', user.name);
-                sessionStorage.setItem('userEmail', email);
-
-                // Redirigir con animación
-                btn.textContent = '¡Bienvenido! ✓';
-                setTimeout(() => {
-                    window.location.href = 'index.html';
-                }, 500);
-            }, 800);
-        });
-
-        // Login social (simulado)
-        function socialLogin(platform) {
-            const name = prompt(`Ingresa tu nombre para continuar con ${platform}:`);
-            if (name && name.trim()) {
-                sessionStorage.setItem('userLoggedIn', 'true');
-                sessionStorage.setItem('userName', name.trim());
-                sessionStorage.setItem('userEmail', `${name.toLowerCase().replace(/\s+/g, '')}@${platform.toLowerCase()}.com`);
-                window.location.href = 'index.html';
-            }
-        }
-
         // Animaciones CSS adicionales
         const style = document.createElement('style');
         style.textContent = `
@@ -781,5 +658,10 @@
         `;
         document.head.appendChild(style);
     </script>
+    <!-- SDK de Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- Tu archivo JS -->
+    <script src="scripts.js"></script>
 </body>
 </html>

@@ -43,7 +43,11 @@ body {
   background-clip: text;
 }
 
-.header-right { display: flex; align-items: center; gap: 16px; }
+.header-right { 
+  display: flex; 
+  align-items: center; 
+  gap: 16px; 
+}
 
 .year { 
   font-weight: 700; 
@@ -54,7 +58,7 @@ body {
   border-radius: 10px;
 }
 
-/* ===== Sidebar mejorado ===== */
+/* ===== Sidebar ===== */
 .sidebar {
   grid-area: sidebar;
   background: rgba(255, 255, 255, 0.95);
@@ -117,7 +121,7 @@ body {
   background: rgba(255, 255, 255, 0.05);
 }
 
-/* ===== Botones genéricos mejorados ===== */
+/* ===== Botones genéricos ===== */
 .btn {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: #fff;
@@ -168,7 +172,7 @@ body {
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
-/* ===== Grilla de mini-calendarios mejorada ===== */
+/* ===== Grilla de calendarios ===== */
 .calendar-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -284,7 +288,7 @@ body {
   box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
 }
 
-/* ===== Modal mejorado ===== */
+/* ===== Modal ===== */
 .modal {
   display: none;
   position: fixed; 
@@ -365,6 +369,7 @@ body {
   align-items: center; 
   margin: 16px 0 24px;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 .nav-btn {
@@ -386,7 +391,7 @@ body {
   box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
 }
 
-/* ===== Calendario grande mejorado ===== */
+/* ===== Calendario grande ===== */
 .large-calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
@@ -508,7 +513,7 @@ body {
   box-shadow: 0 4px 12px rgba(244, 67, 54, 0.5);
 }
 
-/* ===== Formulario de evento mejorado ===== */
+/* ===== Formulario de evento ===== */
 .add-event-section { 
   margin-top: 24px;
   padding: 24px;
@@ -583,7 +588,7 @@ body {
   box-shadow: 0 6px 25px rgba(102, 126, 234, 0.5);
 }
 
-/* ===== ToDo mejorado ===== */
+/* ===== ToDo ===== */
 .task-form {
   display: flex;
   justify-content: center;
@@ -592,6 +597,7 @@ body {
   margin-left: auto;
   margin-right: auto;
   gap: 12px;
+  flex-wrap: wrap;
 }
 
 .task-form input[type="text"] {
@@ -601,6 +607,7 @@ body {
   border-radius: 16px;
   outline: none;
   flex: 1;
+  min-width: 250px;
   background: rgba(255, 255, 255, 0.95);
   transition: all 0.3s ease;
   font-weight: 500;
@@ -650,6 +657,8 @@ body {
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
   border-left: 5px solid #667eea;
   transition: all 0.3s ease;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
 .task-list li:hover {
@@ -662,6 +671,7 @@ body {
   font-size: 18px;
   color: #333;
   font-weight: 600;
+  min-width: 200px;
 }
 
 .task-list li.done {
@@ -711,7 +721,7 @@ body {
   box-shadow: 0 4px 15px rgba(244, 67, 54, 0.4);
 }
 
-/* ===== Hábitos mejorado ===== */
+/* ===== Hábitos ===== */
 .habits-container {
   max-width: 1000px;
   margin: 0 auto;
@@ -728,6 +738,8 @@ body {
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
   border-left: 6px solid #667eea;
   transition: all 0.3s ease;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 
 .habit-item:hover {
@@ -735,7 +747,10 @@ body {
   box-shadow: 0 12px 35px rgba(102, 126, 234, 0.2);
 }
 
-.habit-info { flex: 1; }
+.habit-info { 
+  flex: 1; 
+  min-width: 250px;
+}
 
 .habit-name {
   font-weight: 800;
@@ -802,6 +817,7 @@ body {
   display: flex;
   gap: 16px;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .habit-check {
@@ -850,7 +866,7 @@ body {
   box-shadow: 0 6px 25px rgba(244, 67, 54, 0.5);
 }
 
-/* ===== Scrollbar personalizado ===== */
+/* ===== Scrollbar ===== */
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
@@ -870,64 +886,7 @@ body {
   background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
 }
 
-/* ===== Responsive mejorado ===== */
-@media (max-width: 1200px) {
-  .event-form {
-    grid-template-columns: 1fr;
-  }
-  
-  .add-btn {
-    grid-column: 1;
-  }
-  
-  .app-header {
-    padding: 0 16px;
-  }
-  
-  .app-header h1 {
-    font-size: 16px;
-  }
-  
-  .section-header h2 {
-    font-size: 24px;
-  }
-}
-
-@media (max-width: 600px) {
-  .calendar-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .large-calendar-grid {
-    gap: 8px;
-  }
-  
-  .large-day-cell {
-    min-height: 100px;
-    padding: 8px;
-  }
-  
-  .habit-item {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 20px;
-  }
-  
-  .habit-actions {
-    width: 100%;
-    justify-content: space-between;
-  }
-  
-  .task-form {
-    flex-direction: column;
-  }
-  
-  .task-form button {
-    width: 100%;
-  }
-}
-
-/* ===== Animaciones adicionales ===== */
+/* ===== Animaciones ===== */
 @keyframes pulse {
   0%, 100% { transform: scale(1); }
   50% { transform: scale(1.05); }
@@ -947,7 +906,6 @@ body {
   to { transform: translateX(400px); opacity: 0; }
 }
 
-/* ===== Mensajes temporales ===== */
 .temp-message {
   position: fixed;
   top: 90px;
@@ -964,22 +922,7 @@ body {
   letter-spacing: 0.5px;
 }
 
-/* ===== Estados de carga ===== */
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-.loading {
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  border: 3px solid rgba(255, 255, 255, 0.3);
-  border-radius: 50%;
-  border-top-color: #fff;
-  animation: spin 0.8s linear infinite;
-}
-
-/* ===== Categorías de eventos con colores ===== */
+/* ===== Categorías de eventos ===== */
 .event-item[data-category="personal"] {
   border-left: 4px solid #2196F3;
 }
@@ -1000,29 +943,596 @@ body {
   border-left: 4px solid #E91E63;
 }
 
-/* ===== Tooltips mejorados ===== */
-[title] {
-  position: relative;
-  cursor: help;
+/* ===== Estados de carga ===== */
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
-/* ===== Efectos de glassmorphism ===== */
-.glass-effect {
-  background: rgba(255, 255, 255, 0.25);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.18);
+.loading {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 0.8s linear infinite;
 }
 
-/* ===== Sombras suaves ===== */
-.soft-shadow {
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+/* ===== RESPONSIVE DESIGN ===== */
+
+/* Tablets grandes y laptops pequeñas (hasta 1200px) */
+@media (max-width: 1200px) {
+  .container {
+    grid-template-columns: 220px 1fr;
+  }
+
+  .app-header {
+    padding: 0 20px;
+  }
+
+  .app-header h1 {
+    font-size: 18px;
+    letter-spacing: 1px;
+  }
+
+  .year {
+    font-size: 16px;
+    padding: 6px 12px;
+  }
+
+  .btn-calendario {
+    font-size: 11px;
+    padding: 10px 18px;
+  }
+
+  .calendar-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 16px;
+  }
+
+  .section-header h2 {
+    font-size: 28px;
+  }
+
+  .event-form {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .add-btn {
+    grid-column: 1 / -1;
+  }
+
+  .large-calendar-grid {
+    gap: 8px;
+  }
+
+  .large-day-cell {
+    min-height: 100px;
+    padding: 10px;
+  }
 }
 
-.soft-shadow-hover:hover {
-  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.12);
+/* Tablets (hasta 900px) */
+@media (max-width: 900px) {
+  .container {
+    grid-template-columns: 1fr;
+    grid-template-rows: 60px auto 1fr;
+    grid-template-areas: 
+      "header" 
+      "sidebar" 
+      "main";
+  }
+
+  .app-header {
+    padding: 0 16px;
+    height: 60px;
+  }
+
+  .app-header h1 {
+    font-size: 16px;
+  }
+
+  .header-right {
+    gap: 10px;
+  }
+
+  .year {
+    font-size: 14px;
+    padding: 6px 10px;
+  }
+
+  .btn-calendario {
+    font-size: 10px;
+    padding: 8px 14px;
+  }
+
+  .sidebar {
+    flex-direction: row;
+    padding: 12px 16px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    gap: 10px;
+    border-right: none;
+    border-bottom: 1px solid rgba(102, 126, 234, 0.1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  }
+
+  .menu-btn {
+    white-space: nowrap;
+    min-width: 120px;
+    padding: 12px 16px;
+    font-size: 14px;
+  }
+
+  .menu-btn:hover,
+  .sidebar .menu-btn.active {
+    transform: translateX(0) translateY(-4px);
+  }
+
+  .main {
+    padding: 16px;
+  }
+
+  .calendar-grid {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 14px;
+  }
+
+  .section-header h2 {
+    font-size: 24px;
+  }
+
+  .modal-content {
+    width: 96vw;
+    padding: 16px;
+    margin: 2vh auto;
+  }
+
+  .modal-header h2 {
+    font-size: 22px;
+  }
+
+  .large-calendar-grid {
+    gap: 6px;
+  }
+
+  .large-day-header {
+    font-size: 11px;
+    padding: 8px 0;
+  }
+
+  .large-day-cell {
+    min-height: 90px;
+    padding: 8px;
+  }
+
+  .day-number {
+    font-size: 14px;
+  }
+
+  .event-form {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .add-btn {
+    grid-column: 1;
+  }
+
+  .task-form {
+    max-width: 100%;
+    padding: 0 10px;
+  }
+
+  .task-list {
+    padding: 0 10px;
+  }
+
+  .task-list li {
+    padding: 18px;
+  }
+
+  .task-list li span {
+    font-size: 16px;
+    min-width: 150px;
+  }
+
+  .habit-item {
+    padding: 20px;
+  }
+
+  .habit-name {
+    font-size: 20px;
+  }
+
+  .habit-counter {
+    font-size: 14px;
+  }
 }
 
-/* ===== Estados de enfoque mejorados ===== */
+/* Móviles grandes (hasta 600px) */
+@media (max-width: 600px) {
+  .app-header h1 {
+    font-size: 14px;
+    letter-spacing: 0.5px;
+  }
+
+  .header-right {
+    flex-direction: column;
+    gap: 6px;
+    align-items: flex-end;
+  }
+
+  .year {
+    font-size: 12px;
+    padding: 4px 8px;
+  }
+
+  .btn-calendario {
+    font-size: 9px;
+    padding: 6px 10px;
+  }
+
+  .sidebar {
+    padding: 10px 12px;
+    gap: 8px;
+  }
+
+  .menu-btn {
+    min-width: 100px;
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+
+  .main {
+    padding: 12px;
+  }
+
+  .calendar-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .calendar-box {
+    padding: 16px;
+  }
+
+  .mini-calendar h3 {
+    font-size: 16px;
+  }
+
+  .calendar-header {
+    gap: 4px;
+    font-size: 10px;
+  }
+
+  .calendar-days {
+    gap: 4px;
+  }
+
+  .day-cell {
+    padding: 8px 0;
+    font-size: 12px;
+    border-radius: 8px;
+  }
+
+  .arrow-btn {
+    right: 12px;
+    top: 12px;
+    padding: 6px 10px;
+    font-size: 14px;
+  }
+
+  .section-header h2 {
+    font-size: 20px;
+    padding-bottom: 8px;
+  }
+
+  .modal-content {
+    padding: 12px;
+    border-radius: 16px;
+  }
+
+  .modal-header {
+    padding-bottom: 12px;
+    margin-bottom: 12px;
+  }
+
+  .modal-header h2 {
+    font-size: 18px;
+  }
+
+  .close-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 28px;
+  }
+
+  .month-nav {
+    gap: 8px;
+    margin: 12px 0 16px;
+  }
+
+  .nav-btn {
+    padding: 8px 14px;
+    font-size: 12px;
+  }
+
+  .large-calendar-grid {
+    gap: 4px;
+  }
+
+  .large-day-header {
+    font-size: 10px;
+    padding: 6px 0;
+  }
+
+  .large-day-cell {
+    min-height: 80px;
+    padding: 6px;
+    border-radius: 12px;
+  }
+
+  .day-number {
+    font-size: 12px;
+  }
+
+  .event-list {
+    max-height: 60px;
+    gap: 4px;
+  }
+
+  .event-item {
+    font-size: 11px;
+    padding: 6px 8px;
+    border-radius: 8px;
+  }
+
+  .event-delete-btn {
+    width: 20px;
+    height: 20px;
+    font-size: 16px;
+  }
+
+  .add-event-section {
+    padding: 16px;
+    margin-top: 16px;
+  }
+
+  .add-event-section h3 {
+    font-size: 16px;
+    margin-bottom: 14px;
+  }
+
+  .event-form {
+    gap: 10px;
+  }
+
+  .form-group label {
+    font-size: 11px;
+  }
+
+  .form-group input,
+  .form-group select {
+    padding: 10px;
+    font-size: 13px;
+  }
+
+  .add-btn {
+    padding: 10px 18px;
+    font-size: 12px;
+  }
+
+  .task-form {
+    flex-direction: column;
+    gap: 10px;
+    padding: 0;
+  }
+
+  .task-form input[type="text"] {
+    padding: 14px 18px;
+    font-size: 14px;
+    min-width: 100%;
+  }
+
+  .task-form button {
+    width: 100%;
+    padding: 14px 24px;
+    font-size: 14px;
+  }
+
+  .task-list {
+    padding: 0;
+  }
+
+  .task-list li {
+    padding: 16px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .task-list li span {
+    font-size: 15px;
+    min-width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .task-list button {
+    padding: 10px 16px;
+    font-size: 12px;
+    margin-left: 0;
+    min-width: 80px;
+  }
+
+  .habit-item {
+    padding: 16px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .habit-info {
+    width: 100%;
+    min-width: 100%;
+  }
+
+  .habit-name {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+
+  .habit-counter {
+    font-size: 13px;
+    margin-bottom: 12px;
+  }
+
+  .calendar {
+    gap: 8px;
+    justify-content: center;
+  }
+
+  .day {
+    width: 38px;
+    height: 38px;
+    font-size: 12px;
+    border-width: 2px;
+  }
+
+  .habit-actions {
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+
+  .habit-check {
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+  }
+
+  .habit-delete {
+    padding: 12px 20px;
+    font-size: 12px;
+  }
+
+  .temp-message {
+    top: 70px;
+    right: 12px;
+    left: 12px;
+    padding: 12px 18px;
+    font-size: 13px;
+  }
+}
+
+/* Móviles pequeños (hasta 400px) */
+@media (max-width: 400px) {
+  .app-header {
+    padding: 0 10px;
+  }
+
+  .app-header h1 {
+    font-size: 12px;
+  }
+
+  .year {
+    font-size: 11px;
+    padding: 4px 6px;
+  }
+
+  .btn-calendario {
+    font-size: 8px;
+    padding: 5px 8px;
+  }
+
+  .sidebar {
+    padding: 8px;
+  }
+
+  .menu-btn {
+    min-width: 90px;
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+
+  .main {
+    padding: 10px;
+  }
+
+  .section-header h2 {
+    font-size: 18px;
+  }
+
+  .modal-header h2 {
+    font-size: 16px;
+  }
+
+  .nav-btn {
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+
+  .large-day-cell {
+    min-height: 70px;
+    padding: 4px;
+  }
+
+  .day-number {
+    font-size: 11px;
+  }
+
+  .event-item {
+    font-size: 10px;
+    padding: 5px 6px;
+  }
+
+  .task-form input[type="text"],
+  .task-form button {
+    padding: 12px 16px;
+    font-size: 13px;
+  }
+
+  .task-list li span {
+    font-size: 14px;
+  }
+
+  .habit-name {
+    font-size: 16px;
+  }
+
+  .day {
+    width: 34px;
+    height: 34px;
+    font-size: 11px;
+  }
+
+  .habit-check {
+    width: 45px;
+    height: 45px;
+    font-size: 18px;
+  }
+}
+
+/* Landscape mode para móviles */
+@media (max-height: 600px) and (orientation: landscape) {
+  .modal-content {
+    max-height: 96vh;
+    margin: 2vh auto;
+  }
+
+  .large-day-cell {
+    min-height: 70px;
+  }
+
+  .section-header {
+    margin-bottom: 20px;
+  }
+
+  .section-header h2 {
+    font-size: 20px;
+    padding-bottom: 8px;
+  }
+}
+
+/* Mejoras de accesibilidad */
 button:focus-visible,
 input:focus-visible,
 select:focus-visible {
@@ -1030,106 +1540,65 @@ select:focus-visible {
   outline-offset: 2px;
 }
 
-/* ===== Mejoras de accesibilidad ===== */
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: 0;
+/* Ocultar elementos no esenciales en pantallas muy pequeñas */
+@media (max-width: 350px) {
+  .arrow-btn {
+    display: none;
+  }
+
+  .calendar-box:hover {
+    cursor: pointer;
+  }
+
+  .calendar-box {
+    position: relative;
+  }
+
+  .calendar-box::after {
+    content: '→';
+    position: absolute;
+    right: 8px;
+    top: 8px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 12px;
+  }
 }
 
-/* ===== Efectos de hover para interactividad ===== */
-.interactive-hover {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.interactive-hover:hover {
-  transform: translateY(-4px);
-}
-
-.interactive-hover:active {
-  transform: translateY(-2px);
-}
-
-/* ===== Estados vacíos mejorados ===== */
-.empty-state {
-  text-align: center;
-  padding: 60px 20px;
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 16px;
-  font-weight: 600;
-}
-
-.empty-state::before {
-  content: '📋';
-  display: block;
-  font-size: 64px;
-  margin-bottom: 20px;
-  opacity: 0.5;
-}
-
-/* ===== Transiciones suaves para todo ===== */
+/* Transiciones suaves */
 * {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* ===== Modo oscuro (preparación futura) ===== */
-@media (prefers-color-scheme: dark) {
-  /* Puedes descomentar esto cuando quieras activar modo oscuro */
-  /*
-  body {
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-  }
-  
-  .app-header,
+/* Print styles */
+@media print {
   .sidebar,
-  .calendar-box,
-  .modal-content {
-    background: rgba(30, 30, 46, 0.95);
-    color: #e0e0e0;
+  .btn,
+  .arrow-btn,
+  .event-delete-btn,
+  .habit-actions,
+  .task-list button {
+    display: none;
   }
-  */
-}repeat(2, 1fr);
-  }
-  
-  .add-btn {
-    grid-column: 1 / -1;
-  }
-}
 
-@media (max-width: 900px) {
   .container {
     grid-template-columns: 1fr;
-    grid-template-rows: 70px auto 1fr;
-    grid-template-areas: "header" "sidebar" "main";
+    grid-template-areas: "header" "main";
   }
-  
-  .sidebar {
-    flex-direction: row;
-    gap: 8px;
-    padding: 16px;
-    overflow-x: auto;
+
+  .main {
+    padding: 0;
   }
-  
-  .menu-btn {
-    white-space: nowrap;
-    min-width: 120px;
-  }
-  
-  .calendar-grid {
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  }
-  
-  .event-form {
-    grid-template-columns: 1fr;
-  }
-  
-  .add-btn {
-    grid-column: 1;
+
+  body {
+    background: white;
   }
 }
+  
