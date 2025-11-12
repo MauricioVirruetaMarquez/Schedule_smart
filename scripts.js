@@ -47,7 +47,6 @@ loginForm.addEventListener('submit', async (e) => {
   const correo = document.getElementById('loginEmail').value.trim();
   const contrasena = document.getElementById('loginPassword').value.trim();
 
-  // Consulta simple: busca el correo en la tabla
   const { data, error } = await db
     .from('utilisateurs')
     .select('*')
@@ -73,17 +72,23 @@ loginForm.addEventListener('submit', async (e) => {
     return;
   }
 
-  alert('✅ Bienvenido ' + usuario.Nombre);
+  // ✅ Guardar sesión antes de redirigir
+  localStorage.setItem(
+    "usuario",
+    JSON.stringify({
+      id: usuario.id,
+      nombre: usuario.Nombre,
+      correo: usuario.Correo,
+    })
+  );
 
-// Guarda el usuario en localStorage
-localStorage.setItem("usuario", JSON.stringify({
-  id: usuario.id,
-  nombre: usuario.Nombre,
-  correo: usuario.Correo
-}));
+  alert("✅ Bienvenido " + usuario.Nombre);
 
-// Redirige al panel principal
-window.location.href = 'index.html';
+  // ✅ Esperar un momento para asegurar que se guarde antes de redirigir
+  setTimeout(() => {
+    window.location.href = "index.html";
+  }, 200);
+});
 
 // === FUNCIÓN DE ERROR (para registro) ===
 function mostrarError(mensaje) {
@@ -95,5 +100,6 @@ function mostrarError(mensaje) {
 function socialLogin(provider) {
   alert(`Login con ${provider} aún no implementado`);
 }
+
 
 
