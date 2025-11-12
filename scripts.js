@@ -74,8 +74,16 @@ loginForm.addEventListener('submit', async (e) => {
   }
 
   alert('✅ Bienvenido ' + usuario.Nombre);
-  window.location.href = 'index.html';
-});
+
+// Guarda el usuario en localStorage
+localStorage.setItem("usuario", JSON.stringify({
+  id: usuario.id,
+  nombre: usuario.Nombre,
+  correo: usuario.Correo
+}));
+
+// Redirige al panel principal
+window.location.href = 'index.html';
 
 // === FUNCIÓN DE ERROR (para registro) ===
 function mostrarError(mensaje) {
@@ -87,4 +95,5 @@ function mostrarError(mensaje) {
 function socialLogin(provider) {
   alert(`Login con ${provider} aún no implementado`);
 }
+
 
