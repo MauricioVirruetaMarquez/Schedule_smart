@@ -48,7 +48,14 @@
       <div class="header-right">
         <span class="year">2025</span>
         <button class="btn btn-calendario" type="button">CALENDARIO COMPLETO</button>
+          <button onclick="cerrarSesion()" class="btn">Cerrar sesión</button>
       </div>
+      <script>
+      function cerrarSesion() {
+        localStorage.removeItem("usuario");
+        window.location.href = "login_page.html";
+      }
+      </script>
     </header>
 
     <aside class="sidebar">
