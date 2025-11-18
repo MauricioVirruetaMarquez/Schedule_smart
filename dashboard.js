@@ -1,11 +1,3 @@
-// === Configuración de Supabase ===
-const { createClient } = supabase;
-
-const SUPABASE_URL = 'https://fnloybhznmzukltmrtuw.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZubG95Ymh6bm16dWtsdG1ydHV3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk2MjQwMTYsImV4cCI6MjA3NTIwMDAxNn0.is6vrMiCneeLMJQVjgEGGQej3sZeiFDCs0q_40GgGb8';
-
-const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
 // ===== Config y helpers =====
 const FIXED_YEAR = 2025;
 const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
@@ -14,12 +6,13 @@ const dayNamesFull = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Vie
 const today = new Date();
 
 // Estado (con persistencia)
-let events = JSON.parse(localStorage.getItem('events')) || {};
-let currentModalMonth = 0;
+let events = JSON.parse(localStorage.getItem('events')) || {}; // clave ISO YYYY-MM-DD
+let currentModalMonth = 0;       // 0..11
 let currentModalYear = FIXED_YEAR;
 
 let todos = JSON.parse(localStorage.getItem('todos')) || [];
 let habits = [];
+
 
 // ===== Función para obtener usuario logueado =====
 function getCurrentUser() {
@@ -35,6 +28,7 @@ function getFirstDayOfMonth(year, monthIndex) {
     return new Date(year, monthIndex, 1).getDay();
 }
 function formatKey(y, monthIndex, d) {
+    // mes 0-based → ISO YYYY-MM-DD
     return `${y}-${String(monthIndex + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
 }
 function getCurrentDateISO() {
@@ -50,18 +44,22 @@ function deleteEvent(dateKey, eventIndex) {
     if (confirm('¿Estás seguro de que quieres eliminar este evento?')) {
         events[dateKey].splice(eventIndex, 1);
 
+        // Si ya no quedan eventos en esa fecha, eliminar la clave
         if (events[dateKey].length === 0) {
             delete events[dateKey];
         }
 
         saveEvents();
         updateModal();
+
+        // Opcional: mostrar mensaje de confirmación
         showTemporaryMessage('Evento eliminado correctamente');
     }
 }
 
 // ===== Función para mostrar mensajes temporales =====
 function showTemporaryMessage(message) {
+    // Crear elemento de mensaje
     const msgDiv = document.createElement('div');
     msgDiv.className = 'temp-message';
     msgDiv.textContent = message;
@@ -80,6 +78,7 @@ function showTemporaryMessage(message) {
 
     document.body.appendChild(msgDiv);
 
+    // Eliminar después de 3 segundos
     setTimeout(() => {
         msgDiv.style.animation = 'slideOut 0.3s ease';
         setTimeout(() => msgDiv.remove(), 300);
@@ -116,6 +115,7 @@ function createMiniCalendar(monthIndex) {
     const daysDiv = document.createElement('div');
     daysDiv.className = 'calendar-days';
 
+    // Relleno del mes anterior
     for (let i = firstDay - 1; i >= 0; i--) {
         const c = document.createElement('div');
         c.className = 'day-cell other-month';
@@ -123,11 +123,13 @@ function createMiniCalendar(monthIndex) {
         daysDiv.appendChild(c);
     }
 
+    // Días del mes
     for (let d = 1; d <= daysInMonth; d++) {
         const c = document.createElement('div');
         c.className = 'day-cell';
         c.textContent = d;
 
+        // Marcar si tiene eventos
         const dateKey = formatKey(FIXED_YEAR, monthIndex, d);
         if (events[dateKey] && events[dateKey].length > 0) {
             c.classList.add('has-events');
@@ -141,6 +143,7 @@ function createMiniCalendar(monthIndex) {
         daysDiv.appendChild(c);
     }
 
+    // Relleno siguiente mes para completar 6 filas (42 celdas)
     const cellsUsed = firstDay + daysInMonth;
     const remaining = 42 - cellsUsed;
     for (let d = 1; d <= remaining; d++) {
@@ -152,6 +155,7 @@ function createMiniCalendar(monthIndex) {
 
     miniCalendar.appendChild(daysDiv);
 
+    // Botón para abrir modal del mes
     const arrowBtn = document.createElement('button');
     arrowBtn.className = 'arrow-btn';
     arrowBtn.textContent = '→';
@@ -166,7 +170,7 @@ function createMiniCalendar(monthIndex) {
     return calendarBox;
 }
 
-// ===== Calendario grande (modal) =====
+// ===== Calendario grande (modal) - ACTUALIZADO =====
 function createLargeCalendar(monthIndex, year) {
     const container = document.getElementById('largeCalendar');
     container.innerHTML = '';
@@ -178,6 +182,7 @@ function createLargeCalendar(monthIndex, year) {
     const grid = document.createElement('div');
     grid.className = 'large-calendar-grid';
 
+    // Encabezados
     dayNamesFull.forEach(d => {
         const h = document.createElement('div');
         h.className = 'large-day-header';
@@ -185,6 +190,7 @@ function createLargeCalendar(monthIndex, year) {
         grid.appendChild(h);
     });
 
+    // Relleno mes anterior
     for (let i = firstDay - 1; i >= 0; i--) {
         const dayNum = daysInPrevMonth - i;
         const cell = document.createElement('div');
@@ -193,6 +199,7 @@ function createLargeCalendar(monthIndex, year) {
         grid.appendChild(cell);
     }
 
+    // Días del mes
     for (let d = 1; d <= daysInMonth; d++) {
         const cell = document.createElement('div');
         cell.className = 'large-day-cell';
@@ -238,7 +245,9 @@ function createLargeCalendar(monthIndex, year) {
         cell.appendChild(dayNumber);
         cell.appendChild(eventList);
 
+        // Al hacer click, precarga la fecha en el form
         cell.addEventListener('click', (e) => {
+            // Evitar que se active si se hizo click en el botón de eliminar
             if (!e.target.classList.contains('event-delete-btn')) {
                 const formatted = formatKey(year, monthIndex, d);
                 document.getElementById('eventDate').value = formatted;
@@ -249,6 +258,7 @@ function createLargeCalendar(monthIndex, year) {
         grid.appendChild(cell);
     }
 
+    // Relleno siguiente mes
     const cellsUsed = firstDay + daysInMonth;
     const remaining = 42 - cellsUsed;
     for (let d = 1; d <= remaining; d++) {
@@ -281,9 +291,12 @@ function updateModal() {
     document.getElementById('modalTitle').textContent =
         `${monthNames[currentModalMonth]} ${currentModalYear}`;
     createLargeCalendar(currentModalMonth, currentModalYear);
+
+    // Actualizar mini-calendarios también
     updateMiniCalendars();
 }
 
+// ===== Nueva función para actualizar mini-calendarios =====
 function updateMiniCalendars() {
     const grid = document.getElementById('calendarGrid');
     grid.innerHTML = '';
@@ -350,6 +363,8 @@ function deleteTodo(i) {
 }
 
 // ===== Hábitos (con Supabase) =====
+
+// Muestra todos los hábitos en la interfaz
 function renderHabits() {
     const c = document.getElementById('habits-list');
     c.innerHTML = '';
@@ -426,7 +441,6 @@ function renderHabits() {
         c.appendChild(item);
     });
 }
-
 async function loadHabits() {
     const user = JSON.parse(sessionStorage.getItem("currentUser"));
 
@@ -451,9 +465,12 @@ async function loadHabits() {
         user_id: h.user_id    
     }));
 
+
     renderHabits();
 }
 
+
+// Inserta un nuevo hábito en Supabase
 async function addHabit(name) {
     const user = JSON.parse(sessionStorage.getItem("currentUser"));
 
@@ -462,6 +479,7 @@ async function addHabit(name) {
         return;
     }
 
+    // Guardar en Supabase
     const { error } = await db
         .from("habitos")
         .insert({
@@ -477,9 +495,11 @@ async function addHabit(name) {
         return;
     }
 
-    loadHabits();
+    loadHabits();  // 🔄 Recargar hábitos desde Supabase
 }
 
+
+// Marca o desmarca el hábito como hecho hoy
 async function toggleHabit(idx) {
     const today = getCurrentDateISO();
     const habit = habits[idx];
@@ -505,6 +525,8 @@ async function toggleHabit(idx) {
     if (!error) renderHabits();
 }
 
+
+// Calcula la racha de días
 function recalculateStreak(idx) {
     const habit = habits[idx];
     const set = new Set(habit.completedDates);
@@ -532,22 +554,29 @@ async function deleteHabit(idx) {
         .from("habitos")
         .delete()
         .eq("id", habit.id)
-        .eq("user_id", user.id_usuario);
+        .eq("user_id", user.id_usuario);  // 🔥 ESTA ES LA CORRECTA
 
     if (error) {
         alert("❌ Error al borrar hábito");
     } else {
-        await loadHabits();
+        await loadHabits();  // Recargar lista desde Supabase
     }
 }
 
+
+
+
 // ===== Inicio =====
 document.addEventListener('DOMContentLoaded', () => {
+    
     loadHabits();
 
+    
+    // Construir 12 mini-calendarios
     const grid = document.getElementById('calendarGrid');
     for (let m = 0; m < 12; m++) grid.appendChild(createMiniCalendar(m));
 
+    // Modal
     document.getElementById('closeModal').addEventListener('click', closeModal);
     document.getElementById('prevMonth').addEventListener('click', () => {
         if (currentModalMonth === 0) { currentModalMonth = 11; currentModalYear--; }
@@ -566,6 +595,7 @@ document.addEventListener('DOMContentLoaded', () => {
         updateModal();
     });
 
+    // Agregar evento
     document.getElementById('addEventBtn').addEventListener('click', () => {
         const title = document.getElementById('eventTitle').value.trim();
         const date = document.getElementById('eventDate').value;
@@ -583,9 +613,11 @@ document.addEventListener('DOMContentLoaded', () => {
         events[key].push({ title, time, category, date });
         saveEvents();
 
+        // limpiar inputs
         document.getElementById('eventTitle').value = '';
         document.getElementById('eventTime').value = '';
 
+        // refrescar si se está viendo ese mes
         if ((mm - 1) === currentModalMonth && yy === currentModalYear) {
             updateModal();
         }
@@ -593,11 +625,13 @@ document.addEventListener('DOMContentLoaded', () => {
         showTemporaryMessage('¡Evento agregado correctamente!');
     });
 
+    // Click fuera del modal para cerrar
     window.addEventListener('click', (e) => {
         const modal = document.getElementById('monthModal');
         if (e.target === modal) closeModal();
     });
 
+    // Menú lateral
     document.querySelectorAll('.menu-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
             const section = e.currentTarget.getAttribute('data-section');
@@ -605,6 +639,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // ToDo
     document.getElementById('todo-form').addEventListener('submit', (e) => {
         e.preventDefault();
         const input = document.getElementById('todo-input');
@@ -612,6 +647,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (text) { addTodo(text); input.value = ''; input.focus(); }
     });
 
+    // Hábitos
     document.getElementById('habit-form').addEventListener('submit', (e) => {
         e.preventDefault();
         const input = document.getElementById('habit-input');
@@ -619,15 +655,19 @@ document.addEventListener('DOMContentLoaded', () => {
         if (name) { addHabit(name); input.value = ''; input.focus(); }
     });
 
+    // Botón "Calendario completo" (placeholder)
     document.querySelector('.btn-calendario').addEventListener('click', () => {
         alert('Vista de calendario completo - Próximamente');
     });
 
+    // Fecha por defecto del form de eventos
     document.getElementById('eventDate').value = today.toISOString().split('T')[0];
 
+    // Pintar listas iniciales
     renderTodos();
     renderHabits();
 
+    // Agregar estilos de animación para mensajes
     if (!document.getElementById('temp-message-styles')) {
         const style = document.createElement('style');
         style.id = 'temp-message-styles';
