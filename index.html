@@ -37,12 +37,23 @@
   </script>
 </head>
 <body>
+  <!-- Script para verificar autenticación ANTES de mostrar contenido -->
+  <script>
+    // Verificar si hay sesión activa
+    const currentUser = sessionStorage.getItem('currentUser');
+    if (!currentUser) {
+      // Si no hay sesión, redirigir inmediatamente al login
+      window.location.href = 'login_page.html';
+    }
+  </script>
+
   <div class="container">
     <header class="app-header">
       <h1>SCHEDULE SMART</h1>
       <div class="header-right">
         <span class="year">2025</span>
         <button class="btn btn-calendario" type="button">CALENDARIO COMPLETO</button>
+        <button class="btn btn-logout" type="button" onclick="logout()">CERRAR SESIÓN</button>
       </div>
     </header>
 
@@ -261,7 +272,12 @@
     </div>
   </div>
 
-  <script src="scripts.js"></script>
+  <!-- SDK de Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
+  <!-- Cargar DASHBOARD.JS que contiene toda la funcionalidad del calendario -->
+  <script src="dashboard.js"></script>
+
   <script>
     // Funcionalidad para copiar el código RDF
     document.addEventListener('DOMContentLoaded', () => {
@@ -284,6 +300,14 @@
         });
       }
     });
+
+    // Función para cerrar sesión
+    function logout() {
+      if (confirm('¿Estás seguro de que quieres cerrar sesión?')) {
+        sessionStorage.removeItem('currentUser');
+        window.location.href = 'login_page.html';
+      }
+    }
   </script>
 </body>
 </html>
