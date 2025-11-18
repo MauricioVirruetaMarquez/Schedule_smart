@@ -11,7 +11,14 @@ let currentModalMonth = 0;       // 0..11
 let currentModalYear = FIXED_YEAR;
 
 let todos = JSON.parse(localStorage.getItem('todos')) || [];
-let habits = JSON.parse(localStorage.getItem('habits')) || [];
+let habits = [];
+
+
+// ===== Función para obtener usuario logueado =====
+function getCurrentUser() {
+  const s = sessionStorage.getItem("currentUser");
+  return s ? JSON.parse(s) : null;
+}
 
 // Utilidades de fecha
 function getDaysInMonth(year, monthIndex) {
@@ -355,11 +362,13 @@ function deleteTodo(i) {
     }
 }
 
-// ===== Hábitos =====
-function saveHabits() { localStorage.setItem('habits', JSON.stringify(habits)); }
+// ===== Hábitos (con Supabase) =====
+
+// Muestra todos los hábitos en la interfaz
 function renderHabits() {
     const c = document.getElementById('habits-list');
     c.innerHTML = '';
+
     if (habits.length === 0) {
         const empty = document.createElement('div');
         empty.className = 'habit-item';
@@ -368,6 +377,7 @@ function renderHabits() {
         c.appendChild(empty);
         return;
     }
+
     habits.forEach((habit, idx) => {
         const item = document.createElement('div');
         item.className = 'habit-item';
@@ -409,18 +419,19 @@ function renderHabits() {
         const actions = document.createElement('div');
         actions.className = 'habit-actions';
 
+        const todayISO = getCurrentDateISO();
+
         const btnCheck = document.createElement('button');
         btnCheck.className = 'habit-check';
         btnCheck.textContent = '✓';
-        const todayISO = getCurrentDateISO();
         if (habit.completedDates.includes(todayISO)) btnCheck.classList.add('checked');
         btnCheck.title = habit.completedDates.includes(todayISO) ? 'Desmarcar para hoy' : 'Marcar como completado hoy';
-        btnCheck.addEventListener('click', () => { toggleHabit(idx); });
+        btnCheck.addEventListener('click', () => toggleHabit(idx));
 
         const btnDelete = document.createElement('button');
         btnDelete.className = 'habit-delete';
         btnDelete.textContent = 'Eliminar';
-        btnDelete.addEventListener('click', () => { deleteHabit(idx); });
+        btnDelete.addEventListener('click', () => deleteHabit(idx));
 
         actions.appendChild(btnCheck);
         actions.appendChild(btnDelete);
@@ -430,44 +441,137 @@ function renderHabits() {
         c.appendChild(item);
     });
 }
-function addHabit(name) {
-    habits.push({ name, streak: 0, completedDates: [], createdAt: new Date().toISOString() });
-    saveHabits(); renderHabits();
-}
-function toggleHabit(index) {
-    const todayISO = getCurrentDateISO();
-    const habit = habits[index];
-    if (habit.completedDates.includes(todayISO)) {
-        habit.completedDates = habit.completedDates.filter(d => d !== todayISO);
-    } else {
-        habit.completedDates.push(todayISO);
+async function loadHabits() {
+    const user = JSON.parse(sessionStorage.getItem("currentUser"));
+
+    if (!user) return;
+
+    const { data, error } = await db
+        .from("habitos")
+        .select("*")
+        .eq("user_id", user.id_usuario);
+
+    if (error) {
+        console.error("❌ Error cargando hábitos:", error);
+        return;
     }
-    recalculateStreak(index);
-    saveHabits(); renderHabits();
+
+    habits = data.map(h => ({
+        id: h.id,
+        name: h.name,
+        streak: h.streak,
+        completedDates: h.completed_dates || [],
+        createdAt: h.created_at,
+        user_id: h.user_id    
+    }));
+
+
+    renderHabits();
 }
-function recalculateStreak(index) {
-    const habit = habits[index];
+
+
+// Inserta un nuevo hábito en Supabase
+async function addHabit(name) {
+    const user = JSON.parse(sessionStorage.getItem("currentUser"));
+
+    if (!user) {
+        alert("❌ No hay usuario logueado");
+        return;
+    }
+
+    // Guardar en Supabase
+    const { error } = await db
+        .from("habitos")
+        .insert({
+            name,
+            streak: 0,
+            completed_dates: [],
+            user_id: user.id_usuario
+        });
+
+    if (error) {
+        console.error("❌ Error guardando hábito:", error);
+        alert("Error al guardar el hábito");
+        return;
+    }
+
+    loadHabits();  // 🔄 Recargar hábitos desde Supabase
+}
+
+
+// Marca o desmarca el hábito como hecho hoy
+async function toggleHabit(idx) {
+    const today = getCurrentDateISO();
+    const habit = habits[idx];
+    const user = getCurrentUser();
+
+    if (habit.completedDates.includes(today)) {
+        habit.completedDates = habit.completedDates.filter(d => d !== today);
+    } else {
+        habit.completedDates.push(today);
+    }
+
+    recalculateStreak(idx);
+
+    const { error } = await db
+        .from("habitos")
+        .update({
+            streak: habit.streak,
+            completed_dates: habit.completedDates
+        })
+        .eq("id", habit.id)
+        .eq("user_id", user.id_usuario); 
+
+    if (!error) renderHabits();
+}
+
+
+// Calcula la racha de días
+function recalculateStreak(idx) {
+    const habit = habits[idx];
     const set = new Set(habit.completedDates);
     let streak = 0;
-    const cur = new Date();
+
+    const date = new Date();
     while (true) {
-        const iso = cur.toISOString().split('T')[0];
+        const iso = date.toISOString().split('T')[0];
         if (set.has(iso)) {
             streak++;
-            cur.setDate(cur.getDate() - 1);
+            date.setDate(date.getDate() - 1);
         } else break;
     }
+
     habit.streak = streak;
 }
-function deleteHabit(index) {
-    if (confirm('¿Estás seguro de que quieres eliminar este hábito?')) {
-        habits.splice(index, 1);
-        saveHabits(); renderHabits();
+
+async function deleteHabit(idx) {
+    if (!confirm("¿Seguro que quieres borrar este hábito?")) return;
+
+    const habit = habits[idx];
+    const user = getCurrentUser();
+
+    const { error } = await db
+        .from("habitos")
+        .delete()
+        .eq("id", habit.id)
+        .eq("user_id", user.id_usuario);  // 🔥 ESTA ES LA CORRECTA
+
+    if (error) {
+        alert("❌ Error al borrar hábito");
+    } else {
+        await loadHabits();  // Recargar lista desde Supabase
     }
 }
 
+
+
+
 // ===== Inicio =====
 document.addEventListener('DOMContentLoaded', () => {
+    
+    loadHabits();
+
+    
     // Construir 12 mini-calendarios
     const grid = document.getElementById('calendarGrid');
     for (let m = 0; m < 12; m++) grid.appendChild(createMiniCalendar(m));
