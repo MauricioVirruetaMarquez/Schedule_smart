@@ -37,23 +37,12 @@
   </script>
 </head>
 <body>
-  <!-- Script para verificar autenticación ANTES de mostrar contenido -->
-  <script>
-    // Verificar si hay sesión activa
-    const currentUser = sessionStorage.getItem('currentUser');
-    if (!currentUser) {
-      // Si no hay sesión, redirigir inmediatamente al login
-      window.location.href = 'login_page.html';
-    }
-  </script>
-
   <div class="container">
     <header class="app-header">
       <h1>SCHEDULE SMART</h1>
       <div class="header-right">
         <span class="year">2025</span>
         <button class="btn btn-calendario" type="button">CALENDARIO COMPLETO</button>
-        <button class="btn btn-logout" type="button" onclick="logout()">CERRAR SESIÓN</button>
       </div>
     </header>
 
@@ -63,6 +52,7 @@
       <button class="menu-btn" data-section="habits">HÁBITOS</button>
       <button class="menu-btn" data-section="info">INFO RDF</button>
     </aside>
+
 
     <main class="main">
       <!-- Horario -->
@@ -272,14 +262,17 @@
     </div>
   </div>
 
-  <!-- SDK de Supabase -->
+    <!-- SDK de Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  
-  <!-- Cargar DASHBOARD.JS que contiene toda la funcionalidad del calendario -->
+
+  <!-- Configuración de Supabase y login (aquí se crea `db` y se guarda `currentUser`) -->
+  <script src="scripts.js"></script>
+
+  <!-- Lógica del dashboard (calendario, hábitos, tareas, etc.) -->
   <script src="dashboard.js"></script>
 
+  <!-- Script para copiar el JSON-LD (sacado de tu otro archivo) -->
   <script>
-    // Funcionalidad para copiar el código RDF
     document.addEventListener('DOMContentLoaded', () => {
       const copyBtn = document.getElementById('copyRdfBtn');
       if (copyBtn) {
@@ -300,14 +293,6 @@
         });
       }
     });
-
-    // Función para cerrar sesión
-    function logout() {
-      if (confirm('¿Estás seguro de que quieres cerrar sesión?')) {
-        sessionStorage.removeItem('currentUser');
-        window.location.href = 'login_page.html';
-      }
-    }
   </script>
 </body>
 </html>
