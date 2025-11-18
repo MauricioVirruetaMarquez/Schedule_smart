@@ -10,90 +10,181 @@ const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 const signupForm = document.getElementById('signupForm');
 const signupError = document.getElementById('signupError');
 
-signupForm.addEventListener('submit', async (e) => {
-  e.preventDefault();
+if (signupForm) {
+  signupForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-  const nombre = document.getElementById('signupName').value.trim();
-  const correo = document.getElementById('signupEmail').value.trim();
-  const contrasena = document.getElementById('signupPassword').value.trim();
+    const nombre = document.getElementById('signupName').value.trim();
+    const correo = document.getElementById('signupEmail').value.trim();
+    const contrasena = document.getElementById('signupPassword').value.trim();
 
-  if (!nombre || !correo || contrasena.length < 6) {
-    mostrarError('Completa todos los campos correctamente.');
-    return;
-  }
+    if (!nombre || !correo || contrasena.length < 6) {
+      mostrarError(signupError, 'Completa todos los campos correctamente.');
+      return;
+    }
 
-  // Inserta directamente en la tabla
-  const { error } = await db
-    .from('utilisateurs')
-    .insert([{ Nombre: nombre, Correo: correo, Password: contrasena }]);
+    try {
+      // Verificar si el correo ya existe
+      const { data: existingUser } = await db
+        .from('utilisateurs')
+        .select('Correo')
+        .eq('Correo', correo)
+        .single();
 
-  if (error) {
-    mostrarError('Error al registrar usuario: ' + error.message);
-    return;
-  }
+      if (existingUser) {
+        mostrarError(signupError, '❌ Este correo ya está registrado.');
+        return;
+      }
 
-  alert('✅ Usuario registrado correctamente.');
-  signupForm.reset();
-  signupError.classList.add('hidden');
-});
+      // Inserta directamente en la tabla
+      const { error } = await db
+        .from('utilisateurs')
+        .insert([{ Nombre: nombre, Correo: correo, Password: contrasena }]);
+
+      if (error) {
+        console.error('Error al registrar:', error);
+        mostrarError(signupError, 'Error al registrar usuario: ' + error.message);
+        return;
+      }
+
+      mostrarExito('✅ Usuario registrado correctamente. Redirigiendo...');
+      signupForm.reset();
+      signupError.classList.add('hidden');
+      
+      // Redirigir al login después de 1.5 segundos
+      setTimeout(() => {
+        showLogin();
+      }, 1500);
+
+    } catch (err) {
+      console.error('Error inesperado:', err);
+      mostrarError(signupError, 'Error al conectar con la base de datos.');
+    }
+  });
+}
 
 // === FORMULARIO DE LOGIN ===
 const loginForm = document.getElementById('loginForm');
 const loginError = document.getElementById('loginError');
 
-loginForm.addEventListener('submit', async (e) => {
-  e.preventDefault();
+if (loginForm) {
+  loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-  const correo = document.getElementById('loginEmail').value.trim();
-  const contrasena = document.getElementById('loginPassword').value.trim();
+    const correo = document.getElementById('loginEmail').value.trim();
+    const contrasena = document.getElementById('loginPassword').value.trim();
 
-  const { data, error } = await db
-    .from('utilisateurs')
-    .select('*')
-    .eq('Correo', correo);
+    if (!correo || !contrasena) {
+      mostrarError(loginError, 'Por favor completa todos los campos.');
+      return;
+    }
 
-  if (error) {
-    loginError.textContent = 'Error al conectar con la base de datos.';
-    loginError.classList.remove('hidden');
-    return;
+    try {
+      const { data, error } = await db
+        .from('utilisateurs')
+        .select('*')
+        .eq('Correo', correo)
+        .single();
+
+      if (error || !data) {
+        mostrarError(loginError, '❌ Correo no encontrado.');
+        return;
+      }
+
+      const usuario = data;
+
+      if (usuario.Password !== contrasena) {
+        mostrarError(loginError, '❌ Contraseña incorrecta.');
+        return;
+      }
+
+      // ✅ Guardar sesión en sessionStorage (más seguro)
+      const userData = {
+        id_usuario: usuario.id,
+        nombre: usuario.Nombre,
+        correo: usuario.Correo
+      };
+
+      sessionStorage.setItem('currentUser', JSON.stringify(userData));
+
+      mostrarExito('✅ Bienvenido ' + usuario.Nombre + '. Redirigiendo...');
+
+      // ✅ Redirigir después de un momento
+      setTimeout(() => {
+        window.location.href = 'index.html';
+      }, 1000);
+
+    } catch (err) {
+      console.error('Error inesperado:', err);
+      mostrarError(loginError, 'Error al conectar con la base de datos.');
+    }
+  });
+}
+
+// === FUNCIONES DE ERROR Y ÉXITO ===
+function mostrarError(elemento, mensaje) {
+  if (elemento) {
+    elemento.textContent = mensaje;
+    elemento.classList.remove('hidden');
+    elemento.classList.remove('success-message');
+    elemento.classList.add('error-message');
   }
+}
 
-  if (!data || data.length === 0) {
-    loginError.textContent = 'Correo no encontrado.';
-    loginError.classList.remove('hidden');
-    return;
+function mostrarExito(mensaje) {
+  const signupError = document.getElementById('signupError');
+  const loginError = document.getElementById('loginError');
+  
+  const targetElement = signupError && !signupError.classList.contains('hidden') 
+    ? signupError 
+    : loginError;
+
+  if (targetElement) {
+    targetElement.textContent = mensaje;
+    targetElement.classList.remove('hidden', 'error-message');
+    targetElement.classList.add('success-message');
   }
+}
 
-  const usuario = data[0];
+// === Cambiar entre formularios ===
+function showLogin() {
+  const signup = document.getElementById('signupSection');
+  const login = document.getElementById('loginSection');
 
-  if (usuario.Password !== contrasena) {
-    loginError.textContent = 'Contraseña incorrecta.';
-    loginError.classList.remove('hidden');
-    return;
+  if (signup && login) {
+    signup.style.animation = 'fadeOut 0.3s ease';
+    setTimeout(() => {
+      signup.classList.add('hidden');
+      login.classList.remove('hidden');
+      login.style.animation = 'fadeIn 0.3s ease';
+    }, 300);
+
+    clearErrors();
   }
+}
 
-  // ✅ Guardar sesión antes de redirigir
-  localStorage.setItem(
-    "usuario",
-    JSON.stringify({
-      id: usuario.id,
-      nombre: usuario.Nombre,
-      correo: usuario.Correo,
-    })
-  );
+function showSignup() {
+  const login = document.getElementById('loginSection');
+  const signup = document.getElementById('signupSection');
 
-  alert("✅ Bienvenido " + usuario.Nombre);
+  if (login && signup) {
+    login.style.animation = 'fadeOut 0.3s ease';
+    setTimeout(() => {
+      login.classList.add('hidden');
+      signup.classList.remove('hidden');
+      signup.style.animation = 'fadeIn 0.3s ease';
+    }, 300);
 
-  // ✅ Esperar un momento para asegurar que se guarde antes de redirigir
-  setTimeout(() => {
-    window.location.href = "index.html";
-  }, 200);
-});
+    clearErrors();
+  }
+}
 
-// === FUNCIÓN DE ERROR (para registro) ===
-function mostrarError(mensaje) {
-  signupError.textContent = mensaje;
-  signupError.classList.remove('hidden');
+function clearErrors() {
+  const signupError = document.getElementById('signupError');
+  const loginError = document.getElementById('loginError');
+  
+  if (signupError) signupError.classList.add('hidden');
+  if (loginError) loginError.classList.add('hidden');
 }
 
 // === (Opcional) Social login no implementado ===
@@ -101,5 +192,12 @@ function socialLogin(provider) {
   alert(`Login con ${provider} aún no implementado`);
 }
 
-
-
+// === Verificar si ya hay sesión activa ===
+window.addEventListener('DOMContentLoaded', () => {
+  const currentUser = sessionStorage.getItem('currentUser');
+  
+  // Si estamos en login y ya hay sesión, redirigir al dashboard
+  if (currentUser && window.location.pathname.includes('login')) {
+    window.location.href = 'index.html';
+  }
+});
