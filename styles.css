@@ -1930,3 +1930,34 @@ select:focus-visible {
     background: white;
   }
 }
+
+/* Botón de cerrar sesión */
+.btn-logout {
+  background: linear-gradient(135deg, #f44336 0%, #d32f2f 100%);
+  box-shadow: 0 4px 15px rgba(244, 67, 54, 0.3);
+}
+
+.btn-logout:hover {
+  box-shadow: 0 6px 25px rgba(244, 67, 54, 0.5);
+}
+
+/* Responsive para el botón de logout */
+@media (max-width: 900px) {
+  .btn-logout {
+    font-size: 10px;
+    padding: 8px 14px;
+  }
+}
+
+@media (max-width: 600px) {
+  .header-right {
+    flex-wrap: wrap;
+  }
+  
+  .btn-logout {
+    order: -1;
+    width: 100%;
+    font-size: 9px;
+    padding: 6px 10px;
+  }
+}
