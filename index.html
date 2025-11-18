@@ -13,9 +13,9 @@
   {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    "@id": "https://schedule-smart.vercel.app/#app",
+    "@id": "https://mauriciovirruetamarquez.github.io/Schedule_smart/#software",
     "name": "Schedule Smart",
-    "url": "https://schedule-smart-weld.vercel.app/",
+    "url": "https://mauriciovirruetamarquez.github.io/Schedule_smart/",
     "sameAs": "https://github.com/MauricioVirruetaMarquez/Schedule_smart",
     "applicationCategory": "ProductivityApplication",
     "description": "Aplicación web para gestionar horarios, tareas y hábitos de forma sencilla, con calendario anual, lista de tareas y seguimiento de hábitos.",
@@ -37,31 +37,20 @@
   </script>
 </head>
 <body>
-    <script>
-    if (!localStorage.getItem("usuario")) {
-      window.location.href = "login_page.html";
-    }
-  </script>
   <div class="container">
     <header class="app-header">
       <h1>SCHEDULE SMART</h1>
       <div class="header-right">
         <span class="year">2025</span>
         <button class="btn btn-calendario" type="button">CALENDARIO COMPLETO</button>
-          <button onclick="cerrarSesion()" class="btn">Cerrar sesión</button>
       </div>
-      <script>
-      function cerrarSesion() {
-        localStorage.removeItem("usuario");
-        window.location.href = "login_page.html";
-      }
-      </script>
     </header>
 
     <aside class="sidebar">
       <button class="menu-btn active" data-section="horario">HORARIO</button>
       <button class="menu-btn" data-section="todo">TO DO LIST</button>
       <button class="menu-btn" data-section="habits">HÁBITOS</button>
+      <button class="menu-btn" data-section="info">INFO RDF</button>
     </aside>
 
     <main class="main">
@@ -92,6 +81,133 @@
           <button type="submit" class="btn">Agregar</button>
         </form>
         <div class="habits-container" id="habits-list"></div>
+      </div>
+
+      <!-- Info RDF -->
+      <div id="info" class="content-section">
+        <div class="section-header">
+          <h2>Información RDF - Schema.org</h2>
+        </div>
+        <div class="rdf-container">
+          <div class="rdf-card">
+            <div class="rdf-header">
+              <span class="rdf-icon">📋</span>
+              <h3>Metadatos Estructurados</h3>
+            </div>
+            <p class="rdf-description">
+              Esta aplicación utiliza Schema.org JSON-LD para mejorar el SEO y la indexación en motores de búsqueda.
+            </p>
+          </div>
+
+          <div class="rdf-card">
+            <div class="rdf-section">
+              <h4>Información de la Aplicación</h4>
+              <div class="rdf-item">
+                <strong>Nombre:</strong> Schedule Smart
+              </div>
+              <div class="rdf-item">
+                <strong>Tipo:</strong> SoftwareApplication
+              </div>
+              <div class="rdf-item">
+                <strong>Categoría:</strong> ProductivityApplication
+              </div>
+              <div class="rdf-item">
+                <strong>URL:</strong> <a href="https://mauriciovirruetamarquez.github.io/Schedule_smart/" target="_blank">mauriciovirruetamarquez.github.io/Schedule_smart/</a>
+              </div>
+              <div class="rdf-item">
+                <strong>Repositorio:</strong> <a href="https://github.com/MauricioVirruetaMarquez/Schedule_smart" target="_blank">github.com/MauricioVirruetaMarquez/Schedule_smart</a>
+              </div>
+              <div class="rdf-item">
+                <strong>Descripción:</strong> Aplicación web para gestionar horarios, tareas y hábitos de forma sencilla, con calendario anual, lista de tareas y seguimiento de hábitos.
+              </div>
+              <div class="rdf-item">
+                <strong>Idioma:</strong> Español (es)
+              </div>
+              <div class="rdf-item">
+                <strong>Plataforma:</strong> Web
+              </div>
+              <div class="rdf-item">
+                <strong>Tecnologías:</strong> HTML, CSS, JavaScript
+              </div>
+              <div class="rdf-item">
+                <strong>Fecha de Publicación:</strong> 10 de Noviembre, 2025
+              </div>
+            </div>
+          </div>
+
+          <div class="rdf-card">
+            <div class="rdf-section">
+              <h4>Equipo de Desarrollo</h4>
+              <div class="team-grid">
+                <div class="team-member">
+                  <span class="member-icon">👨‍💻</span>
+                  <p>Brady Gutierrez</p>
+                </div>
+                <div class="team-member">
+                  <span class="member-icon">👨‍💻</span>
+                  <p>Mauricio Virrueta</p>
+                </div>
+                <div class="team-member">
+                  <span class="member-icon">👩‍💻</span>
+                  <p>Sheila Torres</p>
+                </div>
+                <div class="team-member">
+                  <span class="member-icon">👨‍💻</span>
+                  <p>Fredy Cardenas</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="rdf-card">
+            <div class="rdf-section">
+              <h4>Código JSON-LD Completo</h4>
+              <div class="code-container">
+                <pre><code id="rdf-code">{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "@id": "https://mauriciovirruetamarquez.github.io/Schedule_smart/#software",
+  "name": "Schedule Smart",
+  "url": "https://mauriciovirruetamarquez.github.io/Schedule_smart/",
+  "sameAs": "https://github.com/MauricioVirruetaMarquez/Schedule_smart",
+  "applicationCategory": "ProductivityApplication",
+  "description": "Aplicación web para gestionar horarios, tareas y hábitos de forma sencilla, con calendario anual, lista de tareas y seguimiento de hábitos.",
+  "author": {
+    "@type": "Organization",
+    "name": "Equipo Schedule Smart",
+    "member": [
+      { "@type": "Person", "name": "Brady Gutierrez" },
+      { "@type": "Person", "name": "Mauricio Virrueta" },
+      { "@type": "Person", "name": "Sheila Torres" },
+      { "@type": "Person", "name": "Fredy Cardenas" }
+    ]
+  },
+  "inLanguage": "es",
+  "operatingSystem": "Web",
+  "programmingLanguage": "HTML, CSS, JavaScript",
+  "datePublished": "2025-11-10"
+}</code></pre>
+                <button class="copy-btn" id="copyRdfBtn">
+                  <span class="copy-icon">📋</span> Copiar JSON-LD
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="rdf-card rdf-info-card">
+            <div class="rdf-section">
+              <h4>¿Qué es Schema.org?</h4>
+              <p>Schema.org es un vocabulario compartido que puedes usar para marcar tu contenido y facilitar que los motores de búsqueda comprendan mejor la información de tu sitio web.</p>
+              <h4 style="margin-top: 20px;">Beneficios del JSON-LD</h4>
+              <ul class="benefits-list">
+                <li>✓ Mejor indexación en buscadores</li>
+                <li>✓ Rich snippets en resultados de búsqueda</li>
+                <li>✓ Mejor comprensión del contenido por IA</li>
+                <li>✓ Estándar web reconocido globalmente</li>
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
     </main>
   </div>
@@ -145,6 +261,29 @@
     </div>
   </div>
 
-  <script src="dashboard.js"></script>
+  <script src="scripts.js"></script>
+  <script>
+    // Funcionalidad para copiar el código RDF
+    document.addEventListener('DOMContentLoaded', () => {
+      const copyBtn = document.getElementById('copyRdfBtn');
+      if (copyBtn) {
+        copyBtn.addEventListener('click', () => {
+          const code = document.getElementById('rdf-code').textContent;
+          navigator.clipboard.writeText(code).then(() => {
+            const originalText = copyBtn.innerHTML;
+            copyBtn.innerHTML = '<span class="copy-icon">✓</span> ¡Copiado!';
+            copyBtn.style.background = 'linear-gradient(135deg, #4CAF50 0%, #45a049 100%)';
+            
+            setTimeout(() => {
+              copyBtn.innerHTML = originalText;
+              copyBtn.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+            }, 2000);
+          }).catch(err => {
+            alert('Error al copiar: ' + err);
+          });
+        });
+      }
+    });
+  </script>
 </body>
 </html>
