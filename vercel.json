@@ -1,0 +1,11 @@
+{
+  "rewrites": [
+    { "source": "/", "destination": "/login_page.html" }
+  ],
+  "routes": [
+    {
+      "src": "^/$",
+      "dest": "/login_page.html"
+    }
+  ]
+}
