@@ -36,10 +36,14 @@ if (signupForm) {
         return;
       }
 
-      // Inserta directamente en la tabla
+      // Inserta en la tabla - CORREGIDO: usando 'password' en minúsculas
       const { error } = await db
         .from('utilisateurs')
-        .insert([{ Nombre: nombre, Correo: correo, Password: contrasena }]);
+        .insert([{ 
+          Nombre: nombre, 
+          Correo: correo, 
+          password: contrasena  // ⚠️ CAMBIADO A MINÚSCULAS
+        }]);
 
       if (error) {
         console.error('Error al registrar:', error);
@@ -93,12 +97,13 @@ if (loginForm) {
 
       const usuario = data;
 
-      if (usuario.Password !== contrasena) {
+      // ⚠️ CAMBIADO: Verificar con 'password' en minúsculas
+      if (usuario.password !== contrasena) {
         mostrarError(loginError, '❌ Contraseña incorrecta.');
         return;
       }
 
-      // ✅ Guardar sesión en sessionStorage (más seguro)
+      // ✅ Guardar sesión en sessionStorage
       const userData = {
         id_usuario: usuario.id,
         nombre: usuario.Nombre,
