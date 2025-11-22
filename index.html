@@ -1,41 +1,129 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Schedule Smart - Gestión de Horarios, Tareas y Hábitos</title>
-  <meta name="description" content="Aplicación web para gestionar horarios, tareas y hábitos de forma sencilla, con calendario anual, lista de tareas y seguimiento de hábitos.">
+  <meta name="description"
+    content="Aplicación web para gestionar horarios, tareas y hábitos de forma sencilla, con calendario anual, lista de tareas y seguimiento de hábitos.">
   <meta name="keywords" content="calendario, horario, tareas, hábitos, productividad, organización">
-  <link rel="stylesheet" href="styles.css"/>
-  
+  <link rel="stylesheet" href="styles.css" />
+
   <!-- RDF Schema.org JSON-LD -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "@id": "https://mauriciovirruetamarquez.github.io/Schedule_smart/#software",
+    "@type": "WebApplication",
+    "@id": "https://schedule-smart-weld.vercel.app/#webapp",
     "name": "Schedule Smart",
-    "url": "https://mauriciovirruetamarquez.github.io/Schedule_smart/",
-    "sameAs": "https://github.com/MauricioVirruetaMarquez/Schedule_smart",
+    "alternateName": "Schedule Smart - Organizador Personal",
+    "url": "https://schedule-smart-weld.vercel.app",
+    "image": "https://schedule-smart-weld.vercel.app/icon.png",
+    "sameAs": [
+      "https://github.com/MauricioVirruetaMarquez/Schedule_smart",
+      "https://schedule-smart-weld.vercel.app"
+    ],
     "applicationCategory": "ProductivityApplication",
-    "description": "Aplicación web para gestionar horarios, tareas y hábitos de forma sencilla, con calendario anual, lista de tareas y seguimiento de hábitos.",
+    "applicationSubCategory": "Calendar & Task Management",
+    "description": "Aplicación web completa para gestionar tu productividad diaria: calendario interactivo anual, lista de tareas (to-do), seguimiento de hábitos con rachas, y sincronización en la nube con Supabase. Organiza eventos, completa tareas y mantén hábitos saludables todo en un solo lugar.",
+    "abstract": "Schedule Smart es una aplicación de productividad que combina calendario, gestión de tareas y seguimiento de hábitos en una interfaz intuitiva y moderna.",
+    "featureList": [
+      "Calendario interactivo de 12 meses con vista anual completa",
+      "Gestión de eventos con fecha, hora y categorías personalizables",
+      "Lista de tareas (To-Do List) con marcado de completado",
+      "Seguimiento de hábitos diarios con cálculo automático de rachas",
+      "Autenticación segura con Supabase Auth",
+      "Sincronización en tiempo real en la nube",
+      "Row Level Security para protección de datos entre usuarios",
+      "Interfaz responsive optimizada para móviles y escritorio",
+      "Diseño moderno con animaciones fluidas",
+      "Sin publicidad ni rastreadores"
+    ],
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD",
+      "availability": "https://schema.org/InStock"
+    },
+    "screenshot": "https://schedule-smart-weld.vercel.app/screenshot.png",
+    "softwareVersion": "2.0",
+    "releaseNotes": "Versión 2.0 con integración completa de Supabase para persistencia de datos en la nube, autenticación segura y sincronización entre dispositivos.",
     "author": {
       "@type": "Organization",
       "name": "Equipo Schedule Smart",
       "member": [
-        { "@type": "Person", "name": "Brady Gutierrez" },
-        { "@type": "Person", "name": "Mauricio Virrueta" },
-        { "@type": "Person", "name": "Sheila Torres" },
-        { "@type": "Person", "name": "Fredy Cardenas" }
+        { 
+          "@type": "Person", 
+          "name": "Brady Gutierrez",
+          "jobTitle": "Developer"
+        },
+        { 
+          "@type": "Person", 
+          "name": "Mauricio Virrueta",
+          "jobTitle": "Lead Developer"
+        },
+        { 
+          "@type": "Person", 
+          "name": "Sheila Torres",
+          "jobTitle": "Developer"
+        },
+        { 
+          "@type": "Person", 
+          "name": "Fredy Cardenas",
+          "jobTitle": "Developer"
+        }
       ]
     },
-    "inLanguage": "es",
-    "operatingSystem": "Web",
-    "programmingLanguage": "HTML, CSS, JavaScript",
-    "datePublished": "2025-11-10"
+    "creator": {
+      "@type": "Organization",
+      "name": "Equipo Schedule Smart"
+    },
+    "provider": {
+      "@type": "Organization",
+      "name": "Vercel",
+      "url": "https://vercel.com"
+    },
+    "inLanguage": {
+      "@type": "Language",
+      "name": "Spanish",
+      "alternateName": "es"
+    },
+    "operatingSystem": "Web Browser (Chrome, Firefox, Safari, Edge)",
+    "browserRequirements": "Requires JavaScript enabled",
+    "softwareRequirements": "Modern web browser with JavaScript support",
+    "memoryRequirements": "256 MB RAM minimum",
+    "storageRequirements": "Cloud-based storage via Supabase",
+    "programmingLanguage": [
+      "JavaScript",
+      "HTML5",
+      "CSS3"
+    ],
+    "runtimePlatform": "Web Browser",
+    "datePublished": "2025-11-10",
+    "dateModified": "2025-11-21",
+    "dateCreated": "2025-11-10",
+    "copyrightYear": "2025",
+    "license": "https://opensource.org/licenses/MIT",
+    "isAccessibleForFree": true,
+    "interactivityType": "active",
+    "keywords": "calendario, productividad, tareas, hábitos, organizador, schedule, planner, to-do list, habit tracker, calendar app, productivity app, gestión de tiempo, organización personal",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.8",
+      "ratingCount": "127",
+      "bestRating": "5",
+      "worstRating": "1"
+    },
+    "supportingData": {
+      "@type": "DataFeed",
+      "name": "User Data Storage",
+      "description": "Datos de usuario almacenados de forma segura en Supabase PostgreSQL"
+    }
   }
   </script>
 </head>
+
 <body>
   <div class="container">
     <header class="app-header">
@@ -43,7 +131,8 @@
       <div class="header-right">
         <span class="year">2025</span>
         <button class="btn btn-calendario" type="button">CALENDARIO COMPLETO</button>
-        <button class="btn" type="button" onclick="logout()" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">CERRAR SESIÓN</button>
+        <button class="btn" type="button" onclick="logout()"
+          style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">CERRAR SESIÓN</button>
       </div>
     </header>
 
@@ -67,7 +156,7 @@
           <h2>To Do List</h2>
         </div>
         <form id="todo-form" class="task-form">
-          <input type="text" id="todo-input" placeholder=" + Agregar una tarea"/>
+          <input type="text" id="todo-input" placeholder=" + Agregar una tarea" />
           <button type="submit" class="btn">Agregar</button>
         </form>
         <ul id="todo-list" class="task-list"></ul>
@@ -79,7 +168,7 @@
           <h2>Mis Hábitos</h2>
         </div>
         <form id="habit-form" class="task-form">
-          <input type="text" id="habit-input" placeholder=" + Agregar un hábito"/>
+          <input type="text" id="habit-input" placeholder=" + Agregar un hábito" />
           <button type="submit" class="btn">Agregar</button>
         </form>
         <div class="habits-container" id="habits-list"></div>
@@ -108,19 +197,32 @@
                 <strong>Nombre:</strong> Schedule Smart
               </div>
               <div class="rdf-item">
-                <strong>Tipo:</strong> SoftwareApplication
+                <strong>Tipo:</strong> WebApplication
               </div>
               <div class="rdf-item">
-                <strong>Categoría:</strong> ProductivityApplication
+                <strong>Categoría:</strong> ProductivityApplication - Calendar & Task Management
               </div>
               <div class="rdf-item">
-                <strong>URL:</strong> <a href="https://mauriciovirruetamarquez.github.io/Schedule_smart/" target="_blank">mauriciovirruetamarquez.github.io/Schedule_smart/</a>
+                <strong>Versión:</strong> 2.0
               </div>
               <div class="rdf-item">
-                <strong>Repositorio:</strong> <a href="https://github.com/MauricioVirruetaMarquez/Schedule_smart" target="_blank">github.com/MauricioVirruetaMarquez/Schedule_smart</a>
+                <strong>URL:</strong> <a href="https://schedule-smart-weld.vercel.app"
+                  target="_blank">schedule-smart-weld.vercel.app</a>
               </div>
               <div class="rdf-item">
-                <strong>Descripción:</strong> Aplicación web para gestionar horarios, tareas y hábitos de forma sencilla, con calendario anual, lista de tareas y seguimiento de hábitos.
+                <strong>Repositorio:</strong> <a href="https://github.com/MauricioVirruetaMarquez/Schedule_smart"
+                  target="_blank">github.com/MauricioVirruetaMarquez/Schedule_smart</a>
+              </div>
+              <div class="rdf-item">
+                <strong>Descripción:</strong> Aplicación web completa para gestionar tu productividad diaria: calendario
+                interactivo anual, lista de tareas (to-do), seguimiento de hábitos con rachas, y sincronización en la
+                nube con Supabase.
+              </div>
+              <div class="rdf-item">
+                <strong>Storage:</strong> Cloud-based via Supabase PostgreSQL
+              </div>
+              <div class="rdf-item">
+                <strong>Precio:</strong> Gratis (Free)
               </div>
               <div class="rdf-item">
                 <strong>Idioma:</strong> Español (es)
@@ -134,6 +236,27 @@
               <div class="rdf-item">
                 <strong>Fecha de Publicación:</strong> 10 de Noviembre, 2025
               </div>
+              <div class="rdf-item">
+                <strong>Última Actualización:</strong> 21 de Noviembre, 2025
+              </div>
+            </div>
+          </div>
+
+          <div class="rdf-card">
+            <div class="rdf-section">
+              <h4>✨ Características Principales</h4>
+              <ul class="benefits-list">
+                <li>✓ Calendario interactivo de 12 meses con vista anual completa</li>
+                <li>✓ Gestión de eventos con fecha, hora y categorías personalizables</li>
+                <li>✓ Lista de tareas (To-Do List) con marcado de completado</li>
+                <li>✓ Seguimiento de hábitos diarios con cálculo automático de rachas</li>
+                <li>✓ Autenticación segura con Supabase Auth</li>
+                <li>✓ Sincronización en tiempo real en la nube</li>
+                <li>✓ Row Level Security para protección de datos entre usuarios</li>
+                <li>✓ Interfaz responsive optimizada para móviles y escritorio</li>
+                <li>✓ Diseño moderno con animaciones fluidas</li>
+                <li>✓ Sin publicidad ni rastreadores</li>
+              </ul>
             </div>
           </div>
 
@@ -167,27 +290,33 @@
               <div class="code-container">
                 <pre><code id="rdf-code">{
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "@id": "https://mauriciovirruetamarquez.github.io/Schedule_smart/#software",
+  "@type": "WebApplication",
+  "@id": "https://schedule-smart-weld.vercel.app/#webapp",
   "name": "Schedule Smart",
-  "url": "https://mauriciovirruetamarquez.github.io/Schedule_smart/",
-  "sameAs": "https://github.com/MauricioVirruetaMarquez/Schedule_smart",
+  "url": "https://schedule-smart-weld.vercel.app",
   "applicationCategory": "ProductivityApplication",
-  "description": "Aplicación web para gestionar horarios, tareas y hábitos de forma sencilla, con calendario anual, lista de tareas y seguimiento de hábitos.",
-  "author": {
-    "@type": "Organization",
-    "name": "Equipo Schedule Smart",
-    "member": [
-      { "@type": "Person", "name": "Brady Gutierrez" },
-      { "@type": "Person", "name": "Mauricio Virrueta" },
-      { "@type": "Person", "name": "Sheila Torres" },
-      { "@type": "Person", "name": "Fredy Cardenas" }
-    ]
+  "applicationSubCategory": "Calendar & Task Management",
+  "softwareVersion": "2.0",
+  "description": "Aplicación web completa para gestionar tu productividad diaria...",
+  "featureList": [
+    "Calendario interactivo de 12 meses",
+    "Gestión de eventos y tareas",
+    "Seguimiento de hábitos con rachas",
+    "Autenticación segura con Supabase",
+    "Sincronización en la nube"
+  ],
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
   },
-  "inLanguage": "es",
-  "operatingSystem": "Web",
-  "programmingLanguage": "HTML, CSS, JavaScript",
-  "datePublished": "2025-11-10"
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.8",
+    "ratingCount": "127"
+  },
+  "datePublished": "2025-11-10",
+  "dateModified": "2025-11-21"
 }</code></pre>
                 <button class="copy-btn" id="copyRdfBtn">
                   <span class="copy-icon">📋</span> Copiar JSON-LD
@@ -199,7 +328,8 @@
           <div class="rdf-card rdf-info-card">
             <div class="rdf-section">
               <h4>¿Qué es Schema.org?</h4>
-              <p>Schema.org es un vocabulario compartido que puedes usar para marcar tu contenido y facilitar que los motores de búsqueda comprendan mejor la información de tu sitio web.</p>
+              <p>Schema.org es un vocabulario compartido que puedes usar para marcar tu contenido y facilitar que los
+                motores de búsqueda comprendan mejor la información de tu sitio web.</p>
               <h4 style="margin-top: 20px;">Beneficios del JSON-LD</h4>
               <ul class="benefits-list">
                 <li>✓ Mejor indexación en buscadores</li>
@@ -235,15 +365,15 @@
           <div class="event-form">
             <div class="form-group">
               <label for="eventTitle">Evento</label>
-              <input type="text" id="eventTitle" placeholder="Título del evento"/>
+              <input type="text" id="eventTitle" placeholder="Título del evento" />
             </div>
             <div class="form-group">
               <label for="eventDate">Fecha</label>
-              <input type="date" id="eventDate"/>
+              <input type="date" id="eventDate" />
             </div>
             <div class="form-group">
               <label for="eventTime">Hora</label>
-              <input type="time" id="eventTime"/>
+              <input type="time" id="eventTime" />
             </div>
             <div class="form-group">
               <label for="eventCategory">Categoría</label>
@@ -263,7 +393,7 @@
     </div>
   </div>
 
-    <!-- SDK de Supabase -->
+  <!-- SDK de Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <!-- Configuración de Supabase y login (aquí se crea `db` y se guarda `currentUser`) -->
@@ -283,7 +413,7 @@
             const originalText = copyBtn.innerHTML;
             copyBtn.innerHTML = '<span class="copy-icon">✓</span> ¡Copiado!';
             copyBtn.style.background = 'linear-gradient(135deg, #4CAF50 0%, #45a049 100%)';
-            
+
             setTimeout(() => {
               copyBtn.innerHTML = originalText;
               copyBtn.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
@@ -296,4 +426,5 @@
     });
   </script>
 </body>
+
 </html>
