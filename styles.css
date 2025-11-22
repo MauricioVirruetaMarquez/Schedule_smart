@@ -8,11 +8,57 @@ body {
   height: 100%;
 }
 
+/* ===== CSS Variables para Dark Mode ===== */
+:root {
+  /* Light mode colors */
+  --bg-gradient-start: #667eea;
+  --bg-gradient-end: #764ba2;
+  --main-bg: rgba(255, 255, 255, 0.05);
+  --card-bg: rgba(255, 255, 255, 0.98);
+  --header-bg: rgba(255, 255, 255, 0.95);
+  --sidebar-bg: rgba(255, 255, 255, 0.95);
+  --text-primary: #222;
+  --text-secondary: #555;
+  --text-tertiary: #888;
+  --border-color: rgba(102, 126, 234, 0.1);
+  --border-light: #eceefe;
+  --card-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  --card-hover-shadow: 0 12px 40px rgba(102, 126, 234, 0.25);
+  --input-bg: #fff;
+  --modal-bg: #fff;
+  --day-cell-bg-start: #f8f9ff;
+  --day-cell-bg-end: #fff;
+  --rdf-card-bg: rgba(255, 255, 255, 0.98);
+}
+
+/* Dark mode colors */
+body.dark-mode {
+  --bg-gradient-start: #1a1a2e;
+  --bg-gradient-end: #16213e;
+  --main-bg: rgba(0, 0, 0, 0.2);
+  --card-bg: rgba(30, 30, 46, 0.95);
+  --header-bg: rgba(26, 26, 38, 0.95);
+  --sidebar-bg: rgba(26, 26, 38, 0.95);
+  --text-primary: #e4e4e7;
+  --text-secondary: #a8a8b3;
+  --text-tertiary: #71717a;
+  --border-color: rgba(102, 126, 234, 0.3);
+  --border-light: rgba(102, 126, 234, 0.15);
+  --card-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+  --card-hover-shadow: 0 12px 40px rgba(102, 126, 234, 0.4);
+  --input-bg: rgba(40, 40, 60, 0.8);
+  --modal-bg: rgba(30, 30, 46, 0.98);
+  --day-cell-bg-start: rgba(50, 50, 70, 0.5);
+  --day-cell-bg-end: rgba(40, 40, 60, 0.5);
+  --rdf-card-bg: rgba(30, 30, 46, 0.95);
+}
+
 body {
   margin: 0;
   font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: #222;
+  background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+  color: var(--text-primary);
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 /* ===== Layout ===== */
@@ -33,10 +79,11 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 0 32px;
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--header-bg);
   backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(102, 126, 234, 0.1);
+  border-bottom: 1px solid var(--border-color);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 .app-header h1 {
@@ -68,14 +115,15 @@ body {
 /* ===== Sidebar ===== */
 .sidebar {
   grid-area: sidebar;
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--sidebar-bg);
   backdrop-filter: blur(10px);
-  border-right: 1px solid rgba(102, 126, 234, 0.1);
+  border-right: 1px solid var(--border-color);
   padding: 24px 16px;
   display: flex;
   flex-direction: column;
   gap: 12px;
   box-shadow: 4px 0 20px rgba(0, 0, 0, 0.05);
+  transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 .menu-btn {
@@ -88,7 +136,7 @@ body {
   font-size: 15px;
   cursor: pointer;
   transition: all .3s cubic-bezier(0.4, 0, 0.2, 1);
-  color: #555;
+  color: var(--text-secondary);
   position: relative;
   overflow: hidden;
 }
@@ -125,7 +173,8 @@ body {
   grid-area: main;
   padding: 24px;
   overflow: auto;
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--main-bg);
+  transition: background 0.3s ease;
 }
 
 /* ===== Botones genéricos ===== */
@@ -202,18 +251,54 @@ body {
 }
 
 .calendar-box {
-  background: rgba(255, 255, 255, 0.98);
+  background: var(--card-bg);
   border-radius: 20px;
   padding: 20px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  box-shadow: var(--card-shadow);
   position: relative;
   transition: all 0.3s ease;
-  border: 1px solid rgba(102, 126, 234, 0.1);
+  border: 1px solid var(--border-color);
 }
 
 .calendar-box:hover {
   transform: translateY(-5px);
-  box-shadow: 0 12px 40px rgba(102, 126, 234, 0.25);
+  box-shadow: var(--card-hover-shadow);
+}
+
+/* ===== Dark Mode Toggle Button ===== */
+.dark-mode-toggle {
+  min-width: auto !important;
+  width: 48px;
+  height: 48px;
+  padding: 0 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%) !important;
+  border-radius: 50% !important;
+  transition: all 0.3s ease !important;
+}
+
+.dark-mode-toggle:hover {
+  transform: translateY(-2px) rotate(20deg) !important;
+  box-shadow: 0 6px 25px rgba(251, 191, 36, 0.5) !important;
+}
+
+.dark-mode-icon {
+  font-size: 24px;
+  transition: transform 0.3s ease;
+}
+
+body.dark-mode .dark-mode-toggle {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%) !important;
+}
+
+body.dark-mode .dark-mode-icon::before {
+  content: '☀️';
+}
+
+body.dark-mode .dark-mode-icon {
+  font-size: 0;
 }
 
 .mini-calendar h3 {
@@ -1009,12 +1094,12 @@ body {
 }
 
 .rdf-card {
-  Background: rgba(255, 255, 255, 0.98);
+  Background: var(--rdf-card-bg);
   border-radius: 24px;
   padding: 36px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12), 0 4px 12px rgba(102, 126, 234, 0.08);
+  box-shadow: var(--card-shadow), 0 4px 12px rgba(102, 126, 234, 0.08);
   border: 2px solid transparent;
-  background-image: linear-gradient(white, white),
+  background-image: linear-gradient(var(--rdf-card-bg), var(--rdf-card-bg)),
     linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   background-origin: border-box;
   background-clip: padding-box, border-box;
