@@ -5,19 +5,26 @@ const dayNames = ['D', 'L', 'M', 'X', 'J', 'V', 'S'];
 const dayNamesFull = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
 const today = new Date();
 
-// Estado (con persistencia)
-let events = JSON.parse(localStorage.getItem('events')) || {}; // clave ISO YYYY-MM-DD
+// Estado (ahora con persistencia en Supabase)
+let events = {}; // clave ISO YYYY-MM-DD
 let currentModalMonth = 0;       // 0..11
 let currentModalYear = FIXED_YEAR;
 
-let todos = JSON.parse(localStorage.getItem('todos')) || [];
+let todos = [];
 let habits = [];
+let currentUser = null; // Usuario autenticado de Supabase
 
 
 // ===== Función para obtener usuario logueado =====
-function getCurrentUser() {
-  const s = sessionStorage.getItem("currentUser");
-  return s ? JSON.parse(s) : null;
+async function getCurrentUser() {
+    if (currentUser) return currentUser;
+
+    const { data: { session } } = await db.auth.getSession();
+    if (session) {
+        currentUser = session.user;
+        return currentUser;
+    }
+    return null;
 }
 
 // Utilidades de fecha
@@ -35,31 +42,73 @@ function getCurrentDateISO() {
     const now = new Date();
     return now.toISOString().split('T')[0];
 }
-function saveEvents() {
-    localStorage.setItem('events', JSON.stringify(events));
+
+// ===== Cargar eventos desde Supabase =====
+async function loadEvents() {
+    const user = await getCurrentUser();
+    if (!user) return;
+
+    const { data, error } = await db
+        .from('events')
+        .select('*')
+        .eq('user_id', user.id);
+
+    if (error) {
+        console.error('❌ Error cargando eventos:', error);
+        return;
+    }
+
+    // Convertir array de Supabase a objeto indexado por fecha
+    events = {};
+    data.forEach(event => {
+        if (!events[event.date_key]) {
+            events[event.date_key] = [];
+        }
+        events[event.date_key].push({
+            id: event.id,
+            title: event.title,
+            time: event.time,
+            description: event.description,
+            category: 'personal'
+        });
+    });
+
+    // Actualizar mini-calendarios
+    updateMiniCalendars();
 }
 
 // ===== Nueva función para eliminar eventos =====
-function deleteEvent(dateKey, eventIndex) {
-    if (confirm('¿Estás seguro de que quieres eliminar este evento?')) {
-        events[dateKey].splice(eventIndex, 1);
+async function deleteEvent(dateKey, eventIndex) {
+    if (!confirm('¿Estás seguro de que quieres eliminar este evento?')) return;
 
-        // Si ya no quedan eventos en esa fecha, eliminar la clave
-        if (events[dateKey].length === 0) {
-            delete events[dateKey];
-        }
+    const event = events[dateKey][eventIndex];
 
-        saveEvents();
-        updateModal();
+    // Eliminar de Supabase
+    const { error } = await db
+        .from('events')
+        .delete()
+        .eq('id', event.id);
 
-        // Opcional: mostrar mensaje de confirmación
-        showTemporaryMessage('Evento eliminado correctamente');
+    if (error) {
+        console.error('❌ Error eliminando evento:', error);
+        alert('Error al eliminar el evento');
+        return;
     }
+
+    // Eliminar del estado local
+    events[dateKey].splice(eventIndex, 1);
+
+    // Si ya no quedan eventos en esa fecha, eliminar la clave
+    if (events[dateKey].length === 0) {
+        delete events[dateKey];
+    }
+
+    updateModal();
+    showTemporaryMessage('Evento eliminado correctamente');
 }
 
 // ===== Función para mostrar mensajes temporales =====
 function showTemporaryMessage(message) {
-    // Crear elemento de mensaje
     const msgDiv = document.createElement('div');
     msgDiv.className = 'temp-message';
     msgDiv.textContent = message;
@@ -78,7 +127,6 @@ function showTemporaryMessage(message) {
 
     document.body.appendChild(msgDiv);
 
-    // Eliminar después de 3 segundos
     setTimeout(() => {
         msgDiv.style.animation = 'slideOut 0.3s ease';
         setTimeout(() => msgDiv.remove(), 300);
@@ -247,7 +295,6 @@ function createLargeCalendar(monthIndex, year) {
 
         // Al hacer click, precarga la fecha en el form
         cell.addEventListener('click', (e) => {
-            // Evitar que se active si se hizo click en el botón de eliminar
             if (!e.target.classList.contains('event-delete-btn')) {
                 const formatted = formatKey(year, monthIndex, d);
                 document.getElementById('eventDate').value = formatted;
@@ -300,9 +347,7 @@ function updateModal() {
 function updateMiniCalendars() {
     const grid = document.getElementById('calendarGrid');
     grid.innerHTML = '';
-    for (let m = 0; m < 12; m++) {
-        grid.appendChild(createMiniCalendar(m));
-    }
+    for (let m = 0; m < 12; m++) grid.appendChild(createMiniCalendar(m));
 }
 
 // ===== Navegación de secciones =====
@@ -314,8 +359,32 @@ function switchSection(sectionId) {
     document.querySelector(`[data-section="${sectionId}"]`).classList.add('active');
 }
 
-// ===== ToDo =====
-function saveTodos() { localStorage.setItem('todos', JSON.stringify(todos)); }
+// ===== ToDo con Supabase =====
+async function loadTodos() {
+    const user = await getCurrentUser();
+    if (!user) return;
+
+    const { data, error } = await db
+        .from('todos')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: true });
+
+    if (error) {
+        console.error('❌ Error cargando todos:', error);
+        return;
+    }
+
+    todos = data.map(t => ({
+        id: t.id,
+        text: t.text,
+        done: t.done,
+        createdAt: t.created_at
+    }));
+
+    renderTodos();
+}
+
 function renderTodos() {
     const list = document.getElementById('todo-list');
     list.innerHTML = '';
@@ -351,20 +420,71 @@ function renderTodos() {
         list.appendChild(li);
     });
 }
-function addTodo(text) {
-    todos.push({ text, done: false, createdAt: new Date().toISOString() });
-    saveTodos(); renderTodos();
-}
-function toggleTodo(i) { todos[i].done = !todos[i].done; saveTodos(); renderTodos(); }
-function deleteTodo(i) {
-    if (confirm('¿Estás seguro de que quieres eliminar esta tarea?')) {
-        todos.splice(i, 1); saveTodos(); renderTodos();
+
+async function addTodo(text) {
+    const user = await getCurrentUser();
+    if (!user) {
+        alert('❌ No hay usuario logueado');
+        return;
     }
+
+    const { data, error } = await db
+        .from('todos')
+        .insert({
+            user_id: user.id,
+            text: text,
+            done: false
+        })
+        .select();
+
+    if (error) {
+        console.error('❌ Error guardando todo:', error);
+        alert('Error al guardar la tarea');
+        return;
+    }
+
+    await loadTodos();
+}
+
+async function toggleTodo(i) {
+    const todo = todos[i];
+    const newDone = !todo.done;
+
+    const { error } = await db
+        .from('todos')
+        .update({ done: newDone })
+        .eq('id', todo.id);
+
+    if (error) {
+        console.error('❌ Error actualizando todo:', error);
+        return;
+    }
+
+    todo.done = newDone;
+    renderTodos();
+}
+
+async function deleteTodo(i) {
+    if (!confirm('¿Estás seguro de que quieres eliminar esta tarea?')) return;
+
+    const todo = todos[i];
+
+    const { error } = await db
+        .from('todos')
+        .delete()
+        .eq('id', todo.id);
+
+    if (error) {
+        console.error('❌ Error eliminando todo:', error);
+        alert('Error al eliminar la tarea');
+        return;
+    }
+
+    await loadTodos();
 }
 
 // ===== Hábitos (con Supabase) =====
 
-// Muestra todos los hábitos en la interfaz
 function renderHabits() {
     const c = document.getElementById('habits-list');
     c.innerHTML = '';
@@ -441,92 +561,118 @@ function renderHabits() {
         c.appendChild(item);
     });
 }
-async function loadHabits() {
-    const user = JSON.parse(sessionStorage.getItem("currentUser"));
 
+async function loadHabits() {
+    const user = await getCurrentUser();
     if (!user) return;
 
     const { data, error } = await db
-        .from("habitos")
-        .select("*")
-        .eq("user_id", user.id_usuario);
+        .from('habits')
+        .select('*')
+        .eq('user_id', user.id);
 
     if (error) {
-        console.error("❌ Error cargando hábitos:", error);
+        console.error('❌ Error cargando hábitos:', error);
         return;
     }
 
-    habits = data.map(h => ({
-        id: h.id,
-        name: h.name,
-        streak: h.streak,
-        completedDates: h.completed_dates || [],
-        createdAt: h.created_at,
-        user_id: h.user_id    
-    }));
+    // Cargar completions para cada hábito
+    habits = [];
+    for (const h of data) {
+        const { data: completions } = await db
+            .from('habit_completions')
+            .select('completed_date')
+            .eq('habit_id', h.id);
 
+        const completedDates = completions ? completions.map(c => c.completed_date) : [];
+
+        habits.push({
+            id: h.id,
+            name: h.name,
+            streak: h.streak,
+            completedDates: completedDates,
+            createdAt: h.created_at,
+            user_id: h.user_id
+        });
+    }
 
     renderHabits();
 }
 
-
-// Inserta un nuevo hábito en Supabase
 async function addHabit(name) {
-    const user = JSON.parse(sessionStorage.getItem("currentUser"));
-
+    const user = await getCurrentUser();
     if (!user) {
-        alert("❌ No hay usuario logueado");
+        alert('❌ No hay usuario logueado');
         return;
     }
 
-    // Guardar en Supabase
     const { error } = await db
-        .from("habitos")
+        .from('habits')
         .insert({
             name,
             streak: 0,
-            completed_dates: [],
-            user_id: user.id_usuario
+            user_id: user.id
         });
 
     if (error) {
-        console.error("❌ Error guardando hábito:", error);
-        alert("Error al guardar el hábito");
+        console.error('❌ Error guardando hábito:', error);
+        alert('Error al guardar el hábito');
         return;
     }
 
-    loadHabits();  // 🔄 Recargar hábitos desde Supabase
+    await loadHabits();
 }
 
-
-// Marca o desmarca el hábito como hecho hoy
 async function toggleHabit(idx) {
     const today = getCurrentDateISO();
     const habit = habits[idx];
-    const user = getCurrentUser();
+    const user = await getCurrentUser();
 
-    if (habit.completedDates.includes(today)) {
+    const isCompleted = habit.completedDates.includes(today);
+
+    if (isCompleted) {
+        // Eliminar completion
+        const { error } = await db
+            .from('habit_completions')
+            .delete()
+            .eq('habit_id', habit.id)
+            .eq('completed_date', today);
+
+        if (error) {
+            console.error('❌ Error eliminando completion:', error);
+            return;
+        }
+
         habit.completedDates = habit.completedDates.filter(d => d !== today);
     } else {
+        // Agregar completion
+        const { error } = await db
+            .from('habit_completions')
+            .insert({
+                habit_id: habit.id,
+                completed_date: today
+            });
+
+        if (error) {
+            console.error('❌ Error guardando completion:', error);
+            return;
+        }
+
         habit.completedDates.push(today);
     }
 
+    // Recalcular streak
     recalculateStreak(idx);
 
+    // Actualizar streak en DB
     const { error } = await db
-        .from("habitos")
-        .update({
-            streak: habit.streak,
-            completed_dates: habit.completedDates
-        })
-        .eq("id", habit.id)
-        .eq("user_id", user.id_usuario); 
+        .from('habits')
+        .update({ streak: habit.streak })
+        .eq('id', habit.id);
 
     if (!error) renderHabits();
 }
 
-
-// Calcula la racha de días
 function recalculateStreak(idx) {
     const habit = habits[idx];
     const set = new Set(habit.completedDates);
@@ -545,33 +691,30 @@ function recalculateStreak(idx) {
 }
 
 async function deleteHabit(idx) {
-    if (!confirm("¿Seguro que quieres borrar este hábito?")) return;
+    if (!confirm('¿Seguro que quieres borrar este hábito?')) return;
 
     const habit = habits[idx];
-    const user = getCurrentUser();
 
     const { error } = await db
-        .from("habitos")
+        .from('habits')
         .delete()
-        .eq("id", habit.id)
-        .eq("user_id", user.id_usuario);  // 🔥 ESTA ES LA CORRECTA
+        .eq('id', habit.id);
 
     if (error) {
-        alert("❌ Error al borrar hábito");
+        alert('❌ Error al borrar hábito');
     } else {
-        await loadHabits();  // Recargar lista desde Supabase
+        await loadHabits();
     }
 }
 
-
-
-
 // ===== Inicio =====
-document.addEventListener('DOMContentLoaded', () => {
-    
-    loadHabits();
+document.addEventListener('DOMContentLoaded', async () => {
 
-    
+    // Cargar todos los datos desde Supabase
+    await loadEvents();
+    await loadTodos();
+    await loadHabits();
+
     // Construir 12 mini-calendarios
     const grid = document.getElementById('calendarGrid');
     for (let m = 0; m < 12; m++) grid.appendChild(createMiniCalendar(m));
@@ -596,7 +739,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Agregar evento
-    document.getElementById('addEventBtn').addEventListener('click', () => {
+    document.getElementById('addEventBtn').addEventListener('click', async () => {
         const title = document.getElementById('eventTitle').value.trim();
         const date = document.getElementById('eventDate').value;
         const time = document.getElementById('eventTime').value;
@@ -606,12 +749,43 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Por favor completa al menos el título y la fecha del evento.');
             return;
         }
+
+        const user = await getCurrentUser();
+        if (!user) {
+            alert('❌ No hay usuario logueado');
+            return;
+        }
+
         const [yy, mm, dd] = date.split('-').map(n => parseInt(n, 10));
         const key = formatKey(yy, mm - 1, dd);
 
+        // Guardar en Supabase
+        const { data, error } = await db
+            .from('events')
+            .insert({
+                user_id: user.id,
+                date_key: key,
+                title: title,
+                time: time || '',
+                description: ''
+            })
+            .select();
+
+        if (error) {
+            console.error('❌ Error guardando evento:', error);
+            alert('Error al guardar el evento');
+            return;
+        }
+
+        // Agregar al estado local
         if (!events[key]) events[key] = [];
-        events[key].push({ title, time, category, date });
-        saveEvents();
+        events[key].push({
+            id: data[0].id,
+            title,
+            time,
+            category,
+            date
+        });
 
         // limpiar inputs
         document.getElementById('eventTitle').value = '';
@@ -655,17 +829,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (name) { addHabit(name); input.value = ''; input.focus(); }
     });
 
-    // Botón "Calendario completo" (placeholder)
+    // Botón "Calendario completo"
     document.querySelector('.btn-calendario').addEventListener('click', () => {
         alert('Vista de calendario completo - Próximamente');
     });
 
     // Fecha por defecto del form de eventos
     document.getElementById('eventDate').value = today.toISOString().split('T')[0];
-
-    // Pintar listas iniciales
-    renderTodos();
-    renderHabits();
 
     // Agregar estilos de animación para mensajes
     if (!document.getElementById('temp-message-styles')) {
