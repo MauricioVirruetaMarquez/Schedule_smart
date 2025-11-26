@@ -196,23 +196,23 @@
         <div class="graph-container">
             <div class="mermaid">
                 graph LR
-                %% === NODO CENTRAL ===
-                SS[schedule-smart-weld.vercel.app<br />schema:WebApplication]
+                %% NODO CENTRAL
+                SS["schedule-smart-weld.vercel.app<br />schema:WebApplication"]
 
-                %% === PROPIEDADES BÁSICAS ===
+                %% PROPIEDADES BÁSICAS
                 SS -->|schema:name| N["Schedule Smart"]
                 SS -->|schema:description| D["Aplicación web para gestión<br />de productividad"]
                 SS -->|schema:softwareVersion| V["2.0"]
-                SS -->|schema:applicationCategory| CAT[schema:ProductivityApplication]
+                SS -->|schema:applicationCategory| CAT["schema:ProductivityApplication"]
                 SS -->|schema:url| URL["https://schedule-smart-weld.vercel.app"]
 
-                %% === AUTOR Y EQUIPO ===
-                SS -->|schema:author| ORG[schema:Organization]
+                %% AUTOR Y EQUIPO
+                SS -->|schema:author| ORG["schema:Organization"]
                 ORG -->|schema:name| ON["Equipo Schedule Smart"]
-                ORG -->|schema:member| P1[schema:Person]
-                ORG -->|schema:member| P2[schema:Person]
-                ORG -->|schema:member| P3[schema:Person]
-                ORG -->|schema:member| P4[schema:Person]
+                ORG -->|schema:member| P1["schema:Person"]
+                ORG -->|schema:member| P2["schema:Person"]
+                ORG -->|schema:member| P3["schema:Person"]
+                ORG -->|schema:member| P4["schema:Person"]
 
                 P1 -->|schema:name| PN1["Brady Gutierrez"]
                 P1 -->|schema:jobTitle| PJ1["Developer"]
@@ -226,50 +226,49 @@
                 P4 -->|schema:name| PN4["Fredy Cardenas"]
                 P4 -->|schema:jobTitle| PJ4["Developer"]
 
-                %% === OFERTA ===
-                SS -->|schema:offers| OF[schema:Offer]
+                %% OFERTA
+                SS -->|schema:offers| OF["schema:Offer"]
                 OF -->|schema:price| PRICE["0"]
                 OF -->|schema:priceCurrency| CURR["USD"]
 
-                %% === TECNOLOGÍAS ===
-                SS -->|schema:programmingLanguage| PL1[schema:ComputerLanguage]
-                SS -->|schema:programmingLanguage| PL2[schema:ComputerLanguage]
-                SS -->|schema:programmingLanguage| PL3[schema:ComputerLanguage]
+                %% TECNOLOGÍAS
+                SS -->|schema:programmingLanguage| PL1["schema:ComputerLanguage"]
+                SS -->|schema:programmingLanguage| PL2["schema:ComputerLanguage"]
+                SS -->|schema:programmingLanguage| PL3["schema:ComputerLanguage"]
 
                 PL1 -->|schema:name| PLN1["JavaScript"]
                 PL2 -->|schema:name| PLN2["HTML5"]
                 PL3 -->|schema:name| PLN3["CSS3"]
 
-                %% === RATING ===
-                SS -->|schema:aggregateRating| AR[schema:AggregateRating]
+                %% RATING
+                SS -->|schema:aggregateRating| AR["schema:AggregateRating"]
                 AR -->|schema:ratingValue| RV["4.8"]
                 AR -->|schema:ratingCount| RC["127"]
 
-                %% === FECHAS ===
+                %% FECHAS
                 SS -->|schema:datePublished| DP["2025-11-10"]
                 SS -->|schema:dateModified| DM["2025-11-21"]
                 SS -->|schema:copyrightYear| CY["2025"]
 
-                %% === LICENCIA ===
+                %% LICENCIA
                 SS -->|schema:license| LIC["MIT License"]
 
-                %% === SOPORTE ===
-                SS -->|schema:contactPoint| CP[schema:ContactPoint]
+                %% SOPORTE
+                SS -->|schema:contactPoint| CP["schema:ContactPoint"]
                 CP -->|schema:contactType| CT["customer support"]
                 CP -->|schema:availableLanguage| LANG1["Spanish"]
                 CP -->|schema:availableLanguage| LANG2["English"]
 
-                %% === CARACTERÍSTICAS ===
+                %% CARACTERÍSTICAS
                 SS -->|schema:featureList| F1["Calendario 12 meses"]
                 SS -->|schema:featureList| F2["Gestión de eventos"]
                 SS -->|schema:featureList| F3["Lista de tareas"]
                 SS -->|schema:featureList| F4["Seguimiento hábitos"]
 
-                %% Estilos
+                %% ESTILOS
                 classDef resource fill:#e1f5fe,stroke:#01579b,stroke-width:2px
                 classDef literal fill:#fce4ec,stroke:#880e4f,stroke-width:1px
                 classDef person fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
-                classDef property fill:#fff3e0,stroke:#e65100,stroke-width:2px
 
                 class SS,ORG,CAT,OF,PL1,PL2,PL3,AR,CP resource
                 class P1,P2,P3,P4 person
