@@ -409,57 +409,55 @@
 
           <div class="rdf-card">
             <div class="rdf-section">
-              <h4>Código RDF</h4>
+              <h4>Código RDF/XML Completo</h4>
               <div class="code-container">
-                <pre><code id="rdf-code">{
-<?xml version="1.0" encoding="UTF-8"?>
-<rdf:RDF
+                <pre><code id="rdf-code">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;rdf:RDF
     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
     xmlns:schema="https://schema.org/"
-    xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"&gt;
 
-    <schema:WebApplication rdf:about="https://schedule-smart-weld.vercel.app/#webapp">
-        <schema:name>Schedule Smart</schema:name>
-        <schema:url rdf:resource="https://schedule-smart-weld.vercel.app"/>
-        <schema:applicationCategory>ProductivityApplication</schema:applicationCategory>
-        <schema:applicationSubCategory>Calendar &amp; Task Management</schema:applicationSubCategory>
-        <schema:softwareVersion>2.0</schema:softwareVersion>
-        <schema:description>Aplicación web completa para gestionar tu productividad diaria...</schema:description>
+    &lt;schema:WebApplication rdf:about="https://schedule-smart-weld.vercel.app/#webapp"&gt;
+        &lt;schema:name&gt;Schedule Smart&lt;/schema:name&gt;
+        &lt;schema:url rdf:resource="https://schedule-smart-weld.vercel.app"/&gt;
+        &lt;schema:applicationCategory&gt;ProductivityApplication&lt;/schema:applicationCategory&gt;
+        &lt;schema:applicationSubCategory&gt;Calendar &amp;amp; Task Management&lt;/schema:applicationSubCategory&gt;
+        &lt;schema:softwareVersion&gt;2.0&lt;/schema:softwareVersion&gt;
+        &lt;schema:description&gt;Aplicación web completa para gestionar tu productividad diaria...&lt;/schema:description&gt;
         
-        <schema:featureList>
-            <rdf:Bag>
-                <rdf:li>Calendario interactivo de 12 meses</rdf:li>
-                <rdf:li>Gestión de eventos y tareas</rdf:li>
-                <rdf:li>Seguimiento de hábitos con rachas</rdf:li>
-                <rdf:li>Autenticación segura con Supabase</rdf:li>
-                <rdf:li>Sincronización en la nube</rdf:li>
-            </rdf:Bag>
-        </schema:featureList>
+        &lt;schema:featureList&gt;
+            &lt;rdf:Bag&gt;
+                &lt;rdf:li&gt;Calendario interactivo de 12 meses&lt;/rdf:li&gt;
+                &lt;rdf:li&gt;Gestión de eventos y tareas&lt;/rdf:li&gt;
+                &lt;rdf:li&gt;Seguimiento de hábitos con rachas&lt;/rdf:li&gt;
+                &lt;rdf:li&gt;Autenticación segura con Supabase&lt;/rdf:li&gt;
+                &lt;rdf:li&gt;Sincronización en la nube&lt;/rdf:li&gt;
+            &lt;/rdf:Bag&gt;
+        &lt;/schema:featureList&gt;
         
-        <schema:offers>
-            <schema:Offer>
-                <schema:price>0</schema:price>
-                <schema:priceCurrency>USD</schema:priceCurrency>
-            </schema:Offer>
-        </schema:offers>
+        &lt;schema:offers&gt;
+            &lt;schema:Offer&gt;
+                &lt;schema:price&gt;0&lt;/schema:price&gt;
+                &lt;schema:priceCurrency&gt;USD&lt;/schema:priceCurrency&gt;
+            &lt;/schema:Offer&gt;
+        &lt;/schema:offers&gt;
         
-        <schema:aggregateRating>
-            <schema:AggregateRating>
-                <schema:ratingValue>4.8</schema:ratingValue>
-                <schema:ratingCount>127</schema:ratingCount>
-            </schema:AggregateRating>
-        </schema:aggregateRating>
+        &lt;schema:aggregateRating&gt;
+            &lt;schema:AggregateRating&gt;
+                &lt;schema:ratingValue&gt;4.8&lt;/schema:ratingValue&gt;
+                &lt;schema:ratingCount&gt;127&lt;/schema:ratingCount&gt;
+            &lt;/schema:AggregateRating&gt;
+        &lt;/schema:aggregateRating&gt;
         
-        <schema:datePublished rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
-            >2025-11-10</schema:datePublished>
-        <schema:dateModified rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
-            >2025-11-21</schema:dateModified>
-    </schema:WebApplication>
+        &lt;schema:datePublished rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
+            &gt;2025-11-10&lt;/schema:datePublished&gt;
+        &lt;schema:dateModified rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
+            &gt;2025-11-21&lt;/schema:dateModified&gt;
+    &lt;/schema:WebApplication&gt;
 
-</rdf:RDF>
-}</code></pre>
+&lt;/rdf:RDF&gt;</code></pre>
                 <button class="copy-btn" id="copyRdfBtn">
-                  <span class="copy-icon">📋</span> Copiar JSON-LD
+                  <span class="copy-icon">📋</span> Copiar RDF/XML
                 </button>
               </div>
             </div>
