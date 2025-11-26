@@ -195,86 +195,80 @@
 
         <div class="graph-container">
             <div class="mermaid">
-                graph LR
-                %% NODO CENTRAL
-                SS["schedule-smart-weld.vercel.app<br />schema:WebApplication"]
+graph TD
 
-                %% PROPIEDADES BÁSICAS
-                SS -->|schema:name| N["Schedule Smart"]
-                SS -->|schema:description| D["Aplicación web para gestión<br />de productividad"]
-                SS -->|schema:softwareVersion| V["2.0"]
-                SS -->|schema:applicationCategory| CAT["schema:ProductivityApplication"]
-                SS -->|schema:url| URL["https://schedule-smart-weld.vercel.app"]
+    %% Recursos principales
+    SS[Schedule Smart] --> N[name]
+    SS --> D[description]
+    SS --> V[version]
+    SS --> URL[url]
+    SS --> ON[operatingSystem]
+    SS --> CAT[SoftwareApplicationCategory]
+    SS --> ORG[Author Organization]
+    SS --> CP["creator Person"]
+    SS --> CT[contentType]
+    SS --> LIC[license]
+    SS --> CY[copyrightYear]
+    SS --> DM[dateModified]
+    SS --> DP[datePublished]
+    SS --> LANG1[inLanguage: español]
+    SS --> LANG2[inLanguage: inglés]
 
-                %% AUTOR Y EQUIPO
-                SS -->|schema:author| ORG["schema:Organization"]
-                ORG -->|schema:name| ON["Equipo Schedule Smart"]
-                ORG -->|schema:member| P1["schema:Person"]
-                ORG -->|schema:member| P2["schema:Person"]
-                ORG -->|schema:member| P3["schema:Person"]
-                ORG -->|schema:member| P4["schema:Person"]
+    %% Organización
+    ORG --> ON["name: Schedule Smart Team"]
 
-                P1 -->|schema:name| PN1["Brady Gutierrez"]
-                P1 -->|schema:jobTitle| PJ1["Developer"]
+    %% Personas (creadores)
+    CP --> P1[Person 1]
+    CP --> P2[Person 2]
+    CP --> P3[Person 3]
+    CP --> P4[Person 4]
 
-                P2 -->|schema:name| PN2["Mauricio Virrueta"]
-                P2 -->|schema:jobTitle| PJ2["Lead Developer"]
+    P1 --> PN1[name: Brady Xavier Gutiérrez Mendoza]
+    P1 --> PJ1[jobTitle: Estudiante de Ciencias de la Computación]
 
-                P3 -->|schema:name| PN3["Sheila Torres"]
-                P3 -->|schema:jobTitle| PJ3["Developer"]
+    P2 --> PN2[name: Mauricio Virrueta Marquez]
+    P2 --> PJ2[jobTitle: Estudiante de Ciencias de la Computación]
 
-                P4 -->|schema:name| PN4["Fredy Cardenas"]
-                P4 -->|schema:jobTitle| PJ4["Developer"]
+    P3 --> PN3[name: Sheila Torres]
+    P3 --> PJ3[jobTitle: Estudiante de Ciencias de la Computación]
 
-                %% OFERTA
-                SS -->|schema:offers| OF["schema:Offer"]
-                OF -->|schema:price| PRICE["0"]
-                OF -->|schema:priceCurrency| CURR["USD"]
+    P4 --> PN4[name: Fredy Cardenas]
+    P4 --> PJ4[jobTitle: Estudiante de Ciencias de la Computación]
 
-                %% TECNOLOGÍAS
-                SS -->|schema:programmingLanguage| PL1["schema:ComputerLanguage"]
-                SS -->|schema:programmingLanguage| PL2["schema:ComputerLanguage"]
-                SS -->|schema:programmingLanguage| PL3["schema:ComputerLanguage"]
+    %% Contenido principal
+    SS --> OF[offers]
+    OF --> PRICE[price: 0]
+    OF --> CURR[currency: USD]
 
-                PL1 -->|schema:name| PLN1["JavaScript"]
-                PL2 -->|schema:name| PLN2["HTML5"]
-                PL3 -->|schema:name| PLN3["CSS3"]
+    %% Funcionalidades
+    SS --> F1[Funcionalidad: Calendario anual]
+    SS --> F2[Funcionalidad: Lista de tareas]
+    SS --> F3[Funcionalidad: Seguimiento de hábitos]
+    SS --> F4[Funcionalidad: Vistas personalizadas]
 
-                %% RATING
-                SS -->|schema:aggregateRating| AR["schema:AggregateRating"]
-                AR -->|schema:ratingValue| RV["4.8"]
-                AR -->|schema:ratingCount| RC["127"]
+    %% Plataforma (ejemplo)
+    SS --> PL1[Plataforma: Web]
+    SS --> PL2[Framework: React]
+    SS --> PL3[Backend: Supabase]
 
-                %% FECHAS
-                SS -->|schema:datePublished| DP["2025-11-10"]
-                SS -->|schema:dateModified| DM["2025-11-21"]
-                SS -->|schema:copyrightYear| CY["2025"]
+    %% Requisitos
+    SS --> RV[requiredVersion]
+    RV --> RC["React 18+"]
 
-                %% LICENCIA
-                SS -->|schema:license| LIC["MIT License"]
+    %% Archivo principal
+    SS --> AR[mainEntity]
+    AR --> PLN1["index.html"]
+    AR --> PLN2["dashboard.js"]
+    AR --> PLN3["scripts.js"]
 
-                %% SOPORTE
-                SS -->|schema:contactPoint| CP["schema:ContactPoint"]
-                CP -->|schema:contactType| CT["customer support"]
-                CP -->|schema:availableLanguage| LANG1["Spanish"]
-                CP -->|schema:availableLanguage| LANG2["English"]
+    %% ESTILOS
+    classDef resource fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    classDef literal fill:#fce4ec,stroke:#880e4f,stroke-width:1px
+    classDef person fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
 
-                %% CARACTERÍSTICAS
-                SS -->|schema:featureList| F1["Calendario 12 meses"]
-                SS -->|schema:featureList| F2["Gestión de eventos"]
-                SS -->|schema:featureList| F3["Lista de tareas"]
-                SS -->|schema:featureList| F4["Seguimiento hábitos"]
-
-                %% ESTILOS
-                classDef resource fill:#e1f5fe,stroke:#01579b,stroke-width:2px
-                classDef literal fill:#fce4ec,stroke:#880e4f,stroke-width:1px
-                classDef person fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
-
-                class SS,ORG,CAT,OF,PL1,PL2,PL3,AR,CP resource
-                class P1,P2,P3,P4 person
-                class
-                N,D,V,URL,ON,PN1,PJ1,PN2,PJ2,PN3,PJ3,PN4,PJ4,PRICE,CURR,PLN1,PLN2,PLN3,RV,RC,DP,DM,CY,LIC,CT,LANG1,LANG2,F1,F2,F3,F4
-                literal
+    class SS,ORG,CAT,OF,PL1,PL2,PL3,AR,CP resource
+    class P1,P2,P3,P4 person
+    class N,D,V,URL,ON,PN1,PJ1,PN2,PJ2,PN3,PJ3,PN4,PJ4,PRICE,CURR,PLN1,PLN2,PLN3,RV,RC,DP,DM,CY,LIC,CT,LANG1,LANG2,F1,F2,F3,F4 literal
             </div>
 
             <div class="legend">
