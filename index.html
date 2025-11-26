@@ -305,6 +305,12 @@
             <p class="rdf-description">
               Esta aplicación utiliza Schema.org JSON-LD para mejorar el SEO y la indexación en motores de búsqueda.
             </p>
+            <div style="text-align: center; margin-top: 20px;">
+              <button class="btn" onclick="location.href='grafo_rdf.html'"
+                style="font-size: 1.1em; padding: 15px 30px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                🕸️ Ver Grafo RDF Interactivo
+              </button>
+            </div>
           </div>
 
           <div class="rdf-card">
@@ -403,37 +409,54 @@
 
           <div class="rdf-card">
             <div class="rdf-section">
-              <h4>Código JSON-LD Completo</h4>
+              <h4>Código RDF</h4>
               <div class="code-container">
                 <pre><code id="rdf-code">{
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  "@id": "https://schedule-smart-weld.vercel.app/#webapp",
-  "name": "Schedule Smart",
-  "url": "https://schedule-smart-weld.vercel.app",
-  "applicationCategory": "ProductivityApplication",
-  "applicationSubCategory": "Calendar & Task Management",
-  "softwareVersion": "2.0",
-  "description": "Aplicación web completa para gestionar tu productividad diaria...",
-  "featureList": [
-    "Calendario interactivo de 12 meses",
-    "Gestión de eventos y tareas",
-    "Seguimiento de hábitos con rachas",
-    "Autenticación segura con Supabase",
-    "Sincronización en la nube"
-  ],
-  "offers": {
-    "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "USD"
-  },
-  "aggregateRating": {
-    "@type": "AggregateRating",
-    "ratingValue": "4.8",
-    "ratingCount": "127"
-  },
-  "datePublished": "2025-11-10",
-  "dateModified": "2025-11-21"
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:schema="https://schema.org/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
+
+    <schema:WebApplication rdf:about="https://schedule-smart-weld.vercel.app/#webapp">
+        <schema:name>Schedule Smart</schema:name>
+        <schema:url rdf:resource="https://schedule-smart-weld.vercel.app"/>
+        <schema:applicationCategory>ProductivityApplication</schema:applicationCategory>
+        <schema:applicationSubCategory>Calendar &amp; Task Management</schema:applicationSubCategory>
+        <schema:softwareVersion>2.0</schema:softwareVersion>
+        <schema:description>Aplicación web completa para gestionar tu productividad diaria...</schema:description>
+        
+        <schema:featureList>
+            <rdf:Bag>
+                <rdf:li>Calendario interactivo de 12 meses</rdf:li>
+                <rdf:li>Gestión de eventos y tareas</rdf:li>
+                <rdf:li>Seguimiento de hábitos con rachas</rdf:li>
+                <rdf:li>Autenticación segura con Supabase</rdf:li>
+                <rdf:li>Sincronización en la nube</rdf:li>
+            </rdf:Bag>
+        </schema:featureList>
+        
+        <schema:offers>
+            <schema:Offer>
+                <schema:price>0</schema:price>
+                <schema:priceCurrency>USD</schema:priceCurrency>
+            </schema:Offer>
+        </schema:offers>
+        
+        <schema:aggregateRating>
+            <schema:AggregateRating>
+                <schema:ratingValue>4.8</schema:ratingValue>
+                <schema:ratingCount>127</schema:ratingCount>
+            </schema:AggregateRating>
+        </schema:aggregateRating>
+        
+        <schema:datePublished rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
+            >2025-11-10</schema:datePublished>
+        <schema:dateModified rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
+            >2025-11-21</schema:dateModified>
+    </schema:WebApplication>
+
+</rdf:RDF>
 }</code></pre>
                 <button class="copy-btn" id="copyRdfBtn">
                   <span class="copy-icon">📋</span> Copiar JSON-LD
