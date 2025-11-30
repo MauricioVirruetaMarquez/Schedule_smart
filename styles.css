@@ -538,6 +538,8 @@ body.dark-mode .dark-mode-icon {
   gap: 8px;
   transition: all 0.3s ease;
   cursor: pointer;
+  min-width: 0; /* Prevent grid blowout */
+  overflow: hidden; /* Ensure content stays inside */
 }
 
 .large-day-cell:hover {
