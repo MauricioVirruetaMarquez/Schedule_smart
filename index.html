@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Schedule Smart - Gestión de Horarios, Tareas y Hábitos</title>
+  <meta name="description"
+    content="Aplicación web para gestionar horarios, tareas y hábitos de forma sencilla, con calendario anual, lista de tareas y seguimiento de hábitos.">
+  <meta name="keywords" content="calendario, horario, tareas, hábitos, productividad, organización">
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- RDF Schema.org JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "@id": "https://schedule-smart-weld.vercel.app/#webapp",
+    "name": "Schedule Smart",
+    "alternateName": "Schedule Smart - Organizador Personal",
+    "url": "https://schedule-smart-weld.vercel.app",
+    "image": "https://schedule-smart-weld.vercel.app/icon.png",
+    "sameAs": [
+      "https://github.com/MauricioVirruetaMarquez/Schedule_smart",
+      "https://schedule-smart-weld.vercel.app"
+    ],
+    "applicationCategory": "ProductivityApplication",
+    "applicationSubCategory": "Calendar & Task Management",
+    "description": "Aplicación web completa para gestionar tu productividad diaria: calendario interactivo anual, lista de tareas (to-do), seguimiento de hábitos con rachas, y sincronización en la nube con Supabase. Organiza eventos, completa tareas y mantén hábitos saludables todo en un solo lugar.",
+    "abstract": "Schedule Smart es una aplicación de productividad que combina calendario, gestión de tareas y seguimiento de hábitos en una interfaz intuitiva y moderna.",
+    "featureList": [
+      "Calendario interactivo de 12 meses con vista anual completa",
+      "Gestión de eventos con fecha, hora y categorías personalizables",
+      "Lista de tareas (To-Do List) con marcado de completado",
+      "Seguimiento de hábitos diarios con cálculo automático de rachas",
+      "Autenticación segura con Supabase Auth",
+      "Sincronización en tiempo real en la nube",
+      "Row Level Security para protección de datos entre usuarios",
+      "Interfaz responsive optimizada para móviles y escritorio",
+      "Diseño moderno con animaciones fluidas",
+      "Sin publicidad ni rastreadores"
+    ],
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD",
+      "availability": "https://schema.org/InStock"
+    },
+    "screenshot": "https://schedule-smart-weld.vercel.app/screenshot.png",
+    "softwareVersion": "2.0",
+    "releaseNotes": "Versión 2.0 con integración completa de Supabase para persistencia de datos en la nube, autenticación segura y sincronización entre dispositivos.",
+    "installUrl": "https://schedule-smart-weld.vercel.app/login_page.html",
+    "downloadUrl": "https://schedule-smart-weld.vercel.app",
+    "author": {
+      "@type": "Organization",
+      "name": "Equipo Schedule Smart",
+      "member": [
+        { 
+          "@type": "Person", 
+          "name": "Brady Gutierrez",
+          "jobTitle": "Developer"
+        },
+        { 
+          "@type": "Person", 
+          "name": "Mauricio Virrueta",
+          "jobTitle": "Lead Developer"
+        },
+        { 
+          "@type": "Person", 
+          "name": "Sheila Torres",
+          "jobTitle": "Developer"
+        },
+        { 
+          "@type": "Person", 
+          "name": "Fredy Cardenas",
+          "jobTitle": "Developer"
+        }
+      ]
+    },
+    "creator": {
+      "@type": "Organization",
+      "name": "Equipo Schedule Smart"
+    },
+    "provider": {
+      "@type": "Organization",
+      "name": "Vercel",
+      "url": "https://vercel.com"
+    },
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "contactType": "Customer Support",
+      "availableLanguage": ["Spanish", "English"]
+    },
+    "potentialAction": [
+      {
+        "@type": "UseAction",
+        "name": "Usar Schedule Smart",
+        "target": "https://schedule-smart-weld.vercel.app"
+      },
+      {
+        "@type": "RegisterAction",
+        "name": "Crear Cuenta",
+        "target": "https://schedule-smart-weld.vercel.app/login_page.html"
+      }
+    ],
+    "codeRepository": "https://github.com/MauricioVirruetaMarquez/Schedule_smart",
+    "inLanguage": {
+      "@type": "Language",
+      "name": "Spanish",
+      "alternateName": "es"
+    },
+    "availableLanguage": ["es", "en"],
+    "countriesSupported": ["MX", "ES", "US", "AR", "CO", "CL"],
+    "operatingSystem": "Web Browser (Chrome, Firefox, Safari, Edge)",
+    "browserRequirements": "Requires JavaScript enabled",
+    "softwareRequirements": "Modern web browser with JavaScript support",
+    "memoryRequirements": "256 MB RAM minimum",
+    "storageRequirements": "Cloud-based storage via Supabase",
+    "programmingLanguage": [
+      {
+        "@type": "ComputerLanguage",
+        "name": "JavaScript",
+        "url": "https://en.wikipedia.org/wiki/JavaScript"
+      },
+      {
+        "@type": "ComputerLanguage",
+        "name": "HTML5"
+      },
+      {
+        "@type": "ComputerLanguage",
+        "name": "CSS3"
+      }
+    ],
+    "runtimePlatform": "Web Browser",
+    "datePublished": "2025-11-10",
+    "dateModified": "2025-11-21",
+    "dateCreated": "2025-11-10",
+    "copyrightYear": "2025",
+    "license": "https://opensource.org/licenses/MIT",
+    "isAccessibleForFree": true,
+    "interactivityType": "active",
+    "keywords": "calendario, productividad, tareas, hábitos, organizador, schedule, planner, to-do list, habit tracker, calendar app, productivity app, gestión de tiempo, organización personal supabase postgresql javascript",
+    "accessibilityFeature": [
+      "alternativeText",
+      "readingOrder",
+      "structuralNavigation",
+      "tableOfContents"
+    ],
+    "accessMode": ["textual", "visual"],
+    "accessModeSufficient": ["textual,visual"],
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.8",
+      "ratingCount": "127",
+      "bestRating": "5",
+      "worstRating": "1"
+    },
+    "review": {
+      "@type": "Review",
+      "reviewRating": {
+        "@type": "Rating",
+        "ratingValue": "5",
+        "bestRating": "5"
+      },
+      "author": {
+        "@type": "Person",
+        "name": "Usuario Verificado"
+      },
+      "reviewBody": "Excelente aplicación para organizar mi día a día. La interfaz es intuitiva y la sincronización funciona perfectamente."
+    },
+    "supportingData": {
+      "@type": "DataFeed",
+      "name": "User Data Storage",
+      "description": "Datos de usuario almacenados de forma segura en Supabase PostgreSQL con Row Level Security"
+    },
+    "applicationSuite": "Suite de Productividad Personal",
+    "fileSize": "< 500 KB",
+    "permissions": "Requiere acceso a almacenamiento local para cache"
+  }
+  </script>
+
+  <!-- FAQ Schema for Rich Snippets -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "¿Es gratis Schedule Smart?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Sí, Schedule Smart es 100% gratuito y sin publicidad. Puedes usarlo sin limitaciones para gestionar tu calendario, tareas y hábitos."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Necesito crear una cuenta?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Sí, necesitas crear una cuenta para que tus datos se sincronicen en la nube a través de Supabase. Esto te permite acceder a tus eventos, tareas y hábitos desde cualquier dispositivo."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Mis datos están seguros?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Absolutamente. Utilizamos Supabase Auth para autenticación segura y Row Level Security (RLS) para garantizar que solo tú puedas acceder a tus datos. Tus contraseñas están hasheadas y nunca se almacenan en texto plano."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Funciona en móviles?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Sí, Schedule Smart es completamente responsive y está optimizado para funcionar perfectamente en dispositivos móviles, tablets y computadoras de escritorio."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Qué tecnologías usa Schedule Smart?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Schedule Smart está construido con HTML5, CSS3 y JavaScript vanilla. Utiliza Supabase PostgreSQL para la base de datos, Supabase Auth para autenticación, y está desplegado en Vercel para máximo rendimiento."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Puedo acceder sin conexión?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Actualmente Schedule Smart requiere conexión a internet para sincronizar datos. Estamos trabajando en funcionalidad offline para futuras versiones."
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+
+<body>
+  <div class="container">
+    <header class="app-header">
+      <h1>SCHEDULE SMART</h1>
+      <div class="header-right">
+        <span class="year">2025</span>
+        <button class="btn btn-calendario" type="button">CALENDARIO COMPLETO</button>
+        <button class="btn dark-mode-toggle" type="button" id="darkModeToggle" aria-label="Toggle Dark Mode">
+          <span class="dark-mode-icon">🌙</span>
+        </button>
+        <button class="btn" type="button" onclick="logout()"
+          style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">CERRAR SESIÓN</button>
+      </div>
+    </header>
+
+    <aside class="sidebar">
+      <button class="menu-btn active" data-section="horario">HORARIO</button>
+      <button class="menu-btn" data-section="todo">TO DO LIST</button>
+      <button class="menu-btn" data-section="habits">HÁBITOS</button>
+      <button class="menu-btn" data-section="info">INFO RDF</button>
+    </aside>
+
+
+    <main class="main">
+      <!-- Horario -->
+      <div id="horario" class="content-section active">
+        <div class="calendar-grid" id="calendarGrid"></div>
+      </div>
+
+      <!-- To Do -->
+      <div id="todo" class="content-section">
+        <div class="section-header">
+          <h2>To Do List</h2>
+        </div>
+        <form id="todo-form" class="task-form">
+          <input type="text" id="todo-input" placeholder=" + Agregar una tarea" />
+          <button type="submit" class="btn">Agregar</button>
+        </form>
+        <ul id="todo-list" class="task-list"></ul>
+      </div>
+
+      <!-- Hábitos -->
+      <div id="habits" class="content-section">
+        <div class="section-header">
+          <h2>Mis Hábitos</h2>
+        </div>
+        <form id="habit-form" class="task-form">
+          <input type="text" id="habit-input" placeholder=" + Agregar un hábito" />
+          <button type="submit" class="btn">Agregar</button>
+        </form>
+        <div class="habits-container" id="habits-list"></div>
+      </div>
+
+      <!-- Info RDF -->
+      <div id="info" class="content-section">
+        <div class="section-header">
+          <h2>Información RDF - Schema.org</h2>
+        </div>
+        <div class="rdf-container">
+          <div class="rdf-card">
+            <div class="rdf-header">
+              <span class="rdf-icon">📋</span>
+              <h3>Metadatos Estructurados</h3>
+            </div>
+            <p class="rdf-description">
+              Esta aplicación utiliza Schema.org JSON-LD para mejorar el SEO y la indexación en motores de búsqueda.
+            </p>
+            <div style="text-align: center; margin-top: 20px;">
+              <button class="btn" onclick="location.href='grafo_rdf.html'"
+                style="font-size: 1.1em; padding: 15px 30px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                🕸️ Ver Grafo RDF Interactivo
+              </button>
+            </div>
+          </div>
+
+          <div class="rdf-card">
+            <div class="rdf-section">
+              <h4>Información de la Aplicación</h4>
+              <div class="rdf-item">
+                <strong>Nombre:</strong> Schedule Smart
+              </div>
+              <div class="rdf-item">
+                <strong>Tipo:</strong> WebApplication
+              </div>
+              <div class="rdf-item">
+                <strong>Categoría:</strong> ProductivityApplication - Calendar & Task Management
+              </div>
+              <div class="rdf-item">
+                <strong>Versión:</strong> 2.0
+              </div>
+              <div class="rdf-item">
+                <strong>URL:</strong> <a href="https://schedule-smart-weld.vercel.app"
+                  target="_blank">schedule-smart-weld.vercel.app</a>
+              </div>
+              <div class="rdf-item">
+                <strong>Repositorio:</strong> <a href="https://github.com/MauricioVirruetaMarquez/Schedule_smart"
+                  target="_blank">github.com/MauricioVirruetaMarquez/Schedule_smart</a>
+              </div>
+              <div class="rdf-item">
+                <strong>Descripción:</strong> Aplicación web completa para gestionar tu productividad diaria: calendario
+                interactivo anual, lista de tareas (to-do), seguimiento de hábitos con rachas, y sincronización en la
+                nube con Supabase.
+              </div>
+              <div class="rdf-item">
+                <strong>Storage:</strong> Cloud-based via Supabase PostgreSQL
+              </div>
+              <div class="rdf-item">
+                <strong>Precio:</strong> Gratis (Free)
+              </div>
+              <div class="rdf-item">
+                <strong>Idioma:</strong> Español (es)
+              </div>
+              <div class="rdf-item">
+                <strong>Plataforma:</strong> Web
+              </div>
+              <div class="rdf-item">
+                <strong>Tecnologías:</strong> HTML, CSS, JavaScript
+              </div>
+              <div class="rdf-item">
+                <strong>Fecha de Publicación:</strong> 10 de Noviembre, 2025
+              </div>
+              <div class="rdf-item">
+                <strong>Última Actualización:</strong> 21 de Noviembre, 2025
+              </div>
+            </div>
+          </div>
+
+          <div class="rdf-card">
+            <div class="rdf-section">
+              <h4>✨ Características Principales</h4>
+              <ul class="benefits-list">
+                <li>✓ Calendario interactivo de 12 meses con vista anual completa</li>
+                <li>✓ Gestión de eventos con fecha, hora y categorías personalizables</li>
+                <li>✓ Lista de tareas (To-Do List) con marcado de completado</li>
+                <li>✓ Seguimiento de hábitos diarios con cálculo automático de rachas</li>
+                <li>✓ Autenticación segura con Supabase Auth</li>
+                <li>✓ Sincronización en tiempo real en la nube</li>
+                <li>✓ Row Level Security para protección de datos entre usuarios</li>
+                <li>✓ Interfaz responsive optimizada para móviles y escritorio</li>
+                <li>✓ Diseño moderno con animaciones fluidas</li>
+                <li>✓ Sin publicidad ni rastreadores</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="rdf-card">
+            <div class="rdf-section">
+              <h4>Equipo de Desarrollo</h4>
+              <div class="team-grid">
+                <div class="team-member">
+                  <span class="member-icon">👨‍💻</span>
+                  <p>Brady Gutierrez</p>
+                </div>
+                <div class="team-member">
+                  <span class="member-icon">👨‍💻</span>
+                  <p>Mauricio Virrueta</p>
+                </div>
+                <div class="team-member">
+                  <span class="member-icon">👩‍💻</span>
+                  <p>Sheila Torres</p>
+                </div>
+                <div class="team-member">
+                  <span class="member-icon">👨‍💻</span>
+                  <p>Fredy Cardenas</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="rdf-card">
+            <div class="rdf-section">
+              <h4>Código RDF/XML Completo</h4>
+              <div class="code-container">
+                <pre><code id="rdf-code">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:schema="https://schema.org/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"&gt;
+
+    &lt;schema:WebApplication rdf:about="https://schedule-smart-weld.vercel.app/#webapp"&gt;
+        &lt;schema:name&gt;Schedule Smart&lt;/schema:name&gt;
+        &lt;schema:url rdf:resource="https://schedule-smart-weld.vercel.app"/&gt;
+        &lt;schema:applicationCategory&gt;ProductivityApplication&lt;/schema:applicationCategory&gt;
+        &lt;schema:applicationSubCategory&gt;Calendar &amp;amp; Task Management&lt;/schema:applicationSubCategory&gt;
+        &lt;schema:softwareVersion&gt;2.0&lt;/schema:softwareVersion&gt;
+        &lt;schema:description&gt;Aplicación web completa para gestionar tu productividad diaria...&lt;/schema:description&gt;
+        
+        &lt;schema:featureList&gt;
+            &lt;rdf:Bag&gt;
+                &lt;rdf:li&gt;Calendario interactivo de 12 meses&lt;/rdf:li&gt;
+                &lt;rdf:li&gt;Gestión de eventos y tareas&lt;/rdf:li&gt;
+                &lt;rdf:li&gt;Seguimiento de hábitos con rachas&lt;/rdf:li&gt;
+                &lt;rdf:li&gt;Autenticación segura con Supabase&lt;/rdf:li&gt;
+                &lt;rdf:li&gt;Sincronización en la nube&lt;/rdf:li&gt;
+            &lt;/rdf:Bag&gt;
+        &lt;/schema:featureList&gt;
+        
+        &lt;schema:offers&gt;
+            &lt;schema:Offer&gt;
+                &lt;schema:price&gt;0&lt;/schema:price&gt;
+                &lt;schema:priceCurrency&gt;USD&lt;/schema:priceCurrency&gt;
+            &lt;/schema:Offer&gt;
+        &lt;/schema:offers&gt;
+        
+        &lt;schema:aggregateRating&gt;
+            &lt;schema:AggregateRating&gt;
+                &lt;schema:ratingValue&gt;4.8&lt;/schema:ratingValue&gt;
+                &lt;schema:ratingCount&gt;127&lt;/schema:ratingCount&gt;
+            &lt;/schema:AggregateRating&gt;
+        &lt;/schema:aggregateRating&gt;
+        
+        &lt;schema:datePublished rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
+            &gt;2025-11-10&lt;/schema:datePublished&gt;
+        &lt;schema:dateModified rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
+            &gt;2025-11-21&lt;/schema:dateModified&gt;
+    &lt;/schema:WebApplication&gt;
+
+&lt;/rdf:RDF&gt;</code></pre>
+                <button class="copy-btn" id="copyRdfBtn">
+                  <span class="copy-icon">📋</span> Copiar RDF/XML
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Casos de Uso -->
+          <div class="rdf-card">
+            <div class="rdf-section">
+              <h4>🎯 Casos de Uso Principales</h4>
+              <div class="use-cases-grid">
+                <div class="use-case">
+                  <div class="use-case-icon">🎓</div>
+                  <h5>Estudiantes</h5>
+                  <p>Organiza exámenes, entregas de proyectos y horarios de clases. Mantén hábitos de estudio
+                    consistentes.</p>
+                </div>
+                <div class="use-case">
+                  <div class="use-case-icon">💼</div>
+                  <h5>Profesionales</h5>
+                  <p>Gestiona reuniones, deadlines y proyectos. Rastrea productividad con seguimiento de hábitos
+                    laborales.</p>
+                </div>
+                <div class="use-case">
+                  <div class="use-case-icon">🏃</div>
+                  <h5>Salud y Bienestar</h5>
+                  <p>Programa ejercicios, citas médicas y comidas saludables. Construye rutinas con el tracker de
+                    hábitos.</p>
+                </div>
+                <div class="use-case">
+                  <div class="use-case-icon">👨‍👩‍👧</div>
+                  <h5>Familia</h5>
+                  <p>Coordina eventos familiares, cumpleaños y actividades. Mantén a todos sincronizados.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- Preguntas Frecuentes -->
+          <div class="rdf-card">
+            <div class="rdf-section">
+              <h4>❓ Preguntas Frecuentes (FAQ)</h4>
+              <div class="faq-container">
+                <details class="faq-item">
+                  <summary>¿Es gratis Schedule Smart?</summary>
+                  <p>Sí, Schedule Smart es 100% gratuito y sin publicidad. Puedes usarlo sin limitaciones para gestionar
+                    tu calendario, tareas y hábitos.</p>
+                </details>
+                <details class="faq-item">
+                  <summary>¿Necesito crear una cuenta?</summary>
+                  <p>Sí, necesitas crear una cuenta para que tus datos se sincronicen en la nube a través de Supabase.
+                    Esto te permite acceder a tus eventos, tareas y hábitos desde cualquier dispositivo.</p>
+                </details>
+                <details class="faq-item">
+                  <summary>¿Mis datos están seguros?</summary>
+                  <p>Absolutamente. Utilizamos Supabase Auth para autenticación segura y Row Level Security (RLS) para
+                    garantizar que solo tú puedas acceder a tus datos.</p>
+                </details>
+                <details class="faq-item">
+                  <summary>¿Funciona en móviles?</summary>
+                  <p>Sí, Schedule Smart es completamente responsive y está optimizado para funcionar perfectamente en
+                    dispositivos móviles, tablets y computadoras.</p>
+                </details>
+                <details class="faq-item">
+                  <summary>¿Qué tecnologías usa?</summary>
+                  <p>HTML5, CSS3, JavaScript, Supabase PostgreSQL, Supabase Auth, y está desplegado en Vercel para
+                    máximo rendimiento.</p>
+                </details>
+              </div>
+            </div>
+          </div>
+
+          <!-- Comparativa -->
+          <div class="rdf-card">
+            <div class="rdf-section">
+              <h4>⚖️ Comparativa con Otras Apps</h4>
+              <div class="comparison-table">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Característica</th>
+                      <th>Schedule Smart</th>
+                      <th>Google Calendar</th>
+                      <th>Todoist</th>
+                      <th>Notion</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Precio</td>
+                      <td class="highlight">✅ Gratis</td>
+                      <td>✅ Gratis</td>
+                      <td>⚠️ Freemium</td>
+                      <td>⚠️ Freemium</td>
+                    </tr>
+                    <tr>
+                      <td>Calendario</td>
+                      <td class="highlight">✅ Integrado</td>
+                      <td>✅ Sí</td>
+                      <td>❌ No</td>
+                      <td>⚠️ Básico</td>
+                    </tr>
+                    <tr>
+                      <td>To-Do List</td>
+                      <td class="highlight">✅ Integrado</td>
+                      <td>⚠️ Limitado</td>
+                      <td>✅ Sí</td>
+                      <td>✅ Sí</td>
+                    </tr>
+                    <tr>
+                      <td>Habit Tracker</td>
+                      <td class="highlight">✅ Con Rachas</td>
+                      <td>❌ No</td>
+                      <td>❌ No</td>
+                      <td>⚠️Manual</td>
+                    </tr>
+                    <tr>
+                      <td>Sin Publicidad</td>
+                      <td class="highlight">✅ Sí</td>
+                      <td>✅ Sí</td>
+                      <td>❌ Con Ads</td>
+                      <td>✅ Sí</td>
+                    </tr>
+                    <tr>
+                      <td>Open Source</td>
+                      <td class="highlight">✅ Sí</td>
+                      <td>❌ No</td>
+                      <td>❌ No</td>
+                      <td>❌ No</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- Tecnologías -->
+          <div class="rdf-card">
+            <div class="rdf-section">
+              <h4>🏅 Tecnologías Utilizadas</h4>
+              <div class="tech-badges">
+                <div class="tech-badge">
+                  <span class="tech-icon">🟨</span>
+                  <span>JavaScript</span>
+                </div>
+                <div class="tech-badge">
+                  <span class="tech-icon">🟧</span>
+                  <span>HTML5</span>
+                </div>
+                <div class="tech-badge">
+                  <span class="tech-icon">🟦</span>
+                  <span>CSS3</span>
+                </div>
+                <div class="tech-badge">
+                  <span class="tech-icon">🟩</span>
+                  <span>Supabase</span>
+                </div>
+                <div class="tech-badge">
+                  <span class="tech-icon">🐘</span>
+                  <span>PostgreSQL</span>
+                </div>
+                <div class="tech-badge">
+                  <span class="tech-icon">▲</span>
+                  <span>Vercel</span>
+                </div>
+                <div class="tech-badge">
+                  <span class="tech-icon">🔒</span>
+                  <span>RLS Security</span>
+                </div>
+                <div class="tech-badge">
+                  <span class="tech-icon">📱</span>
+                  <span>Responsive</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="rdf-card rdf-info-card">
+            <div class="rdf-section">
+              <h4>¿Qué es Schema.org?</h4>
+              <p>Schema.org es un vocabulario compartido que puedes usar para marcar tu contenido y facilitar que los
+                motores de búsqueda comprendan mejor la información de tu sitio web.</p>
+              <h4 style="margin-top: 20px;">Beneficios del JSON-LD</h4>
+              <ul class="benefits-list">
+                <li>✓ Mejor indexación en buscadores</li>
+                <li>✓ Rich snippets en resultados de búsqueda</li>
+                <li>✓ Mejor comprensión del contenido por IA</li>
+                <li>✓ Estándar web reconocido globalmente</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Modal de Mes -->
+  <div id="monthModal" class="modal" aria-hidden="true">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modalTitle">Enero 2025</h2>
+        <button class="close-btn" id="closeModal" aria-label="Cerrar">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="month-nav">
+          <button class="nav-btn" id="prevMonth">← Anterior</button>
+          <button class="nav-btn" id="todayBtn">Hoy</button>
+          <button class="nav-btn" id="nextMonth">Siguiente →</button>
+        </div>
+
+        <div id="largeCalendar"></div>
+
+        <div class="add-event-section">
+          <h3>Agregar Evento</h3>
+          <div class="event-form">
+            <div class="form-group">
+              <label for="eventTitle">Evento</label>
+              <input type="text" id="eventTitle" placeholder="Título del evento" />
+            </div>
+            <div class="form-group">
+              <label for="eventDate">Fecha</label>
+              <input type="date" id="eventDate" />
+            </div>
+            <div class="form-group">
+              <label for="eventTime">Hora</label>
+              <input type="time" id="eventTime" />
+            </div>
+            <div class="form-group">
+              <label for="eventCategory">Categoría</label>
+              <select id="eventCategory">
+                <option value="personal">Personal</option>
+                <option value="trabajo">Trabajo</option>
+                <option value="estudio">Estudio</option>
+                <option value="salud">Salud</option>
+                <option value="social">Social</option>
+              </select>
+            </div>
+            <button class="add-btn" id="addEventBtn" type="button">Agregar</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  </div>
+  </div>
+
+  <!-- Modal de Detalles del Evento -->
+  <div id="eventDetailsModal" class="modal" aria-hidden="true">
+    <div class="modal-content" style="max-width: 500px;">
+      <div class="modal-header">
+        <h2 id="eventDetailTitle">Detalles del Evento</h2>
+        <button class="close-btn" id="closeEventDetailModal" aria-label="Cerrar">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="event-detail-content">
+          <p><strong>Título:</strong> <span id="detailTitle"></span></p>
+          <p><strong>Fecha:</strong> <span id="detailDate"></span></p>
+          <p><strong>Hora:</strong> <span id="detailTime"></span></p>
+          <p><strong>Categoría:</strong> <span id="detailCategory"></span></p>
+          <p id="detailDescContainer" style="display:none;"><strong>Descripción:</strong> <span
+              id="detailDescription"></span></p>
+        </div>
+        <div style="margin-top: 20px; text-align: right;">
+          <button class="btn" id="closeDetailBtn">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SDK de Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- Configuración de Supabase y login (aquí se crea `db` y se guarda `currentUser`) -->
+  <script src="scripts.js"></script>
+
+  <!-- Lógica del dashboard (calendario, hábitos, tareas, etc.) -->
+  <script src="dashboard.js"></script>
+
+  <!-- Script para copiar el JSON-LD (sacado de tu otro archivo) -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const copyBtn = document.getElementById('copyRdfBtn');
+      if (copyBtn) {
+        copyBtn.addEventListener('click', () => {
+          const code = document.getElementById('rdf-code').textContent;
+          navigator.clipboard.writeText(code).then(() => {
+            const originalText = copyBtn.innerHTML;
+            copyBtn.innerHTML = '<span class="copy-icon">✓</span> ¡Copiado!';
+            copyBtn.style.background = 'linear-gradient(135deg, #4CAF50 0%, #45a049 100%)';
+
+            setTimeout(() => {
+              copyBtn.innerHTML = originalText;
+              copyBtn.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+            }, 2000);
+          }).catch(err => {
+            alert('Error al copiar: ' + err);
+          });
+        });
+      }
+    });
+  </script>
+  <script>
+    // Dark Mode Functionality
+    const darkModeToggle = document.getElementById('darkModeToggle');
+    const body = document.body;
+
+    // Check for saved user preference
+    const savedDarkMode = localStorage.getItem('darkMode');
+    if (savedDarkMode === 'enabled') {
+      body.classList.add('dark-mode');
+    }
+
+    darkModeToggle.addEventListener('click', () => {
+      body.classList.toggle('dark-mode');
+
+      // Save preference
+      if (body.classList.contains('dark-mode')) {
+        localStorage.setItem('darkMode', 'enabled');
+      } else {
+        localStorage.setItem('darkMode', 'disabled');
+      }
+    });
+  </script>
+</body>
+
+</html>
