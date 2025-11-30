@@ -538,8 +538,10 @@ body.dark-mode .dark-mode-icon {
   gap: 8px;
   transition: all 0.3s ease;
   cursor: pointer;
-  min-width: 0; /* Prevent grid blowout */
-  overflow: hidden; /* Ensure content stays inside */
+  min-width: 0;
+  /* Prevent grid blowout */
+  overflow: hidden;
+  /* Ensure content stays inside */
 }
 
 .large-day-cell:hover {
@@ -2585,4 +2587,18 @@ select:focus-visible {
   body {
     background: white;
   }
+}
+
+/* ===== Event Details Modal ===== */
+.event-detail-content p {
+  font-size: 16px;
+  margin-bottom: 12px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+.event-detail-content strong {
+  color: #667eea;
+  font-weight: 700;
+  margin-right: 8px;
 }
