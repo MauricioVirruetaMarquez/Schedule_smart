@@ -4,7 +4,14 @@ const { createClient } = supabase;
 const SUPABASE_URL = 'https://zfwrnlzzbeklomfekmpd.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpmd3JubHp6YmVrbG9tZmVrbXBkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM2OTI1NzYsImV4cCI6MjA3OTI2ODU3Nn0.Bbuxa89AMdqU4yjWQPq0LFWnV07iqlHf3zeaTPKWOH8';
 
-const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+  auth: {
+    storage: localStorage,
+    autoRefreshToken: true,
+    persistSession: true,
+    detectSessionInUrl: true
+  }
+});
 
 // === VERIFICAR SESIÓN AL CARGAR ===
 // Si estamos en index.html, verificar que el usuario esté autenticado
@@ -21,7 +28,7 @@ if (window.location.pathname.includes('index.html')) {
 const signupForm = document.getElementById('signupForm');
 const signupError = document.getElementById('signupError');
 
-if (signupForm) {   
+if (signupForm) {
   signupForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -53,7 +60,7 @@ if (signupForm) {
     alert('✅ Usuario registrado correctamente. Por favor, inicia sesión.');
     signupForm.reset();
     signupError.classList.add('hidden');
-    
+
     // Cambiar a pestaña de login
     document.querySelector('[data-tab="login"]')?.click();
   });
@@ -63,7 +70,7 @@ if (signupForm) {
 const loginForm = document.getElementById('loginForm');
 const loginError = document.getElementById('loginError');
 
-if (loginForm) {  
+if (loginForm) {
   loginForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
