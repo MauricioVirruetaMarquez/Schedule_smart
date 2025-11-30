@@ -703,6 +703,31 @@
       </div>
     </div>
   </div>
+  </div>
+  </div>
+
+  <!-- Modal de Detalles del Evento -->
+  <div id="eventDetailsModal" class="modal" aria-hidden="true">
+    <div class="modal-content" style="max-width: 500px;">
+      <div class="modal-header">
+        <h2 id="eventDetailTitle">Detalles del Evento</h2>
+        <button class="close-btn" id="closeEventDetailModal" aria-label="Cerrar">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="event-detail-content">
+          <p><strong>Título:</strong> <span id="detailTitle"></span></p>
+          <p><strong>Fecha:</strong> <span id="detailDate"></span></p>
+          <p><strong>Hora:</strong> <span id="detailTime"></span></p>
+          <p><strong>Categoría:</strong> <span id="detailCategory"></span></p>
+          <p id="detailDescContainer" style="display:none;"><strong>Descripción:</strong> <span
+              id="detailDescription"></span></p>
+        </div>
+        <div style="margin-top: 20px; text-align: right;">
+          <button class="btn" id="closeDetailBtn">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- SDK de Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
