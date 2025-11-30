@@ -2872,3 +2872,120 @@ select:focus-visible {
 .event-detail-content { font-size: 1.1em; line-height: 1.6; }
 .event-detail-content p { margin-bottom: 12px; color: var(--text-primary); }
 .event-detail-content strong { color: var(--primary-color); margin-right: 8px; }
+
+/* ===== Premium Event Form Styles ===== */
+.form-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.form-group.half {
+    flex: 1;
+}
+
+.event-form input,
+.event-form select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    background: #f8fafc;
+    color: var(--text-primary);
+}
+
+.event-form input:focus,
+.event-form select:focus {
+    border-color: var(--primary-color);
+    background: white;
+    box-shadow: 0 0 0 4px rgba(79, 172, 254, 0.1);
+    outline: none;
+}
+
+.event-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    font-size: 0.9em;
+}
+
+/* ===== Premium Event Details Modal ===== */
+.event-detail-content {
+    padding: 10px 0;
+}
+
+.detail-title {
+    font-size: 1.8em;
+    font-weight: 800;
+    margin-bottom: 5px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.detail-date {
+    color: var(--text-tertiary);
+    font-size: 1.1em;
+    margin-bottom: 25px;
+    font-weight: 500;
+}
+
+.detail-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    padding: 12px;
+    background: var(--bg-secondary);
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+}
+
+.detail-row .icon {
+    font-size: 1.4em;
+}
+
+.detail-row span {
+    font-size: 1.1em;
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.edit-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+}
+
+.edit-input {
+    padding: 8px 12px;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1em;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    width: auto;
+    flex: 1;
+}
+
+.modal-footer {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+.btn-danger {
+    background: #ff4757;
+    color: white;
+}
+
+.btn-danger:hover {
+    background: #ff6b81;
+}
