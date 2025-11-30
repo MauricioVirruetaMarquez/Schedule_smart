@@ -726,68 +726,22 @@
               <input type="time" id="eventTime" />
             </div>
             <div class="form-group">
-              <label for="eventCategory">Categoría</label>
-              <select id="eventCategory">
-                <option value="personal">Personal</option>
-                <option value="trabajo">Trabajo</option>
-                <option value="estudio">Estudio</option>
-                <option value="salud">Salud</option>
-                <option value="social">Social</option>
-              </select>
-            </div>
-            <button class="add-btn" id="addEventBtn" type="button">Agregar</button>
-          </div>
-        </div>
-        <script src="scripts.js"></script>
+              const savedDarkMode = localStorage.getItem('darkMode');
+              if (savedDarkMode === 'enabled') {
+              body.classList.add('dark-mode');
+              }
 
-        <!-- Lógica del dashboard (calendario, hábitos, tareas, etc.) -->
-        <script src="dashboard.js"></script>
+              darkModeToggle.addEventListener('click', () => {
+              body.classList.toggle('dark-mode');
 
-        <!-- Script para copiar el JSON-LD (sacado de tu otro archivo) -->
-        <script>
-          document.addEventListener('DOMContentLoaded', () => {
-            const copyBtn = document.getElementById('copyRdfBtn');
-            if (copyBtn) {
-              copyBtn.addEventListener('click', () => {
-                const code = document.getElementById('rdf-code').textContent;
-                navigator.clipboard.writeText(code).then(() => {
-                  const originalText = copyBtn.innerHTML;
-                  copyBtn.innerHTML = '<span class="copy-icon">✓</span> ¡Copiado!';
-                  copyBtn.style.background = 'linear-gradient(135deg, #4CAF50 0%, #45a049 100%)';
-
-                  setTimeout(() => {
-                    copyBtn.innerHTML = originalText;
-                    copyBtn.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
-                  }, 2000);
-                }).catch(err => {
-                  alert('Error al copiar: ' + err);
-                });
-              });
-            }
-          });
-        </script>
-        <script>
-          // Dark Mode Functionality
-          const darkModeToggle = document.getElementById('darkModeToggle');
-          const body = document.body;
-
-          // Check for saved user preference
-          const savedDarkMode = localStorage.getItem('darkMode');
-          if (savedDarkMode === 'enabled') {
-            body.classList.add('dark-mode');
-          }
-
-          darkModeToggle.addEventListener('click', () => {
-            body.classList.toggle('dark-mode');
-
-            // Save preference
-            if (body.classList.contains('dark-mode')) {
+              // Save preference
+              if (body.classList.contains('dark-mode')) {
               localStorage.setItem('darkMode', 'enabled');
-            } else {
+              } else {
               localStorage.setItem('darkMode', 'disabled');
-            }
-          });
-        </script>
+              }
+              });
+              </script>
 </body>
 
 </html>
