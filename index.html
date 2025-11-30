@@ -766,6 +766,181 @@
                   <option value="personal">Personal</option>
                   <option value="trabajo">Trabajo</option>
                   <option value="estudio">Estudio</option>
+
+                  <option value="salud">Salud</option>
+
+                  <option value="social">Social</option>
+
+                </select>
+
+              </div>
+
+
+
+              <div class="detail-actions">
+
+                <button class="btn-edit" id="editEventBtn">Editar</button>
+
+                <button class="btn-save" id="saveEventBtn" style="display:none;">Guardar Cambios</button>
+
+                <button class="btn-delete" id="deleteEventBtn">Eliminar</button>
+
+                <button class="btn-close" id="closeDetailBtn">Cerrar</button>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+
+
+  <!-- Modal del Calendario Grande -->
+
+  <div id="monthModal" class="modal" aria-hidden="true">
+
+    <div class="modal-content">
+
+      <div class="modal-header">
+
+        <h2 id="modalTitle">Mes</h2>
+
+        <button class="close-btn" id="closeModal" aria-label="Cerrar">&times;</button>
+
+      </div>
+
+      <div class="modal-body">
+
+        <div class="month-nav">
+
+          <button class="nav-btn" id="prevMonth">← Anterior</button>
+
+          <button class="nav-btn" id="todayBtn">Hoy</button>
+
+          <button class="nav-btn" id="nextMonth">Siguiente →</button>
+
+        </div>
+
+
+
+        <div id="largeCalendar"></div>
+
+
+
+        <div class="add-event-section">
+
+          <h3>Agregar Evento</h3>
+
+          <div class="event-form">
+
+            <div class="form-group">
+
+              <label for="eventTitle">Título</label>
+
+              <input type="text" id="eventTitle" placeholder="Ej: Reunión de equipo" />
+
+            </div>
+
+            <div class="form-group">
+
+              <label for="eventDate">Fecha</label>
+
+              <input type="date" id="eventDate" />
+
+            </div>
+
+            <div class="form-row">
+
+              <div class="form-group half">
+
+                <label for="eventTime">Hora Inicio</label>
+
+                <input type="time" id="eventTime" />
+
+              </div>
+
+              <div class="form-group half">
+
+                <label for="eventEndTime">Hora Fin</label>
+
+                <input type="time" id="eventEndTime" />
+
+              </div>
+
+            </div>
+
+            <div class="form-group">
+
+              <label for="eventCategory">Categoría</label>
+
+              <select id="eventCategory">
+
+                <option value="personal">Personal</option>
+
+                <option value="trabajo">Trabajo</option>
+
+                <option value="estudio">Estudio</option>
+
+                <option value="salud">Salud</option>
+
+                <option value="social">Social</option>
+
+              </select>
+
+            </div>
+
+            <button class="add-btn" id="addEventBtn" type="button">Guardar Evento</button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+      <!-- Modal de Detalles del Evento -->
+      <div id="eventDetailsModal" class="modal" aria-hidden="true">
+        <div class="modal-content" style="max-width: 500px;">
+          <div class="modal-header">
+            <h2 id="eventDetailTitle">Detalles</h2>
+            <button class="close-btn" id="closeEventDetailModal" aria-label="Cerrar">&times;</button>
+          </div>
+          <div class="modal-body">
+            <div class="event-detail-content">
+              <h3 id="detailTitle" class="detail-title"></h3>
+              <p class="detail-date"><span id="detailDate"></span></p>
+
+              <div class="detail-row">
+                <span class="icon">⏰</span>
+                <span id="detailTime"></span>
+                <span id="detailEndTime"></span>
+                <div class="edit-group" style="display:none;">
+                  <input type="time" id="editTimeInput" class="edit-input">
+                  <span> a </span>
+                  <input type="time" id="editEndTimeInput" class="edit-input">
+                </div>
+              </div>
+
+              <div class="detail-row">
+                <span class="icon">🏷️</span>
+                <span id="detailCategory"></span>
+                <select id="editCategoryInput" style="display:none;" class="edit-input">
+                  <option value="personal">Personal</option>
+                  <option value="trabajo">Trabajo</option>
+                  <option value="estudio">Estudio</option>
                   <option value="salud">Salud</option>
                   <option value="social">Social</option>
                 </select>
@@ -777,51 +952,38 @@
                 <button class="btn-delete" id="deleteEventBtn">Eliminar</button>
                 <button class="btn-close" id="closeDetailBtn">Cerrar</button>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-  </div>
-  </main>
+              document.addEventListener('DOMContentLoaded', () => {
+              const copyBtn = document.getElementById('copyRdfBtn');
+              if (copyBtn) {
+              copyBtn.addEventListener('click', () => {
+              const code = document.getElementById('rdf-code').textContent;
+              navigator.clipboard.writeText(code).then(() => {
+              const originalText = copyBtn.innerHTML;
+              copyBtn.innerHTML = '<span class="copy-icon">✓</span> ¡Copiado!';
+              copyBtn.style.background = 'linear-gradient(135deg, #4CAF50 0%, #45a049 100%)';
 
-  <!-- SDK de Supabase -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="scripts.js"></script>
-  <script src="dashboard.js"></script>
-  <script>
-    // Copy RDF Script
-    document.addEventListener('DOMContentLoaded', () => {
-      const copyBtn = document.getElementById('copyRdfBtn');
-      if (copyBtn) {
-        copyBtn.addEventListener('click', () => {
-          const code = document.getElementById('rdf-code').textContent;
-          navigator.clipboard.writeText(code).then(() => {
-            const originalText = copyBtn.innerHTML;
-            copyBtn.innerHTML = '<span class="copy-icon">✓</span> ¡Copiado!';
-            copyBtn.style.background = 'linear-gradient(135deg, #4CAF50 0%, #45a049 100%)';
-
-            setTimeout(() => {
+              setTimeout(() => {
               copyBtn.innerHTML = originalText;
               copyBtn.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
-            }, 2000);
-          });
-        });
-      }
+              }, 2000);
+              });
+              });
+              }
 
-      // Dark Mode
-      const darkModeToggle = document.getElementById('darkModeToggle');
-      const body = document.body;
-      const savedDarkMode = localStorage.getItem('darkMode');
-      if (savedDarkMode === 'enabled') body.classList.add('dark-mode');
+              // Dark Mode
+              const darkModeToggle = document.getElementById('darkModeToggle');
+              const body = document.body;
+              const savedDarkMode = localStorage.getItem('darkMode');
+              if (savedDarkMode === 'enabled') body.classList.add('dark-mode');
 
-      if (darkModeToggle) {
-        darkModeToggle.addEventListener('click', () => {
-          body.classList.toggle('dark-mode');
-          localStorage.setItem('darkMode', body.classList.contains('dark-mode') ? 'enabled' : 'disabled');
-        });
-      }
-    });
-  </script>
+              if (darkModeToggle) {
+              darkModeToggle.addEventListener('click', () => {
+              body.classList.toggle('dark-mode');
+              localStorage.setItem('darkMode', body.classList.contains('dark-mode') ? 'enabled' : 'disabled');
+              });
+              }
+              });
+              </script>
 </body>
 
 </html>
