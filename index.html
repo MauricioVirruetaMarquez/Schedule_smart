@@ -689,341 +689,321 @@
               </ul>
             </div>
           </div>
-        </div>
-      </div>
-    </main>
-  </div>
-
-  <!-- Modal de Mes -->
-  <div id="monthModal" class="modal" aria-hidden="true">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2 id="modalTitle">Enero 2025</h2>
-        <button class="close-btn" id="closeModal" aria-label="Cerrar">&times;</button>
-      </div>
-      <div class="modal-body">
-        <div class="month-nav">
-          <button class="nav-btn" id="prevMonth">← Anterior</button>
-          <button class="nav-btn" id="todayBtn">Hoy</button>
-          <button class="nav-btn" id="nextMonth">Siguiente →</button>
-        </div>
-
-        <div id="largeCalendar"></div>
-
-        <div class="add-event-section">
-          <h3>Agregar Evento</h3>
-          <div class="event-form">
-            <div class="form-group">
-              <label for="eventTitle">Evento</label>
-              <input type="text" id="eventTitle" placeholder="Título del evento" />
+          <div class="modal-body">
+            <div class="month-nav">
+              <button class="nav-btn" id="prevMonth">← Anterior</button>
+              <button class="nav-btn" id="todayBtn">Hoy</button>
+              <button class="nav-btn" id="nextMonth">Siguiente →</button>
             </div>
-            <div class="form-group">
-              <label for="eventDate">Fecha</label>
-              <input type="date" id="eventDate" />
-              <div class="use-case">
-                <div class="use-case-icon">👨‍👩‍👧</div>
-                <h5>Familia</h5>
-                <p>Coordina eventos familiares, cumpleaños y actividades. Mantén a todos sincronizados.</p>
+
+            <div id="largeCalendar"></div>
+
+            <div class="add-event-section">
+              <h3>Agregar Evento</h3>
+              <div class="event-form">
+                <div class="form-group">
+                  <label for="eventTitle">Título</label>
+                  <input type="text" id="eventTitle" placeholder="Ej: Reunión de equipo" />
+                </div>
+                <div class="form-group">
+                  <label for="eventDate">Fecha</label>
+                  <input type="date" id="eventDate" />
+                </div>
+                <div class="form-row">
+                  <div class="form-group half">
+                    <label for="eventTime">Hora Inicio</label>
+                    <input type="time" id="eventTime" />
+                  </div>
+                  <div class="form-group half">
+                    <label for="eventEndTime">Hora Fin</label>
+                    <input type="time" id="eventEndTime" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="eventCategory">Categoría</label>
+                  <select id="eventCategory">
+                    <option value="personal">Personal</option>
+                    <option value="trabajo">Trabajo</option>
+                    <option value="estudio">Estudio</option>
+                    <option value="salud">Salud</option>
+                    <option value="social">Social</option>
+                  </select>
+                </div>
+                <button class="add-btn" id="addEventBtn" type="button">Guardar Evento</button>
               </div>
             </div>
-            ```html
           </div>
         </div>
       </div>
-    </div>
-    </main>
-  </div>
 
-  <!-- Sections that were incorrectly inside the modal -->
-  <div class="rdf-card">
-    <div class="rdf-section">
-      <h4>❓ Preguntas Frecuentes (FAQ)</h4>
-      <div class="faq-container">
-        <details class="faq-item">
-          <summary>¿Es gratis Schedule Smart?</summary>
-          <p>Sí, Schedule Smart es 100% gratuito y sin publicidad.</p>
-        </details>
-        <details class="faq-item">
-          <summary>¿Necesito crear una cuenta?</summary>
-          <p>Sí, necesitas crear una cuenta para que tus datos se sincronicen en la nube.</p>
-        </details>
-        <details class="faq-item">
-          <summary>¿Mis datos están seguros?</summary>
-          <p>Absolutamente. Utilizamos Supabase Auth y RLS.</p>
-        </details>
-        <details class="faq-item">
-          <summary>¿Funciona en móviles?</summary>
-          <p>Sí, Schedule Smart es completamente responsive y está optimizado para funcionar perfectamente en
-            dispositivos móviles, tablets y computadoras.</p>
-        </details>
-        <details class="faq-item">
-          <summary>¿Qué tecnologías usa?</summary>
-          <p>HTML5, CSS3, JavaScript, Supabase PostgreSQL, Supabase Auth, y está desplegado en Vercel para
-            máximo rendimiento.</p>
-        </details>
-      </div>
-    </div>
-  </div>
+      <!-- Modal de Detalles del Evento -->
+      <div id="eventDetailsModal" class="modal" aria-hidden="true">
+        <div class="modal-content" style="max-width: 500px;">
+          <div class="modal-header">
+            <h2 id="eventDetailTitle">Detalles</h2>
+            <button class="close-btn" id="closeEventDetailModal" aria-label="Cerrar">&times;</button>
+          </div>
+          <div class="modal-body">
+            <div class="event-detail-content">
+              <h3 id="detailTitle" class="detail-title"></h3>
+              <p class="detail-date"><span id="detailDate"></span></p>
 
-  <div class="rdf-card">
-    <div class="rdf-section">
-      <h4>⚖️ Comparativa con Otras Apps</h4>
-      <div class="comparison-table">
-        <table>
-          <thead>
-            <tr>
-              <th>Característica</th>
-              <th>Schedule Smart</th>
-              <th>Google Calendar</th>
-              <th>Todoist</th>
-              <th>Notion</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Precio</td>
-              <td class="highlight">✅ Gratis</td>
-              <td>✅ Gratis</td>
-              <td>⚠️ Freemium</td>
-              <td>⚠️ Freemium</td>
-            </tr>
-            <tr>
-              <td>Calendario</td>
-              <td class="highlight">✅ Integrado</td>
-              <td>✅ Sí</td>
-              <td>❌ No</td>
-              <td>⚠️ Básico</td>
-            </tr>
-            <tr>
-              <td>To-Do List</td>
-              <td class="highlight">✅ Integrado</td>
-              <td>⚠️ Limitado</td>
-              <td>✅ Sí</td>
-              <td>✅ Sí</td>
-            </tr>
-            <tr>
-              <td>Habit Tracker</td>
-              <td class="highlight">✅ Con Rachas</td>
-              <td>❌ No</td>
-              <td>❌ No</td>
-              <td>⚠️Manual</td>
-            </tr>
-            <tr>
-              <td>Sin Publicidad</td>
-              <td class="highlight">✅ Sí</td>
-              <td>✅ Sí</td>
-              <td>❌ Con Ads</td>
-              <td>✅ Sí</td>
-            </tr>
-            <tr>
-              <td>Open Source</td>
-              <td class="highlight">✅ Sí</td>
-              <td>❌ No</td>
-              <td>❌ No</td>
-              <td>❌ No</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-
-  <div class="rdf-card">
-    <div class="rdf-section">
-      <h4>🏅 Tecnologías Utilizadas</h4>
-      <div class="tech-badges">
-        <div class="tech-badge">
-          <span class="tech-icon">🟨</span>
-          <span>JavaScript</span>
-        </div>
-        <div class="tech-badge">
-          <span class="tech-icon">🟧</span>
-          <span>HTML5</span>
-        </div>
-        <div class="tech-badge">
-          <span class="tech-icon">🟦</span>
-          <span>CSS3</span>
-        </div>
-        <div class="tech-badge">
-          <span class="tech-icon">🟩</span>
-          <span>Supabase</span>
-        </div>
-        <div class="tech-badge">
-          <span class="tech-icon">🐘</span>
-          <span>PostgreSQL</span>
-        </div>
-        <div class="tech-badge">
-          <span class="tech-icon">▲</span>
-          <span>Vercel</span>
-        </div>
-        <div class="tech-badge">
-          <span class="tech-icon">🔒</span>
-          <span>RLS Security</span>
-        </div>
-        <div class="tech-badge">
-          <span class="tech-icon">📱</span>
-          <span>Responsive</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="rdf-card rdf-info-card">
-    <div class="rdf-section">
-      <h4>¿Qué es Schema.org?</h4>
-      <p>Schema.org es un vocabulario compartido que puedes usar para marcar tu contenido y facilitar que los
-        motores de búsqueda comprendan mejor la información de tu sitio web.</p>
-      <h4 style="margin-top: 20px;">Beneficios del JSON-LD</h4>
-      <ul class="benefits-list">
-        <li>✓ Mejor indexación en buscadores</li>
-        <li>✓ Rich snippets en resultados de búsqueda</li>
-        <li>✓ Mejor comprensión del contenido por IA</li>
-        <li>✓ Estándar web reconocido globalmente</li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- Modal de Mes (Corrected Structure) -->
-  <div id="monthModal" class="modal" aria-hidden="true">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2 id="modalTitle">Mes</h2>
-        <button class="close-btn" id="closeModal" aria-label="Cerrar">&times;</button>
-      </div>
-      <div class="modal-body">
-        <div class="month-nav">
-          <button class="nav-btn" id="prevMonth">← Anterior</button>
-          <button class="nav-btn" id="todayBtn">Hoy</button>
-          <button class="nav-btn" id="nextMonth">Siguiente →</button>
-        </div>
-
-        <div id="largeCalendar"></div>
-
-        <div class="add-event-section">
-          <h3>Agregar Evento</h3>
-          <div class="event-form">
-            <div class="form-group">
-              <label for="eventTitle">Título</label>
-              <input type="text" id="eventTitle" placeholder="Ej: Reunión de equipo" />
-            </div>
-            <div class="form-group">
-              <label for="eventDate">Fecha</label>
-              <input type="date" id="eventDate" />
-            </div>
-            <div class="form-row">
-              <div class="form-group half">
-                <label for="eventTime">Hora Inicio</label>
-                <input type="time" id="eventTime" />
+              <div class="detail-row">
+                <span class="icon">⏰</span>
+                <span id="detailTime"></span>
+                <span id="detailEndTime"></span>
+                <div class="edit-group" style="display:none;">
+                  <input type="time" id="editTimeInput" class="edit-input">
+                  <span> a </span>
+                  <input type="time" id="editEndTimeInput" class="edit-input">
+                </div>
               </div>
-              <div class="form-group half">
-                <label for="eventEndTime">Hora Fin</label>
-                <input type="time" id="eventEndTime" />
+
+              <div class="detail-row">
+                <span class="icon">🏷️</span>
+                <span id="detailCategory"></span>
+                <select id="editCategoryInput" style="display:none;" class="edit-input">
+                  <option value="personal">Personal</option>
+                  <option value="trabajo">Trabajo</option>
+                  <div class="rdf-card">
+                    <div class="rdf-section">
+                      <h4>⚖️ Comparativa con Otras Apps</h4>
+                      <div class="comparison-table">
+                        <table>
+                          <thead>
+                            <tr>
+                              <th>Característica</th>
+                              <th>Schedule Smart</th>
+                              <th>Google Calendar</th>
+                              <th>Todoist</th>
+                              <th>Notion</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td>Precio</td>
+                              <td class="highlight">✅ Gratis</td>
+                              <td>✅ Gratis</td>
+                              <td>⚠️ Freemium</td>
+                              <td>⚠️ Freemium</td>
+                            </tr>
+                            <tr>
+                              <td>Calendario</td>
+                              <td class="highlight">✅ Integrado</td>
+                              <td>✅ Sí</td>
+                              <td>❌ No</td>
+                              <td>⚠️ Básico</td>
+                            </tr>
+                            <tr>
+                              <td>To-Do List</td>
+                              <td class="highlight">✅ Integrado</td>
+                              <td>⚠️ Limitado</td>
+                              <td>✅ Sí</td>
+                              <td>✅ Sí</td>
+                            </tr>
+                            <tr>
+                              <td>Habit Tracker</td>
+                              <td class="highlight">✅ Con Rachas</td>
+                              <td>❌ No</td>
+                              <td>❌ No</td>
+                              <td>⚠️Manual</td>
+                            </tr>
+                            <tr>
+                              <td>Sin Publicidad</td>
+                              <td class="highlight">✅ Sí</td>
+                              <td>✅ Sí</td>
+                              <td>❌ Con Ads</td>
+                              <td>✅ Sí</td>
+                            </tr>
+                            <tr>
+                              <td>Open Source</td>
+                              <td class="highlight">✅ Sí</td>
+                              <td>❌ No</td>
+                              <td>❌ No</td>
+                              <td>❌ No</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <!-- Tecnologías -->
+                  <div class="rdf-card">
+                    <div class="rdf-section">
+                      <h4>🏅 Tecnologías Utilizadas</h4>
+                      <div class="tech-badges">
+                        <div class="tech-badge">
+                          <span class="tech-icon">🟨</span>
+                          <span>JavaScript</span>
+                        </div>
+                        <div class="tech-badge">
+                          <span class="tech-icon">🟧</span>
+                          <span>HTML5</span>
+                        </div>
+                        <div class="tech-badge">
+                          <span class="tech-icon">🟦</span>
+                          <span>CSS3</span>
+                        </div>
+                        <div class="tech-badge">
+                          <span class="tech-icon">🟩</span>
+                          <span>Supabase</span>
+                        </div>
+                        <div class="tech-badge">
+                          <span class="tech-icon">🐘</span>
+                          <span>PostgreSQL</span>
+                        </div>
+                        <div class="tech-badge">
+                          <span class="tech-icon">▲</span>
+                          <span>Vercel</span>
+                        </div>
+                        <div class="tech-badge">
+                          <span class="tech-icon">🔒</span>
+                          <span>RLS Security</span>
+                        </div>
+                        <div class="tech-badge">
+                          <span class="tech-icon">📱</span>
+                          <span>Responsive</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="rdf-card rdf-info-card">
+                    <div class="rdf-section">
+                      <h4>¿Qué es Schema.org?</h4>
+                      <p>Schema.org es un vocabulario compartido que puedes usar para marcar tu contenido y facilitar
+                        que los
+                        motores de búsqueda comprendan mejor la información de tu sitio web.</p>
+                      <h4 style="margin-top: 20px;">Beneficios del JSON-LD</h4>
+                      <ul class="benefits-list">
+                        <li>✓ Mejor indexación en buscadores</li>
+                        <li>✓ Rich snippets en resultados de búsqueda</li>
+                        <li>✓ Mejor comprensión del contenido por IA</li>
+                        <li>✓ Estándar web reconocido globalmente</li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="modal-body">
+                    <div class="month-nav">
+                      <button class="nav-btn" id="prevMonth">← Anterior</button>
+                      <button class="nav-btn" id="todayBtn">Hoy</button>
+                      <button class="nav-btn" id="nextMonth">Siguiente →</button>
+                    </div>
+
+                    <div id="largeCalendar"></div>
+
+                    <div class="add-event-section">
+                      <h3>Agregar Evento</h3>
+                      <div class="event-form">
+                        <div class="form-group">
+                          <label for="eventTitle">Título</label>
+                          <input type="text" id="eventTitle" placeholder="Ej: Reunión de equipo" />
+                        </div>
+                        <div class="form-group">
+                          <label for="eventDate">Fecha</label>
+                          <input type="date" id="eventDate" />
+                        </div>
+                        <div class="form-row">
+                          <div class="form-group half">
+                            <label for="eventTime">Hora Inicio</label>
+                            <input type="time" id="eventTime" />
+                          </div>
+                          <div class="form-group half">
+                            <label for="eventEndTime">Hora Fin</label>
+                            <input type="time" id="eventEndTime" />
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label for="eventCategory">Categoría</label>
+                          <select id="eventCategory">
+                            <option value="personal">Personal</option>
+                            <option value="trabajo">Trabajo</option>
+                            <option value="estudio">Estudio</option>
+                            <option value="salud">Salud</option>
+                            <option value="social">Social</option>
+                          </select>
+                        </div>
+                        <button class="add-btn" id="addEventBtn" type="button">Guardar Evento</button>
+                      </div>
+                    </div>
+                  </div>
               </div>
             </div>
-            <div class="form-group">
-              <label for="eventCategory">Categoría</label>
-              <select id="eventCategory">
-                <option value="personal">Personal</option>
-                <option value="trabajo">Trabajo</option>
-                <option value="estudio">Estudio</option>
-                <option value="salud">Salud</option>
-                <option value="social">Social</option>
-              </select>
-            </div>
-            <button class="add-btn" id="addEventBtn" type="button">Guardar Evento</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <!-- Modal de Detalles del Evento -->
-  <div id="eventDetailsModal" class="modal" aria-hidden="true">
-    <div class="modal-content" style="max-width: 500px;">
-      <div class="modal-header">
-        <h2 id="eventDetailTitle">Detalles</h2>
-        <button class="close-btn" id="closeEventDetailModal" aria-label="Cerrar">&times;</button>
-      </div>
-      <div class="modal-body">
-        <div class="event-detail-content">
-          <h3 id="detailTitle" class="detail-title"></h3>
-          <p class="detail-date"><span id="detailDate"></span></p>
+            <!-- Modal de Detalles del Evento -->
+            <div id="eventDetailsModal" class="modal" aria-hidden="true">
+              <div class="modal-content" style="max-width: 500px;">
+                <div class="modal-header">
+                  <h2 id="eventDetailTitle">Detalles</h2>
+                  <button class="close-btn" id="closeEventDetailModal" aria-label="Cerrar">&times;</button>
+                </div>
+                <div class="modal-body">
+                  <div class="event-detail-content">
+                    <h3 id="detailTitle" class="detail-title"></h3>
+                    <p class="detail-date"><span id="detailDate"></span></p>
 
-          <div class="detail-row">
-            <span class="icon">⏰</span>
-            <span id="detailTime"></span>
-            <span id="detailEndTime"></span>
-            <div class="edit-group" style="display:none;">
-              <input type="time" id="editTimeInput" class="edit-input">
-              <span> a </span>
-              <input type="time" id="editEndTimeInput" class="edit-input">
-            </div>
-          </div>
+                    <div class="detail-row">
+                      <span class="icon">⏰</span>
+                      <span id="detailTime"></span>
+                      <span id="detailEndTime"></span>
+                      <div class="edit-group" style="display:none;">
+                        <input type="time" id="editTimeInput" class="edit-input">
+                        <span> a </span>
+                        <input type="time" id="editEndTimeInput" class="edit-input">
+                      </div>
+                    </div>
 
-          <div class="detail-row">
-            <span class="icon">🏷️</span>
-            <span id="detailCategory"></span>
-            <select id="editCategoryInput" style="display:none;" class="edit-input">
-              <option value="personal">Personal</option>
-              <option value="trabajo">Trabajo</option>
-              <option value="estudio">Estudio</option>
-              <option value="salud">Salud</option>
-              <option value="social">Social</option>
-            </select>
-          </div>
+                    <div class="detail-row">
+                      <span class="icon">🏷️</span>
+                      <span id="detailCategory"></span>
+                      <select id="editCategoryInput" style="display:none;" class="edit-input">
+                        <option value="personal">Personal</option>
+                        <option value="trabajo">Trabajo</option>
+                        <option value="estudio">Estudio</option>
+                        <option value="salud">Salud</option>
+                        <option value="social">Social</option>
+                      </select>
+                    </div>
+                    <!-- SDK de Supabase -->
+                    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+                    <script src="scripts.js"></script>
+                    <script src="dashboard.js"></script>
+                    <script>
+                      // Copy RDF Script
+                      document.addEventListener('DOMContentLoaded', () => {
+                        const copyBtn = document.getElementById('copyRdfBtn');
+                        if (copyBtn) {
+                          copyBtn.addEventListener('click', () => {
+                            const code = document.getElementById('rdf-code').textContent;
+                            navigator.clipboard.writeText(code).then(() => {
+                              const originalText = copyBtn.innerHTML;
+                              copyBtn.innerHTML = '<span class="copy-icon">✓</span> ¡Copiado!';
+                              copyBtn.style.background = 'linear-gradient(135deg, #4CAF50 0%, #45a049 100%)';
 
-          <p id="detailDescContainer" style="display:none;">
-            <strong>Notas:</strong> <span id="detailDescription"></span>
-          </p>
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" id="editEventBtn">Editar</button>
-          <button class="btn btn-primary" id="saveEventBtn" style="display:none;">Guardar Cambios</button>
-          <button class="btn btn-danger" id="deleteEventBtn" style="display:none;">Eliminar</button>
-        </div>
-      </div>
-    </div>
-  </div>
+                              setTimeout(() => {
+                                copyBtn.innerHTML = originalText;
+                                copyBtn.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+                              }, 2000);
+                            });
+                          });
+                        }
 
-  <!-- SDK de Supabase -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="scripts.js"></script>
-  <script src="dashboard.js"></script>
-  <script>
-    // Copy RDF Script
-    document.addEventListener('DOMContentLoaded', () => {
-      const copyBtn = document.getElementById('copyRdfBtn');
-      if (copyBtn) {
-        copyBtn.addEventListener('click', () => {
-          const code = document.getElementById('rdf-code').textContent;
-          navigator.clipboard.writeText(code).then(() => {
-            const originalText = copyBtn.innerHTML;
-            copyBtn.innerHTML = '<span class="copy-icon">✓</span> ¡Copiado!';
-            copyBtn.style.background = 'linear-gradient(135deg, #4CAF50 0%, #45a049 100%)';
+                        // Dark Mode
+                        const darkModeToggle = document.getElementById('darkModeToggle');
+                        const body = document.body;
+                        const savedDarkMode = localStorage.getItem('darkMode');
+                        if (savedDarkMode === 'enabled') body.classList.add('dark-mode');
 
-            setTimeout(() => {
-              copyBtn.innerHTML = originalText;
-              copyBtn.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
-            }, 2000);
-          });
-        });
-      }
-
-      // Dark Mode
-      const darkModeToggle = document.getElementById('darkModeToggle');
-      const body = document.body;
-      const savedDarkMode = localStorage.getItem('darkMode');
-      if (savedDarkMode === 'enabled') body.classList.add('dark-mode');
-
-      if (darkModeToggle) {
-        darkModeToggle.addEventListener('click', () => {
-          body.classList.toggle('dark-mode');
-          localStorage.setItem('darkMode', body.classList.contains('dark-mode') ? 'enabled' : 'disabled');
-        });
-      }
-    });
-  </script>
+                        if (darkModeToggle) {
+                          darkModeToggle.addEventListener('click', () => {
+                            body.classList.toggle('dark-mode');
+                            localStorage.setItem('darkMode', body.classList.contains('dark-mode') ? 'enabled' : 'disabled');
+                          });
+                        }
+                      });
+                    </script>
 </body>
 
 </html>
-```
