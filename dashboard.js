@@ -848,6 +848,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         btn.addEventListener('click', (e) => {
             const section = e.currentTarget.getAttribute('data-section');
             switchSection(section);
+
+            // Update stats when stats section is opened
+            if (section === 'stats' && typeof window.updateStats === 'function') {
+                setTimeout(window.updateStats, 100);
+            }
         });
     });
 
@@ -889,6 +894,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         to { transform: translateX(400px); opacity: 0; }
       }
     `;
+        document.head.appendChild(style);
     }
 
     // ===== STATISTICS SECTION =====
@@ -1024,21 +1030,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // Update statistics display
-    function updateStats() {
+    window.updateStats = function () {
         const stats = calculateStats();
         document.getElementById('totalHours').textContent = stats.totalHours;
         document.getElementById('totalEvents').textContent = stats.totalEvents;
         drawPieChart(stats);
         renderCategoryCards(stats);
-    }
-
-    // Listen for stats section activation
-    document.querySelectorAll('.menu-btn').forEach(btn => {
-        const originalClick = btn.onclick;
-        btn.addEventListener('click', () => {
-            if (btn.dataset.section === 'stats') {
-                setTimeout(updateStats, 100); // Small delay to ensure section is visible
-            }
-        });
-    });
+    };
 });
