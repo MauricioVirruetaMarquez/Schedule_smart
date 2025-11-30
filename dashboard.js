@@ -716,8 +716,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     await loadHabits();
 
     // Construir 12 mini-calendarios
-    const grid = document.getElementById('calendarGrid');
-    for (let m = 0; m < 12; m++) grid.appendChild(createMiniCalendar(m));
+    // (Ya se hace en loadEvents -> updateMiniCalendars, así que quitamos el loop duplicado)
+    // const grid = document.getElementById('calendarGrid');
+    // for (let m = 0; m < 12; m++) grid.appendChild(createMiniCalendar(m));
 
     // Modal
     document.getElementById('closeModal').addEventListener('click', closeModal);
