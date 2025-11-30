@@ -257,6 +257,7 @@
       <button class="menu-btn active" data-section="horario">HORARIO</button>
       <button class="menu-btn" data-section="todo">TO DO LIST</button>
       <button class="menu-btn" data-section="habits">HÁBITOS</button>
+      <button class="menu-btn" data-section="stats">ESTADÍSTICAS</button>
       <button class="menu-btn" data-section="info">INFO RDF</button>
     </aside>
 
@@ -289,6 +290,44 @@
           <button type="submit" class="btn">Agregar</button>
         </form>
         <div class="habits-container" id="habits-list"></div>
+      </div>
+
+
+      <!-- Estadísticas -->
+      <div id="stats" class="content-section">
+        <div class="section-header">
+          <h2>Estadísticas de Eventos</h2>
+        </div>
+        <div class="stats-container">
+          <div class="stats-summary">
+            <div class="stat-card total-card">
+              <div class="stat-icon">⏱️</div>
+              <div class="stat-info">
+                <h3 id="totalHours">0</h3>
+                <p>Horas Totales</p>
+              </div>
+            </div>
+            <div class="stat-card events-card">
+              <div class="stat-icon">📅</div>
+              <div class="stat-info">
+                <h3 id="totalEvents">0</h3>
+                <p>Eventos Totales</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="chart-section">
+            <div class="chart-container">
+              <h3>Distribución por Categoría</h3>
+              <canvas id="categoryChart" width="400" height="400"></canvas>
+              <div id="chartLegend" class="chart-legend"></div>
+            </div>
+          </div>
+
+          <div class="category-stats" id="categoryStats">
+            <!-- Category cards will be generated here -->
+          </div>
+        </div>
       </div>
 
       <!-- Info RDF -->
@@ -700,31 +739,6 @@
           </div>
         </div>
 
-      </div>
-    </div>
-  </div>
-  </div>
-  </div>
-
-  <!-- Modal de Detalles del Evento -->
-  <div id="eventDetailsModal" class="modal" aria-hidden="true">
-    <div class="modal-content" style="max-width: 500px;">
-      <div class="modal-header">
-        <h2 id="eventDetailTitle">Detalles del Evento</h2>
-        <button class="close-btn" id="closeEventDetailModal" aria-label="Cerrar">&times;</button>
-      </div>
-      <div class="modal-body">
-        <div class="event-detail-content">
-          <p><strong>Título:</strong> <span id="detailTitle"></span></p>
-          <p><strong>Fecha:</strong> <span id="detailDate"></span></p>
-          <p><strong>Hora:</strong> <span id="detailTime"></span></p>
-          <p><strong>Categoría:</strong> <span id="detailCategory"></span></p>
-          <p id="detailDescContainer" style="display:none;"><strong>Descripción:</strong> <span
-              id="detailDescription"></span></p>
-        </div>
-        <div style="margin-top: 20px; text-align: right;">
-          <button class="btn" id="closeDetailBtn">Cerrar</button>
-        </div>
       </div>
     </div>
   </div>
