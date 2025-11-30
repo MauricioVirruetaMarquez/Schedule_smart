@@ -62,7 +62,14 @@ async function loadEvents() {
     events = {};
     data.forEach(event => {
         if (!events[event.date_key]) events[event.date_key] = [];
-        events[event.date_key].push(event);
+        events[event.date_key].push({
+            id: event.id,
+            title: event.title,
+            time: event.time,
+            end_time: event.end_time, // Load end_time
+            category: event.category,
+            description: event.description
+        });
     });
     updateMiniCalendars();
 }
@@ -211,8 +218,9 @@ function createMiniCalendar(monthIndex) {
 // ===== Mostrar detalles del evento =====
 function showEventDetails(event, dateKey) {
     document.getElementById('detailTitle').textContent = event.title;
-    document.getElementById('detailDate').textContent = dateKey; // Podría formatearse mejor
+    document.getElementById('detailDate').textContent = dateKey;
     document.getElementById('detailTime').textContent = event.time || 'Todo el día';
+    document.getElementById('detailEndTime').textContent = event.end_time ? ` - ${event.end_time}` : '';
     document.getElementById('detailCategory').textContent = event.category || 'Personal';
 
     const descEl = document.getElementById('detailDescription');
@@ -771,6 +779,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const title = document.getElementById('eventTitle').value.trim();
         const date = document.getElementById('eventDate').value;
         const time = document.getElementById('eventTime').value;
+        const endTime = document.getElementById('eventEndTime').value;
         const category = document.getElementById('eventCategory').value;
 
         if (!title || !date) {
@@ -795,14 +804,15 @@ document.addEventListener('DOMContentLoaded', async () => {
                 date_key: key,
                 title: title,
                 time: time || '',
+                end_time: endTime || '', // Save end_time
                 description: '',
-                category: category // Fix: Save category
+                category: category
             })
             .select();
 
         if (error) {
             console.error('❌ Error guardando evento:', error);
-            alert('Error al guardar el evento');
+            alert('Error al guardar el evento: ' + error.message);
             return;
         }
 
@@ -812,6 +822,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             id: data[0].id,
             title,
             time,
+            end_time: endTime,
             category,
             date
         });
@@ -819,6 +830,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         // limpiar inputs
         document.getElementById('eventTitle').value = '';
         document.getElementById('eventTime').value = '';
+        document.getElementById('eventEndTime').value = '';
 
         // refrescar si se está viendo ese mes
         if ((mm - 1) === currentModalMonth && yy === currentModalYear) {
@@ -1045,24 +1057,29 @@ document.addEventListener('DOMContentLoaded', async () => {
     function enableEditMode() {
         // Hide display fields
         document.getElementById('detailTime').style.display = 'none';
+        document.getElementById('detailEndTime').style.display = 'none';
         document.getElementById('detailCategory').style.display = 'none';
         document.getElementById('editEventBtn').style.display = 'none';
 
         // Show input fields
         const timeInput = document.getElementById('editTimeInput');
+        const endTimeInput = document.getElementById('editEndTimeInput');
         const catInput = document.getElementById('editCategoryInput');
+        const editGroup = document.querySelector('.edit-group');
 
-        timeInput.style.display = 'inline-block';
+        editGroup.style.display = 'flex';
         catInput.style.display = 'inline-block';
         document.getElementById('saveEventBtn').style.display = 'inline-block';
 
         // Set current values
         timeInput.value = currentEditingEvent.time || '';
+        endTimeInput.value = currentEditingEvent.end_time || '';
         catInput.value = currentEditingEvent.category || 'personal';
     }
 
     async function saveEventChanges() {
         const newTime = document.getElementById('editTimeInput').value;
+        const newEndTime = document.getElementById('editEndTimeInput').value;
         const newCategory = document.getElementById('editCategoryInput').value;
 
         // Update Supabase
@@ -1070,18 +1087,20 @@ document.addEventListener('DOMContentLoaded', async () => {
             .from('events')
             .update({
                 time: newTime,
+                end_time: newEndTime,
                 category: newCategory
             })
             .eq('id', currentEditingEvent.id);
 
         if (error) {
             console.error('Error updating event:', error);
-            alert('Error al actualizar el evento');
+            alert('Error al actualizar el evento: ' + error.message);
             return;
         }
 
         // Update local state
         currentEditingEvent.time = newTime;
+        currentEditingEvent.end_time = newEndTime;
         currentEditingEvent.category = newCategory;
 
         // Refresh UI
@@ -1100,10 +1119,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         // Reset UI to view mode
         document.getElementById('detailTime').style.display = 'inline';
+        document.getElementById('detailEndTime').style.display = 'inline';
         document.getElementById('detailCategory').style.display = 'inline';
         document.getElementById('editEventBtn').style.display = 'inline-block';
 
-        document.getElementById('editTimeInput').style.display = 'none';
+        document.querySelector('.edit-group').style.display = 'none';
         document.getElementById('editCategoryInput').style.display = 'none';
         document.getElementById('saveEventBtn').style.display = 'none';
 
