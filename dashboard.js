@@ -889,174 +889,156 @@ document.addEventListener('DOMContentLoaded', async () => {
         to { transform: translateX(400px); opacity: 0; }
       }
     `;
-        document.head.appendChild(style);
     }
-});
 
-// ===== STATISTICS SECTION =====
+    // ===== STATISTICS SECTION =====
 
-// Category colors
-const CATEGORY_COLORS = {
-    personal: '#667eea',
-    trabajo: '#f093fb',
-    estudio: '#4facfe',
-    salud: '#43e97b',
-    social: '#fa709a'
-};
-
-// Calculate statistics from events
-function calculateStats() {
-    const stats = {
-        totalHours: 0,
-        totalEvents: 0,
-        categories: {}
+    // Category colors
+    const CATEGORY_COLORS = {
+        personal: '#667eea',
+        trabajo: '#f093fb',
+        estudio: '#4facfe',
+        salud: '#43e97b',
+        social: '#fa709a'
     };
 
-    // Initialize categories
-    Object.keys(CATEGORY_COLORS).forEach(cat => {
-        stats.categories[cat] = { count: 0, hours: 0 };
-    });
+    // Calculate statistics from events
+    function calculateStats() {
+        const stats = {
+            totalHours: 0,
+            totalEvents: 0,
+            categories: {}
+        };
 
-    // Process events
-    Object.values(events).forEach(dayEvents => {
-        dayEvents.forEach(event => {
-            stats.totalEvents++;
+        // Initialize categories
+        Object.keys(CATEGORY_COLORS).forEach(cat => {
+            stats.categories[cat] = { count: 0, hours: 0 };
+        });
 
-            // Calculate hours (assume 1 hour if no time specified)
-            let hours = 1;
-            if (event.time) {
-                // Parse time and estimate duration (default 1 hour)
-                hours = 1;
-            }
+        // Process events
+        Object.values(events).forEach(dayEvents => {
+            dayEvents.forEach(event => {
+                stats.totalEvents++;
+                const hours = 1; // Assume 1 hour per event
+                stats.totalHours += hours;
 
-            stats.totalHours += hours;
+                const category = event.category || 'personal';
+                if (stats.categories[category]) {
+                    stats.categories[category].count++;
+                    stats.categories[category].hours += hours;
+                }
+            });
+        });
 
-            const category = event.category || 'personal';
-            if (stats.categories[category]) {
-                stats.categories[category].count++;
-                stats.categories[category].hours += hours;
+        return stats;
+    }
+
+    // Draw pie chart
+    function drawPieChart(stats) {
+        const canvas = document.getElementById('categoryChart');
+        if (!canvas) return;
+
+        const ctx = canvas.getContext('2d');
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        const radius = 150;
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        const total = Object.values(stats.categories).reduce((sum, cat) => sum + cat.hours, 0);
+
+        if (total === 0) {
+            ctx.fillStyle = '#ccc';
+            ctx.font = '16px Inter, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('No hay eventos registrados', centerX, centerY);
+            return;
+        }
+
+        let startAngle = -Math.PI / 2;
+
+        Object.entries(stats.categories).forEach(([category, data]) => {
+            if (data.hours > 0) {
+                const sliceAngle = (data.hours / total) * 2 * Math.PI;
+
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY);
+                ctx.arc(centerX, centerY, radius, startAngle, startAngle + sliceAngle);
+                ctx.closePath();
+
+                ctx.fillStyle = CATEGORY_COLORS[category];
+                ctx.fill();
+
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                startAngle += sliceAngle;
             }
         });
-    });
 
-    return stats;
-}
+        // Draw legend
+        const legendContainer = document.getElementById('chartLegend');
+        legendContainer.innerHTML = '';
 
-// Draw pie chart
-function drawPieChart(stats) {
-    const canvas = document.getElementById('categoryChart');
-    if (!canvas) return;
+        Object.entries(stats.categories).forEach(([category, data]) => {
+            if (data.hours > 0) {
+                const percentage = ((data.hours / total) * 100).toFixed(1);
 
-    const ctx = canvas.getContext('2d');
-    const centerX = canvas.width / 2;
-    const centerY = canvas.height / 2;
-    const radius = 150;
-
-    // Clear canvas
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // Calculate total for percentages
-    const total = Object.values(stats.categories).reduce((sum, cat) => sum + cat.hours, 0);
-
-    if (total === 0) {
-        // Draw empty state
-        ctx.fillStyle = '#ccc';
-        ctx.font = '16px Inter, sans-serif';
-        ctx.textAlign = 'center';
-        ctx.fillText('No hay eventos registrados', centerX, centerY);
-        return;
+                const item = document.createElement('div');
+                item.className = 'legend-item';
+                item.innerHTML = `
+                    <div class="legend-color" style="background: ${CATEGORY_COLORS[category]}"></div>
+                    <span class="legend-label">${category.charAt(0).toUpperCase() + category.slice(1)}</span>
+                    <span class="legend-value">${percentage}%</span>
+                `;
+                legendContainer.appendChild(item);
+            }
+        });
     }
-
-    let startAngle = -Math.PI / 2;
-
-    // Draw pie slices
-    Object.entries(stats.categories).forEach(([category, data]) => {
-        if (data.hours > 0) {
-            const sliceAngle = (data.hours / total) * 2 * Math.PI;
-
-            ctx.beginPath();
-            ctx.moveTo(centerX, centerY);
-            ctx.arc(centerX, centerY, radius, startAngle, startAngle + sliceAngle);
-            ctx.closePath();
-
-            ctx.fillStyle = CATEGORY_COLORS[category];
-            ctx.fill();
-
-            // Add stroke
-            ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
-            ctx.lineWidth = 2;
-            ctx.stroke();
-
-            startAngle += sliceAngle;
-        }
-    });
-
-    // Draw legend
-    const legendContainer = document.getElementById('chartLegend');
-    legendContainer.innerHTML = '';
-
-    Object.entries(stats.categories).forEach(([category, data]) => {
-        if (data.hours > 0) {
-            const percentage = ((data.hours / total) * 100).toFixed(1);
-
-            const item = document.createElement('div');
-            item.className = 'legend-item';
-            item.innerHTML = `
-        <div class="legend-color" style="background: ${CATEGORY_COLORS[category]}"></div>
-        <span class="legend-label">${category.charAt(0).toUpperCase() + category.slice(1)}</span>
-        <span class="legend-value">${percentage}%</span>
-      `;
-            legendContainer.appendChild(item);
-        }
-    });
-}
-
-// Render category cards
-function renderCategoryCards(stats) {
-    const container = document.getElementById('categoryStats');
-    container.innerHTML = '';
-
-    Object.entries(stats.categories).forEach(([category, data]) => {
-        if (data.count > 0) {
-            const card = document.createElement('div');
-            card.className = `category-card ${category}`;
-            card.innerHTML = `
-        <div class="category-card-header">
-          <span class="category-name">${category}</span>
-          <span class="category-count">${data.count} evento${data.count !== 1 ? 's' : ''}</span>
-        </div>
-        <div class="category-hours">${data.hours}h</div>
-        <div class="category-label">Tiempo dedicado</div>
-      `;
-            container.appendChild(card);
-        }
-    });
-
-    if (container.children.length === 0) {
-        container.innerHTML = '<p style="text-align: center; color: #888; padding: 40px;">No hay eventos por categoría</p>';
-    }
-}
-
-// Update statistics display
-function updateStats() {
-    const stats = calculateStats();
-
-    // Update summary cards
-    document.getElementById('totalHours').textContent = stats.totalHours;
-    document.getElementById('totalEvents').textContent = stats.totalEvents;
-
-    // Draw chart
-    drawPieChart(stats);
 
     // Render category cards
-    renderCategoryCards(stats);
-}
+    function renderCategoryCards(stats) {
+        const container = document.getElementById('categoryStats');
+        container.innerHTML = '';
 
-// Load stats when stats section is opened
-document.querySelectorAll('.menu-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-        if (btn.dataset.section === 'stats') {
-            updateStats();
+        Object.entries(stats.categories).forEach(([category, data]) => {
+            if (data.count > 0) {
+                const card = document.createElement('div');
+                card.className = `category-card ${category}`;
+                card.innerHTML = `
+                    <div class="category-card-header">
+                        <span class="category-name">${category}</span>
+                        <span class="category-count">${data.count} evento${data.count !== 1 ? 's' : ''}</span>
+                    </div>
+                    <div class="category-hours">${data.hours}h</div>
+                    <div class="category-label">Tiempo dedicado</div>
+                `;
+                container.appendChild(card);
+            }
+        });
+
+        if (container.children.length === 0) {
+            container.innerHTML = '<p style="text-align: center; color: #888; padding: 40px;">No hay eventos por categoría</p>';
         }
+    }
+
+    // Update statistics display
+    function updateStats() {
+        const stats = calculateStats();
+        document.getElementById('totalHours').textContent = stats.totalHours;
+        document.getElementById('totalEvents').textContent = stats.totalEvents;
+        drawPieChart(stats);
+        renderCategoryCards(stats);
+    }
+
+    // Listen for stats section activation
+    document.querySelectorAll('.menu-btn').forEach(btn => {
+        const originalClick = btn.onclick;
+        btn.addEventListener('click', () => {
+            if (btn.dataset.section === 'stats') {
+                setTimeout(updateStats, 100); // Small delay to ensure section is visible
+            }
+        });
     });
 });
