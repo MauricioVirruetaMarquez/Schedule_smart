@@ -218,6 +218,27 @@ function createMiniCalendar(monthIndex) {
     return calendarBox;
 }
 
+// ===== Mostrar detalles del evento =====
+function showEventDetails(event, dateKey) {
+    document.getElementById('detailTitle').textContent = event.title;
+    document.getElementById('detailDate').textContent = dateKey; // Podría formatearse mejor
+    document.getElementById('detailTime').textContent = event.time || 'Todo el día';
+    document.getElementById('detailCategory').textContent = event.category || 'Personal';
+
+    const descEl = document.getElementById('detailDescription');
+    const descContainer = document.getElementById('detailDescContainer');
+    if (event.description) {
+        descEl.textContent = event.description;
+        descContainer.style.display = 'block';
+    } else {
+        descContainer.style.display = 'none';
+    }
+
+    const modal = document.getElementById('eventDetailsModal');
+    modal.style.display = 'block';
+    modal.setAttribute('aria-hidden', 'false');
+}
+
 // ===== Calendario grande (modal) - ACTUALIZADO =====
 function createLargeCalendar(monthIndex, year) {
     const container = document.getElementById('largeCalendar');
@@ -286,6 +307,13 @@ function createLargeCalendar(monthIndex, year) {
                 item.appendChild(eventText);
                 item.appendChild(deleteBtn);
                 item.setAttribute('data-category', ev.category || 'personal');
+
+                // Click para ver detalles
+                item.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Evitar que abra el form de agregar
+                    showEventDetails(ev, dateKey);
+                });
+
                 eventList.appendChild(item);
             });
         }
@@ -738,6 +766,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         currentModalYear = t.getFullYear();
         updateModal();
     });
+
+    // Event Details Modal Listeners
+    const closeDetailModal = () => {
+        const m = document.getElementById('eventDetailsModal');
+        m.style.display = 'none';
+        m.setAttribute('aria-hidden', 'true');
+    };
+    document.getElementById('closeEventDetailModal').addEventListener('click', closeDetailModal);
+    document.getElementById('closeDetailBtn').addEventListener('click', closeDetailModal);
 
     // Agregar evento
     document.getElementById('addEventBtn').addEventListener('click', async () => {
