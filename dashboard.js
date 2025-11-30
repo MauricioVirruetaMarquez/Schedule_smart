@@ -61,19 +61,9 @@ async function loadEvents() {
     // Convertir array de Supabase a objeto indexado por fecha
     events = {};
     data.forEach(event => {
-        if (!events[event.date_key]) {
-            events[event.date_key] = [];
-        }
-        events[event.date_key].push({
-            id: event.id,
-            title: event.title,
-            time: event.time,
-            description: event.description,
-            category: 'personal'
-        });
+        if (!events[event.date_key]) events[event.date_key] = [];
+        events[event.date_key].push(event);
     });
-
-    // Actualizar mini-calendarios
     updateMiniCalendars();
 }
 
@@ -805,7 +795,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 date_key: key,
                 title: title,
                 time: time || '',
-                description: ''
+                description: '',
+                category: category // Fix: Save category
             })
             .select();
 
@@ -1037,4 +1028,86 @@ document.addEventListener('DOMContentLoaded', async () => {
         drawPieChart(stats);
         renderCategoryCards(stats);
     };
+
+
+    // ===== Event Editing Logic =====
+    let currentEditingEvent = null;
+    let currentEditingDateKey = null;
+
+    document.getElementById('editEventBtn').addEventListener('click', () => {
+        enableEditMode();
+    });
+
+    document.getElementById('saveEventBtn').addEventListener('click', async () => {
+        await saveEventChanges();
+    });
+
+    function enableEditMode() {
+        // Hide display fields
+        document.getElementById('detailTime').style.display = 'none';
+        document.getElementById('detailCategory').style.display = 'none';
+        document.getElementById('editEventBtn').style.display = 'none';
+
+        // Show input fields
+        const timeInput = document.getElementById('editTimeInput');
+        const catInput = document.getElementById('editCategoryInput');
+
+        timeInput.style.display = 'inline-block';
+        catInput.style.display = 'inline-block';
+        document.getElementById('saveEventBtn').style.display = 'inline-block';
+
+        // Set current values
+        timeInput.value = currentEditingEvent.time || '';
+        catInput.value = currentEditingEvent.category || 'personal';
+    }
+
+    async function saveEventChanges() {
+        const newTime = document.getElementById('editTimeInput').value;
+        const newCategory = document.getElementById('editCategoryInput').value;
+
+        // Update Supabase
+        const { error } = await db
+            .from('events')
+            .update({
+                time: newTime,
+                category: newCategory
+            })
+            .eq('id', currentEditingEvent.id);
+
+        if (error) {
+            console.error('Error updating event:', error);
+            alert('Error al actualizar el evento');
+            return;
+        }
+
+        // Update local state
+        currentEditingEvent.time = newTime;
+        currentEditingEvent.category = newCategory;
+
+        // Refresh UI
+        showEventDetails(currentEditingEvent, currentEditingDateKey);
+        updateModal(); // Refresh calendar view
+        if (typeof window.updateStats === 'function') window.updateStats(); // Refresh stats if open
+
+        alert('Evento actualizado correctamente');
+    }
+
+    // Hook into showEventDetails to capture current event
+    const originalShowEventDetails = showEventDetails;
+    showEventDetails = function (event, dateKey) {
+        currentEditingEvent = event;
+        currentEditingDateKey = dateKey;
+
+        // Reset UI to view mode
+        document.getElementById('detailTime').style.display = 'inline';
+        document.getElementById('detailCategory').style.display = 'inline';
+        document.getElementById('editEventBtn').style.display = 'inline-block';
+
+        document.getElementById('editTimeInput').style.display = 'none';
+        document.getElementById('editCategoryInput').style.display = 'none';
+        document.getElementById('saveEventBtn').style.display = 'none';
+
+        originalShowEventDetails(event, dateKey);
+    };
+
 });
